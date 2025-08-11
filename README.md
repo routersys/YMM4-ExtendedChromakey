@@ -1,4 +1,7 @@
 # 拡張クロマキープラグイン for YMM4
+> [!CAUTION]
+> 一部の端末で警告が表示されることがありますが、これは最新バージョンを確認する機能による誤検出です。プラグインは安全ですので、安心してご利用ください
+
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![.NET](https://img.shields.io/badge/.NET-9.0-purple.svg)](#)
 [![Release](https://img.shields.io/github/v/release/routersys/YMM4-ExtendedChromakey.svg)](https://github.com/routersys/YMM4-ExtendedChromakey/releases)
