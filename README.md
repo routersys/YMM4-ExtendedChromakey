@@ -27,6 +27,7 @@ YMM4（YukkuriMovieMaker v4）で、高度なクロマキー合成を実現す�
 ---
 
 ### 機能詳細
+![settings](https://github.com/routersys/YMM4-ExtendedChromakey/blob/main/settings.png)
 
 | グループ | 項目 | 説明 |
 |:---|:---|:---|
