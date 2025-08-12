@@ -59,20 +59,20 @@ cbuffer Constants : register(b0)
     float _padding4;
 
     float residualColorCorrection;
-    float _padding5;
-    float _padding6;
-    float _padding7;
+    float correctionTolerance;
+    float transparencyQuality;
+    float alphaBlendAdjustment;
 
     float3 targetResidualColor;
-    float correctionTolerance;
+    float _padding5;
 
     float3 correctedColor;
-    float transparencyQuality;
+    float translucentDespill;
 
-    float alphaBlendAdjustment;
-    float _padding8;
-    float _padding9;
-    float _padding10;
+    float foregroundBrightness;
+    float foregroundContrast;
+    float foregroundSaturation;
+    float _padding7;
 };
 
 Texture2D<float4> InputTexture : register(t0);
@@ -232,6 +232,90 @@ float hue_difference(float h1, float h2)
     return min(diff, 360.0f - diff);
 }
 
+float get_color_distance_ciede2000(float3 c1, float3 c2)
+{
+    const float kL = 1.0f;
+    const float kC = 1.0f;
+    const float kH = 1.0f;
+
+    float3 lch1 = LabToLCH(XYZToLab(RGBToXYZ(c1)));
+    float3 lch2 = LabToLCH(XYZToLab(RGBToXYZ(c2)));
+
+    float L1 = lch1.x;
+    float C1 = lch1.y;
+    float H1 = lch1.z;
+    float L2 = lch2.x;
+    float C2 = lch2.y;
+    float H2 = lch2.z;
+
+    float C_bar = (C1 + C2) / 2.0f;
+    float C7 = pow(C_bar, 7.0f);
+    float G = 0.5f * (1.0f - sqrt(C7 / (C7 + pow(25.0f, 7.0f))));
+
+    float L1_prime = L1;
+    float C1_prime = C1 * (1.0f + G);
+    float L2_prime = L2;
+    float C2_prime = C2 * (1.0f + G);
+    
+    float delta_L_prime = L2_prime - L1_prime;
+    float delta_C_prime = C2_prime - C1_prime;
+    
+    float H1_prime_rad = radians(H1);
+    float H2_prime_rad = radians(H2);
+    float C1_prime_sin_H1 = C1_prime * sin(H1_prime_rad);
+    float C1_prime_cos_H1 = C1_prime * cos(H1_prime_rad);
+    float C2_prime_sin_H2 = C2_prime * sin(H2_prime_rad);
+    float C2_prime_cos_H2 = C2_prime * cos(H2_prime_rad);
+    
+    float delta_H_prime_sq = pow(C1_prime_sin_H1 - C2_prime_sin_H2, 2.0f) + pow(C1_prime_cos_H1 - C2_prime_cos_H2, 2.0f) - delta_C_prime * delta_C_prime;
+    float delta_H_prime = sqrt(max(0.0f, delta_H_prime_sq));
+
+    float L_bar_prime = (L1_prime + L2_prime) / 2.0f;
+    float C_bar_prime = (C1_prime + C2_prime) / 2.0f;
+    
+    float h1_prime_deg = H1;
+    float h2_prime_deg = H2;
+    float h_diff = abs(h1_prime_deg - h2_prime_deg);
+    float h_sum = h1_prime_deg + h2_prime_deg;
+    float h_bar_prime_deg;
+    
+    if (C1_prime * C2_prime < EPSILON)
+    {
+        h_bar_prime_deg = 0.0f;
+    }
+    else
+    {
+        if (h_diff <= 180.0f)
+        {
+            h_bar_prime_deg = h_sum / 2.0f;
+        }
+        else
+        {
+            h_bar_prime_deg = (h_sum < 360.0f) ? (h_sum + 360.0f) / 2.0f : (h_sum - 360.0f) / 2.0f;
+        }
+    }
+    
+    float T = 1.0f - 0.17f * cos(radians(h_bar_prime_deg - 30.0f))
+                 + 0.24f * cos(radians(2.0f * h_bar_prime_deg))
+                 + 0.32f * cos(radians(3.0f * h_bar_prime_deg + 6.0f))
+                 - 0.20f * cos(radians(4.0f * h_bar_prime_deg - 63.0f));
+
+    float delta_theta_deg = 30.0f * exp(-pow((h_bar_prime_deg - 275.0f) / 25.0f, 2.0f));
+    float C_bar_prime7 = pow(C_bar_prime, 7.0f);
+    float R_C = 2.0f * sqrt(C_bar_prime7 / (C_bar_prime7 + pow(25.0f, 7.0f)));
+    float R_T = -R_C * sin(2.0f * radians(delta_theta_deg));
+
+    float S_L = 1.0f + (0.015f * pow(L_bar_prime - 50.0f, 2.0f)) / sqrt(20.0f + pow(L_bar_prime - 50.0f, 2.0f));
+    float S_C = 1.0f + 0.045f * C_bar_prime;
+    float S_H = 1.0f + 0.015f * C_bar_prime * T;
+
+    float term_L = delta_L_prime / (kL * S_L);
+    float term_C = delta_C_prime / (kC * S_C);
+    float term_H = delta_H_prime / (kH * S_H);
+
+    return sqrt(term_L * term_L + term_C * term_C + term_H * term_H + R_T * term_C * term_H);
+}
+
 float get_color_distance(float3 c1, float3 c2, int space)
 {
     c1 = saturate(c1);
@@ -311,6 +395,10 @@ float get_color_distance(float3 c1, float3 c2, int space)
                     return 1.0f;
                 return safe_sqrt(deltaL * deltaL + deltaC * deltaC + (deltaH * 0.5f) * (deltaH * 0.5f)) / 100.0f;
             }
+        case 6:
+        {
+                return get_color_distance_ciede2000(c1, c2) / 100.0f;
+            }
     }
     
     return distance(c1, c2);
@@ -326,11 +414,9 @@ float3 calculate_key_color(float2 uv, float3 base_color, float3 end_color, float
 {
     if (gradient_strength < EPSILON)
         return base_color;
-    
     float2 gradient_dir = float2(cos(gradient_angle), sin(gradient_angle));
     float gradient_pos = dot((uv - 0.5f), gradient_dir) + 0.5f;
     gradient_pos = saturate(gradient_pos);
-    
     float interpolation_factor = saturate(gradient_pos * gradient_strength);
     return lerp(base_color, end_color, interpolation_factor);
 }
@@ -406,11 +492,9 @@ float apply_edge_blur_filter(float2 center_uv, float blur_radius)
 {
     if (blur_radius < EPSILON)
         return calculate_distance_at_uv(center_uv);
-        
     float2 texel_size = 1.0f / max(screenSize, float2(1.0f, 1.0f));
     float total_distance = 0.0f;
     float total_weight = 0.0f;
-    
     if (qualityPreset == 2)
     {
         const int kernel_size = 49;
@@ -479,7 +563,6 @@ float apply_morphology_operation(float2 center_uv, float operation_size, bool is
 {
     if (abs(operation_size) < EPSILON)
         return calculate_distance_at_uv(center_uv);
-        
     float2 texel_size = 1.0f / max(screenSize, float2(1.0f, 1.0f));
     float radius = abs(operation_size);
     
@@ -509,7 +592,6 @@ float apply_edge_detection_filter(float2 center_uv, float strength)
 {
     if (strength < EPSILON)
         return 0.0f;
-        
     float2 texel_size = 1.0f / max(screenSize, float2(1.0f, 1.0f));
     
     float distances[9];
@@ -536,7 +618,6 @@ float apply_despot_filter(float2 center_uv, float despot_size, float center_dist
 {
     if (despot_size < EPSILON)
         return center_distance;
-        
     float2 texel_size = 1.0f / max(screenSize, float2(1.0f, 1.0f));
     
     float neighbor_sum = 0.0f;
@@ -557,16 +638,13 @@ float apply_despot_filter(float2 center_uv, float despot_size, float center_dist
     
     if (neighbor_count == 0)
         return center_distance;
-        
     float neighbor_avg = neighbor_sum / float(neighbor_count);
     float threshold = 0.5f;
     float blend_strength = 0.8f;
-    
     if (center_distance < threshold && neighbor_avg > threshold)
         return lerp(center_distance, neighbor_avg, blend_strength);
     if (center_distance > threshold && neighbor_avg < threshold)
         return lerp(center_distance, neighbor_avg, blend_strength);
-        
     return center_distance;
 }
 
@@ -574,7 +652,6 @@ float apply_key_cleanup_filter(float2 center_uv, float cleanup_amount, float cen
 {
     if (abs(cleanup_amount) < EPSILON)
         return center_distance;
-        
     float2 texel_size = 1.0f / max(screenSize, float2(1.0f, 1.0f));
     float cleanup_radius = abs(cleanup_amount) * 0.01f;
     int sample_count = (qualityPreset == 2) ? 8 : 4;
@@ -603,7 +680,6 @@ float3 apply_spill_suppression_filter(float3 pixel_color, int main_key_color, fl
 {
     if (suppression_strength < EPSILON || main_key_color == 0)
         return pixel_color;
-        
     float3 result_color = pixel_color;
     float spill_amount = 0.0f;
     
@@ -662,11 +738,22 @@ float3 apply_spill_suppression_filter(float3 pixel_color, int main_key_color, fl
     return lerp(pixel_color, result_color, saturate(spill_factor));
 }
 
+float3 apply_translucent_despill(float3 pixel_color, float alpha_mask, float3 key_color, float strength)
+{
+    if (strength < EPSILON || alpha_mask > (1.0f - EPSILON) || alpha_mask < EPSILON)
+    {
+        return pixel_color;
+    }
+
+    float3 restored_color = (pixel_color - (1.0f - alpha_mask) * key_color) / alpha_mask;
+    
+    return lerp(pixel_color, saturate(restored_color), strength);
+}
+
 float3 apply_edge_desaturation_filter(float3 pixel_color, float desaturation_strength, float alpha_mask)
 {
     if (desaturation_strength < EPSILON)
         return pixel_color;
-        
     float edge_factor = saturate((1.0f - alpha_mask) * alpha_mask * 4.0f);
     if (edge_factor < EPSILON)
         return pixel_color;
@@ -682,26 +769,32 @@ float3 apply_residual_color_correction(float3 pixel_color, float correction_stre
 {
     if (correction_strength < EPSILON)
         return pixel_color;
-        
-    float correction_distance = get_color_distance(pixel_color, targetResidualColor, 0);
-    
+
+    float correction_distance = get_color_distance(pixel_color, targetResidualColor, colorSpace);
+
     if (correction_distance > correctionTolerance)
         return pixel_color;
-        
+
     float correction_factor = saturate(1.0f - (correction_distance / max(correctionTolerance, EPSILON)));
     correction_factor *= correction_strength;
-    
-    float edge_influence = saturate((1.0f - alpha_mask) * 2.0f);
-    correction_factor *= edge_influence;
-    
-    return lerp(pixel_color, correctedColor, correction_factor);
+
+    float3 final_corrected_color = correctedColor;
+    float original_luma = get_luma(pixel_color);
+    float corrected_luma = get_luma(correctedColor);
+
+    if (corrected_luma > EPSILON)
+    {
+        final_corrected_color *= safe_divide(original_luma, corrected_luma);
+    }
+
+    return lerp(pixel_color, saturate(final_corrected_color), correction_factor);
 }
+
 
 float apply_noise_reduction(float alpha_mask, float noise_threshold)
 {
     if (noise_threshold < EPSILON)
         return alpha_mask;
-        
     float threshold = noise_threshold * 0.5f;
     
     if (alpha_mask < threshold)
@@ -716,14 +809,11 @@ float improve_transparency_quality(float alpha_mask, float4 source_color, float 
 {
     if (quality_factor < EPSILON)
         return alpha_mask;
-        
     float original_alpha = source_color.a;
     if (original_alpha < MIN_VALID_ALPHA)
         return alpha_mask;
-        
     float alpha_difference = abs(alpha_mask - original_alpha);
     float quality_adjustment = lerp(0.0f, alpha_difference * 0.5f, quality_factor);
-    
     if (original_alpha < 0.5f)
     {
         alpha_mask = lerp(alpha_mask, original_alpha, quality_adjustment);
@@ -731,6 +821,37 @@ float improve_transparency_quality(float alpha_mask, float4 source_color, float 
     
     return saturate(alpha_mask);
 }
+
+float3 apply_foreground_color_correction(float3 color, float brightness, float contrast, float saturation)
+{
+    if (abs(brightness) < EPSILON && abs(contrast) < EPSILON && abs(saturation) < EPSILON)
+    {
+        return color;
+    }
+
+    float3 corrected_color = color;
+
+    if (abs(brightness) > EPSILON)
+    {
+        corrected_color += brightness;
+    }
+
+    if (abs(contrast) > EPSILON)
+    {
+        float contrast_factor = 1.0f + contrast;
+        corrected_color = (corrected_color - 0.5f) * contrast_factor + 0.5f;
+    }
+
+    if (abs(saturation) > EPSILON)
+    {
+        float luma = get_luma(corrected_color);
+        float saturation_factor = 1.0f + saturation;
+        corrected_color = lerp(float3(luma, luma, luma), corrected_color, saturation_factor);
+    }
+    
+    return saturate(corrected_color);
+}
+
 
 float4 main(float4 pos : SV_POSITION, float4 posScene : SCENE_POSITION, float4 uv0 : TEXCOORD0) : SV_TARGET
 {
@@ -744,7 +865,6 @@ float4 main(float4 pos : SV_POSITION, float4 posScene : SCENE_POSITION, float4 u
     
     float3 pixel_color = source_color.rgb / max(source_color.a, MIN_VALID_ALPHA);
     pixel_color = saturate(pixel_color);
-    
     if (mainKeyColor == 0 && baseColor.a < MIN_VALID_ALPHA)
     {
         if (debugMode > 0)
@@ -761,7 +881,6 @@ float4 main(float4 pos : SV_POSITION, float4 posScene : SCENE_POSITION, float4 u
     if (isCompleteKey == 0)
     {
         color_distance = saturate(color_distance + edgeBalance * 0.01f);
-        
         if (edgeBlur > EPSILON)
         {
             color_distance = apply_edge_blur_filter(uv0.xy, edgeBlur * 0.1f);
@@ -844,6 +963,22 @@ float4 main(float4 pos : SV_POSITION, float4 posScene : SCENE_POSITION, float4 u
         {
             final_color = apply_spill_suppression_filter(final_color, mainKeyColor, spillSuppression, alpha_mask);
         }
+
+        if (translucentDespill > EPSILON)
+        {
+            float3 despill_key_color;
+            if (mainKeyColor == 1)
+                despill_key_color = float3(0, 1, 0);
+            else if (mainKeyColor == 2)
+                despill_key_color = float3(0, 0, 1);
+            else if (mainKeyColor == 3)
+                despill_key_color = float3(1, 0, 0);
+            else
+            {
+                despill_key_color = calculate_key_color(uv0.xy, baseColor.rgb, endColor.rgb, gradientStrength, gradientAngle);
+            }
+            final_color = apply_translucent_despill(final_color, alpha_mask, despill_key_color, translucentDespill);
+        }
         
         if (debugMode == 3)
         {
@@ -859,12 +994,14 @@ float4 main(float4 pos : SV_POSITION, float4 posScene : SCENE_POSITION, float4 u
         {
             final_color = apply_residual_color_correction(final_color, residualColorCorrection, alpha_mask);
         }
-        
+
         if (debugMode == 4)
         {
             return float4(final_color, 1.0f);
         }
     }
+
+    final_color = apply_foreground_color_correction(final_color, foregroundBrightness, foregroundContrast, foregroundSaturation);
     
     float3 output_color = final_color;
     float output_alpha = source_color.a * alpha_mask;

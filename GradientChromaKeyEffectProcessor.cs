@@ -113,6 +113,11 @@ namespace YMM4GradientChromaKey.Effect.Video.GradientChromaKey
             effect.CorrectionTolerance = (float)(_item.CorrectionTolerance.GetValue(frame, length, fps) / 100.0);
             effect.TransparencyQuality = (float)(_item.TransparencyQuality.GetValue(frame, length, fps) / 100.0);
             effect.AlphaBlendAdjustment = (float)(_item.AlphaBlendAdjustment.GetValue(frame, length, fps) / 100.0);
+            effect.TranslucentDespill = (float)(_item.TranslucentDespill.GetValue(frame, length, fps) / 100.0);
+
+            effect.ForegroundBrightness = (float)(_item.ForegroundBrightness.GetValue(frame, length, fps) / 100.0);
+            effect.ForegroundContrast = (float)(_item.ForegroundContrast.GetValue(frame, length, fps) / 100.0);
+            effect.ForegroundSaturation = (float)(_item.ForegroundSaturation.GetValue(frame, length, fps) / 100.0);
 
             effect.ColorSpace = (int)_item.ColorSpace;
             effect.IsInverted = _item.IsInverted ? 1 : 0;

@@ -122,7 +122,7 @@ namespace YMM4GradientChromaKey.Controls
 
         private static string GetCurrentVersion()
         {
-            return Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "0.0.1";
+            return Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "0.0.3";
         }
 
         private async Task CheckForUpdatesAsync()

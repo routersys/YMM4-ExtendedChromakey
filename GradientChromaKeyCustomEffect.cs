@@ -53,6 +53,10 @@ namespace YMM4GradientChromaKey.Effect.Video.GradientChromaKey
         public float CorrectionTolerance { set => SetValue((int)EffectImpl.Properties.CorrectionTolerance, value); }
         public float TransparencyQuality { set => SetValue((int)EffectImpl.Properties.TransparencyQuality, value); }
         public float AlphaBlendAdjustment { set => SetValue((int)EffectImpl.Properties.AlphaBlendAdjustment, value); }
+        public float ForegroundBrightness { set => SetValue((int)EffectImpl.Properties.ForegroundBrightness, value); }
+        public float ForegroundContrast { set => SetValue((int)EffectImpl.Properties.ForegroundContrast, value); }
+        public float ForegroundSaturation { set => SetValue((int)EffectImpl.Properties.ForegroundSaturation, value); }
+        public float TranslucentDespill { set => SetValue((int)EffectImpl.Properties.TranslucentDespill, value); }
 
         [CustomEffect(1)]
         private class EffectImpl() : D2D1CustomShaderEffectImplBase<EffectImpl>(LoadShaderFromEmbeddedResource("GradientChromaKeyShader.cso"))
@@ -131,20 +135,20 @@ namespace YMM4GradientChromaKey.Effect.Video.GradientChromaKey
                 private float _padding4;
 
                 public float ResidualColorCorrection;
-                private float _padding5;
-                private float _padding6;
-                private float _padding7;
+                public float CorrectionTolerance;
+                public float TransparencyQuality;
+                public float AlphaBlendAdjustment;
 
                 public Vector3 TargetResidualColor;
-                public float CorrectionTolerance;
+                private float _padding5;
 
                 public Vector3 CorrectedColor;
-                public float TransparencyQuality;
+                public float TranslucentDespill;
 
-                public float AlphaBlendAdjustment;
-                private float _padding8;
-                private float _padding9;
-                private float _padding10;
+                public float ForegroundBrightness;
+                public float ForegroundContrast;
+                public float ForegroundSaturation;
+                private float _padding7;
             }
 
             public enum Properties
@@ -192,6 +196,10 @@ namespace YMM4GradientChromaKey.Effect.Video.GradientChromaKey
                 CorrectionTolerance,
                 TransparencyQuality,
                 AlphaBlendAdjustment,
+                ForegroundBrightness,
+                ForegroundContrast,
+                ForegroundSaturation,
+                TranslucentDespill
             }
 
             [CustomEffectProperty(PropertyType.Vector2, (int)Properties.ScreenSize)] public Vector2 ScreenSize { get => constants.ScreenSize; set { constants.ScreenSize = value; UpdateConstants(); } }
@@ -237,6 +245,10 @@ namespace YMM4GradientChromaKey.Effect.Video.GradientChromaKey
             [CustomEffectProperty(PropertyType.Float, (int)Properties.CorrectionTolerance)] public float CorrectionTolerance { get => constants.CorrectionTolerance; set { constants.CorrectionTolerance = value; UpdateConstants(); } }
             [CustomEffectProperty(PropertyType.Float, (int)Properties.TransparencyQuality)] public float TransparencyQuality { get => constants.TransparencyQuality; set { constants.TransparencyQuality = value; UpdateConstants(); } }
             [CustomEffectProperty(PropertyType.Float, (int)Properties.AlphaBlendAdjustment)] public float AlphaBlendAdjustment { get => constants.AlphaBlendAdjustment; set { constants.AlphaBlendAdjustment = value; UpdateConstants(); } }
+            [CustomEffectProperty(PropertyType.Float, (int)Properties.ForegroundBrightness)] public float ForegroundBrightness { get => constants.ForegroundBrightness; set { constants.ForegroundBrightness = value; UpdateConstants(); } }
+            [CustomEffectProperty(PropertyType.Float, (int)Properties.ForegroundContrast)] public float ForegroundContrast { get => constants.ForegroundContrast; set { constants.ForegroundContrast = value; UpdateConstants(); } }
+            [CustomEffectProperty(PropertyType.Float, (int)Properties.ForegroundSaturation)] public float ForegroundSaturation { get => constants.ForegroundSaturation; set { constants.ForegroundSaturation = value; UpdateConstants(); } }
+            [CustomEffectProperty(PropertyType.Float, (int)Properties.TranslucentDespill)] public float TranslucentDespill { get => constants.TranslucentDespill; set { constants.TranslucentDespill = value; UpdateConstants(); } }
         }
     }
 }

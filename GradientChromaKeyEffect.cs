@@ -173,48 +173,64 @@ namespace YMM4GradientChromaKey.Effect.Video.GradientChromaKey
         [AnimationSlider("F1", "%", 0, 100)]
         public Animation Feathering { get; } = new(0, 0, 100);
 
-        [Display(GroupName = "色補正", Name = "残存色補正", Description = "クロマキーで残った背景色を他の色に変換します。", Order = 33)]
+        [Display(GroupName = "品質最適化", Name = "半透明デスピル", Description = "半透明部分に残る背景色（スピル）を除去します。グラスや煙、モーションブラーなどに有効です。", Order = 33)]
         [AnimationSlider("F1", "%", 0, 100)]
-        public Animation ResidualColorCorrection { get; } = new(0, 0, 100);
+        public Animation TranslucentDespill { get; } = new(0, 0, 100);
 
-        [Display(GroupName = "色補正", Name = "補正対象色", Description = "補正したい残存色を指定します。", Order = 34)]
+        [Display(GroupName = "品質最適化", Name = "透明度品質", Description = "透明度の高い部分（煙など）の処理品質を向上させます。", Order = 34)]
+        [AnimationSlider("F1", "%", 0, 100)]
+        public Animation TransparencyQuality { get; } = new(50, 0, 100);
+
+        [Display(GroupName = "品質最適化", Name = "アルファブレンド調整", Description = "前景と背景の混合処理を調整します。", Order = 35)]
+        [AnimationSlider("F1", "%", 0, 100)]
+        public Animation AlphaBlendAdjustment { get; } = new(0, 0, 100);
+
+        [Display(GroupName = "色補正", Name = "補正対象色", Description = "補正したい残存色を指定します。", Order = 36)]
         [ColorPicker]
         public Color TargetResidualColor { get => targetResidualColor; set => Set(ref targetResidualColor, value); }
         private Color targetResidualColor = Colors.Transparent;
 
-        [Display(GroupName = "色補正", Name = "補正後の色", Description = "残存色をこの色に変換します。", Order = 35)]
+        [Display(GroupName = "色補正", Name = "補正後の色", Description = "残存色をこの色に変換します。", Order = 37)]
         [ColorPicker]
         public Color CorrectedColor { get => correctedColor; set => Set(ref correctedColor, value); }
         private Color correctedColor = Colors.Transparent;
 
-        [Display(GroupName = "色補正", Name = "補正許容値", Description = "色補正の許容範囲。値を大きくすると、より広い範囲の色が補正されます。", Order = 36)]
+        [Display(GroupName = "色補正", Name = "残存色補正", Description = "クロマキーで残った背景色を他の色に変換します。", Order = 38)]
+        [AnimationSlider("F1", "%", 0, 100)]
+        public Animation ResidualColorCorrection { get; } = new(0, 0, 100);
+
+        [Display(GroupName = "色補正", Name = "補正許容値", Description = "色補正の許容範囲。値を大きくすると、より広い範囲の色が補正されます。", Order = 39)]
         [AnimationSlider("F1", "%", 0, 100)]
         public Animation CorrectionTolerance { get; } = new(20, 0, 100);
 
-        [Display(GroupName = "高度な設定", Name = "透明度品質", Description = "透明度の高い部分（煙など）の処理品質を向上させます。", Order = 37)]
-        [AnimationSlider("F1", "%", 0, 100)]
-        public Animation TransparencyQuality { get; } = new(50, 0, 100);
+        [Display(GroupName = "色補正", Name = "前景の明るさ", Description = "キーイング後の前景（くり抜かれた部分）の明るさを調整します。", Order = 40)]
+        [AnimationSlider("F1", "%", -100, 100)]
+        public Animation ForegroundBrightness { get; } = new(0, -100, 100);
 
-        [Display(GroupName = "高度な設定", Name = "アルファブレンド調整", Description = "前景と背景の混合処理を調整します。", Order = 38)]
-        [AnimationSlider("F1", "%", 0, 100)]
-        public Animation AlphaBlendAdjustment { get; } = new(0, 0, 100);
+        [Display(GroupName = "色補正", Name = "前景のコントラスト", Description = "キーイング後の前景のコントラストを調整します。", Order = 41)]
+        [AnimationSlider("F1", "%", -100, 100)]
+        public Animation ForegroundContrast { get; } = new(0, -100, 100);
 
-        [Display(GroupName = "その他", Name = "完全クロマキー", Description = "オンにすると、輝度を保持せず完全に透過させます。スピル除去なども無効になります。", Order = 39)]
+        [Display(GroupName = "色補正", Name = "前景の彩度", Description = "キーイング後の前景の彩度を調整します。", Order = 42)]
+        [AnimationSlider("F1", "%", -100, 100)]
+        public Animation ForegroundSaturation { get; } = new(0, -100, 100);
+
+        [Display(GroupName = "その他", Name = "完全クロマキー", Description = "オンにすると、輝度を保持せず完全に透過させます。スピル除去なども無効になります。", Order = 43)]
         [ToggleSlider]
         public bool IsCompleteKey { get => isCompleteKey; set => Set(ref isCompleteKey, value); }
         private bool isCompleteKey = false;
 
-        [Display(GroupName = "その他", Name = "反転", Description = "透過範囲を反転します。", Order = 40)]
+        [Display(GroupName = "その他", Name = "反転", Description = "透過範囲を反転します。", Order = 44)]
         [ToggleSlider]
         public bool IsInverted { get => isInverted; set => Set(ref isInverted, value); }
         private bool isInverted = false;
 
-        [Display(GroupName = "その他", Name = "品質プリセット", Description = "処理の品質を選択します。高品質ほど処理が重くなります。", Order = 41)]
+        [Display(GroupName = "その他", Name = "品質プリセット", Description = "処理の品質を選択します。高品質ほど処理が重くなります。", Order = 45)]
         [EnumComboBox]
         public QualityPreset QualityPreset { get => qualityPreset; set => Set(ref qualityPreset, value); }
         private QualityPreset qualityPreset = QualityPreset.Balanced;
 
-        [Display(GroupName = "デバッグ", Name = "表示モード", Description = "デバッグ用に、エフェクトの各処理段階の画像を表示します。", Order = 42)]
+        [Display(GroupName = "デバッグ", Name = "表示モード", Description = "デバッグ用に、エフェクトの各処理段階の画像を表示します。", Order = 46)]
         [EnumComboBox]
         public DebugViewMode DebugMode { get => debugMode; set => Set(ref debugMode, value); }
         private DebugViewMode debugMode = DebugViewMode.Result;
@@ -235,11 +251,12 @@ namespace YMM4GradientChromaKey.Effect.Video.GradientChromaKey
             GradientStrength, GradientAngle,
             HueRange, SaturationThreshold, LuminanceRange,
             SpillSuppression, EdgeBalance, Despot, Erode, EdgeDesaturation, KeyCleanup,
-            EdgeDetection, Denoise, Feathering,
+            EdgeDetection, Denoise, Feathering, TranslucentDespill,
             ReplaceIntensity, PreserveLuminance,
             ExceptionTolerance, ExceptionGradientStrength, ExceptionGradientAngle,
             ResidualColorCorrection, CorrectionTolerance,
-            TransparencyQuality, AlphaBlendAdjustment
+            TransparencyQuality, AlphaBlendAdjustment,
+            ForegroundBrightness, ForegroundContrast, ForegroundSaturation
         ];
     }
 
@@ -268,7 +285,9 @@ namespace YMM4GradientChromaKey.Effect.Video.GradientChromaKey
         [Display(Name = "XYZ（CIE標準）")]
         XYZ,
         [Display(Name = "LCH（知覚円筒）")]
-        LCH
+        LCH,
+        [Display(Name = "CIEDE2000（最高精度）")]
+        CIEDE2000
     }
 
     public enum QualityPreset
