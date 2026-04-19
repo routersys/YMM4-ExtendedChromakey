@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+<data name="CurrentCulture" xml:space="preserve"><value>zh-tw</value></data>
+<data name="ExtendedChromaKey_Label" xml:space="preserve"><value>擴展色度鍵</value></data>
+<data name="GroupName_BasicSettings" xml:space="preserve"><value>基本設定</value></data>
+<data name="GroupName_KeyingMode" xml:space="preserve"><value>去背模式</value></data>
+<data name="GroupName_KeyingAdjustment" xml:space="preserve"><value>去背調整</value></data>
+<data name="GroupName_Gradient" xml:space="preserve"><value>漸層</value></data>
+<data name="GroupName_ColorReplacement" xml:space="preserve"><value>色彩取代</value></data>
+<data name="GroupName_QualityOptimization" xml:space="preserve"><value>品質最佳化</value></data>
+<data name="GroupName_ExceptionSettings" xml:space="preserve"><value>例外設定</value></data>
+<data name="GroupName_ColorCorrection" xml:space="preserve"><value>色彩校正</value></data>
+<data name="GroupName_Other" xml:space="preserve"><value>其他</value></data>
+<data name="GroupName_Debug" xml:space="preserve"><value>偵錯</value></data>
+<data name="BaseColor_Name" xml:space="preserve"><value>基本色</value></data>
+<data name="BaseColor_Desc" xml:space="preserve"><value>指定需要透明的基本顏色。</value></data>
+<data name="EndColor_Name" xml:space="preserve"><value>終端色</value></data>
+<data name="EndColor_Desc" xml:space="preserve"><value>指定漸層的終端色。基本色與此色之間的範圍將作為去背標的。</value></data>
+<data name="MainKeyColor_Name" xml:space="preserve"><value>主要去背色</value></data>
+<data name="MainKeyColor_Desc" xml:space="preserve"><value>選擇去背的參考主色。請根據背景色彩進行選擇。</value></data>
+<data name="Tolerance_Name" xml:space="preserve"><value>容差</value></data>
+<data name="Tolerance_Desc" xml:space="preserve"><value>色彩的容許範圍。設為 0% 時僅處理選取的絕對色彩。</value></data>
+<data name="LuminanceMix_Name" xml:space="preserve"><value>亮度混合</value></data>
+<data name="LuminanceMix_Desc" xml:space="preserve"><value>調整在去背判定中使用多少亮度資訊。數值越大，發光等明亮部分越容易與背景分離。</value></data>
+<data name="EdgeSoftness_Name" xml:space="preserve"><value>邊緣柔和度</value></data>
+<data name="EdgeSoftness_Desc" xml:space="preserve"><value>調整透明邊界的柔和度。</value></data>
+<data name="ClipBlack_Name" xml:space="preserve"><value>剪裁(黑)</value></data>
+<data name="ClipBlack_Desc" xml:space="preserve"><value>調整遮罩的黑階。適用於去除背景雜訊。</value></data>
+<data name="ClipWhite_Name" xml:space="preserve"><value>剪裁(白)</value></data>
+<data name="ClipWhite_Desc" xml:space="preserve"><value>調整遮罩的白階。能有效保留前景（尤其是發光部分）的清晰度。</value></data>
+<data name="EdgeBlur_Name" xml:space="preserve"><value>邊緣模糊</value></data>
+<data name="EdgeBlur_Desc" xml:space="preserve"><value>模糊遮罩邊界以使其平滑。對調整粗糙邊緣有效。</value></data>
+<data name="GradientStrength_Name" xml:space="preserve"><value>漸層強度</value></data>
+<data name="GradientStrength_Desc" xml:space="preserve"><value>調整漸層效果的強度。0% 表示僅有基本色，100% 表示基本色到終端色的完全漸層。</value></data>
+<data name="GradientAngle_Name" xml:space="preserve"><value>漸層角度</value></data>
+<data name="GradientAngle_Desc" xml:space="preserve"><value>以角度指定漸層的方向。</value></data>
+<data name="ReplaceColor_Name" xml:space="preserve"><value>取代色彩</value></data>
+<data name="ReplaceColor_Desc" xml:space="preserve"><value>指定用於替換已被移除區域的色彩。</value></data>
+<data name="ReplaceIntensity_Name" xml:space="preserve"><value>取代強度</value></data>
+<data name="ReplaceIntensity_Desc" xml:space="preserve"><value>用取代色彩填充被移除區域的強度。</value></data>
+<data name="PreserveLuminance_Name" xml:space="preserve"><value>保持亮度</value></data>
+<data name="PreserveLuminance_Desc" xml:space="preserve"><value>替換顏色時保留多少原始的亮度資訊。</value></data>
+<data name="ColorSpace_Name" xml:space="preserve"><value>色彩空間(自訂)</value></data>
+<data name="ColorSpace_Desc" xml:space="preserve"><value>選擇在主要去背色設為自訂時用於計算顏色距離的色彩空間。</value></data>
+<data name="HueRange_Name" xml:space="preserve"><value>色相範圍</value></data>
+<data name="HueRange_Desc" xml:space="preserve"><value>使用 HSV/LCH 色彩空間時的色相容差範圍。</value></data>
+<data name="SaturationThreshold_Name" xml:space="preserve"><value>飽和度閾值</value></data>
+<data name="SaturationThreshold_Desc" xml:space="preserve"><value>飽和度低於此值的色彩將忽略飽和度，僅透過亮度進行比較。</value></data>
+<data name="LuminanceRange_Name" xml:space="preserve"><value>亮度範圍</value></data>
+<data name="LuminanceRange_Desc" xml:space="preserve"><value>使用 RGB/YUV 色彩空間時的亮度差容差範圍。</value></data>
+<data name="SpillSuppression_Name" xml:space="preserve"><value>溢色抑制</value></data>
+<data name="SpillSuppression_Desc" xml:space="preserve"><value>去除被攝物體上來自背景顏色的反光（溢色）。</value></data>
+<data name="EdgeBalance_Name" xml:space="preserve"><value>邊緣平衡</value></data>
+<data name="EdgeBalance_Desc" xml:space="preserve"><value>向內或向外調整去背邊界。正值向內，負值向外。</value></data>
+<data name="Despot_Name" xml:space="preserve"><value>除斑</value></data>
+<data name="Despot_Desc" xml:space="preserve"><value>去除遮罩內微小的雜訊（孔洞或雜斑）。</value></data>
+<data name="Erode_Name" xml:space="preserve"><value>邊緣侵蝕</value></data>
+<data name="Erode_Desc" xml:space="preserve"><value>放大或縮小遮罩邊界。適用於消除輪廓上的細微毛邊。</value></data>
+<data name="ExceptionColor1_Name" xml:space="preserve"><value>例外色 1 (基本)</value></data>
+<data name="ExceptionColor1_Desc" xml:space="preserve"><value>指定不進行去背的基本顏色。如果透明則該功能無效。</value></data>
+<data name="ExceptionColor2_Name" xml:space="preserve"><value>例外色 2 (結束)</value></data>
+<data name="ExceptionColor2_Desc" xml:space="preserve"><value>指定例外的漸層結束色。處於該範圍內的顏色將不易被去背。</value></data>
+<data name="ExceptionTolerance_Name" xml:space="preserve"><value>容差</value></data>
+<data name="ExceptionTolerance_Desc" xml:space="preserve"><value>例外颜色的容差範圍。值越大，保護的顏色範圍越廣。</value></data>
+<data name="ExceptionGradientStrength_Name" xml:space="preserve"><value>漸層強度</value></data>
+<data name="ExceptionGradientStrength_Desc" xml:space="preserve"><value>例外色漸層效果的強度。</value></data>
+<data name="ExceptionGradientAngle_Name" xml:space="preserve"><value>漸層角度</value></data>
+<data name="ExceptionGradientAngle_Desc" xml:space="preserve"><value>例外色的漸層方向。</value></data>
+<data name="EdgeDesaturation_Name" xml:space="preserve"><value>邊緣去色</value></data>
+<data name="EdgeDesaturation_Desc" xml:space="preserve"><value>降低邊緣的色彩溢出，實現更自然的合成效果。</value></data>
+<data name="KeyCleanup_Name" xml:space="preserve"><value>遮罩清理</value></data>
+<data name="KeyCleanup_Desc" xml:space="preserve"><value>调整抠像遮罩边界。负值缩小遮罩，正值扩大。</value></data>
+<data name="EdgeDetection_Name" xml:space="preserve"><value>邊緣偵測</value></data>
+<data name="EdgeDetection_Desc" xml:space="preserve"><value>保留邊緣細節的強度。數值越高邊緣越銳利，但也可能增加雜訊。</value></data>
+<data name="Denoise_Name" xml:space="preserve"><value>降噪</value></data>
+<data name="Denoise_Desc" xml:space="preserve"><value>從遮罩中去除細微雜訊。</value></data>
+<data name="Feathering_Name" xml:space="preserve"><value>羽化</value></data>
+<data name="Feathering_Desc" xml:space="preserve"><value>羽化遮罩邊緣使其融入背景。</value></data>
+<data name="TranslucentDespill_Name" xml:space="preserve"><value>半透明去溢色</value></data>
+<data name="TranslucentDespill_Desc" xml:space="preserve"><value>去除殘留於半透明部分（如玻璃、煙霧等）的背景溢色。</value></data>
+<data name="TransparencyQuality_Name" xml:space="preserve"><value>透明度品質</value></data>
+<data name="TransparencyQuality_Desc" xml:space="preserve"><value>改善高透明度區域（如煙霧等）的處理品質。</value></data>
+<data name="AlphaBlendAdjustment_Name" xml:space="preserve"><value>Alpha 混合調整</value></data>
+<data name="AlphaBlendAdjustment_Desc" xml:space="preserve"><value>調整前景與背景的混合處理。</value></data>
+<data name="TargetResidualColor_Name" xml:space="preserve"><value>殘餘色彩(標的)</value></data>
+<data name="TargetResidualColor_Desc" xml:space="preserve"><value>指定希望被補正的殘留背景色彩。</value></data>
+<data name="CorrectedColor_Name" xml:space="preserve"><value>校正後色彩</value></data>
+<data name="CorrectedColor_Desc" xml:space="preserve"><value>將殘餘色彩轉換為該色彩。</value></data>
+<data name="ResidualColorCorrection_Name" xml:space="preserve"><value>殘留色彩補正</value></data>
+<data name="ResidualColorCorrection_Desc" xml:space="preserve"><value>將去背後殘留的背景顏色轉換為新的指定顏色。</value></data>
+<data name="CorrectionTolerance_Name" xml:space="preserve"><value>校正容差</value></data>
+<data name="CorrectionTolerance_Desc" xml:space="preserve"><value>顏色校正的容差範圍。數值越大，補正範圍越廣。</value></data>
+<data name="ForegroundBrightness_Name" xml:space="preserve"><value>前景亮度</value></data>
+<data name="ForegroundBrightness_Desc" xml:space="preserve"><value>調整去背後前景部分的亮度。</value></data>
+<data name="ForegroundContrast_Name" xml:space="preserve"><value>前景對比度</value></data>
+<data name="ForegroundContrast_Desc" xml:space="preserve"><value>調整去背後前景的對比度。</value></data>
+<data name="ForegroundSaturation_Name" xml:space="preserve"><value>前景飽和度</value></data>
+<data name="ForegroundSaturation_Desc" xml:space="preserve"><value>調整去背後前景的飽和度。</value></data>
+<data name="IsCompleteKey_Name" xml:space="preserve"><value>完全去背</value></data>
+<data name="IsCompleteKey_Desc" xml:space="preserve"><value>勾選後不保留亮度資訊進行絕對透明，同時將停用溢色抑制等功能。</value></data>
+<data name="IsInverted_Name" xml:space="preserve"><value>反轉</value></data>
+<data name="IsInverted_Desc" xml:space="preserve"><value>反轉遮罩的透明範圍。</value></data>
+<data name="QualityPreset_Name" xml:space="preserve"><value>品質預設</value></data>
+<data name="QualityPreset_Desc" xml:space="preserve"><value>選擇處理品質。品質越高，處理負擔越重。</value></data>
+<data name="DebugMode_Name" xml:space="preserve"><value>顯示模式</value></data>
+<data name="DebugMode_Desc" xml:space="preserve"><value>適用於偵錯，顯示特效在此階段的處理影像。</value></data>
+<data name="AdvancedColorSpace_RGB" xml:space="preserve"><value>RGB (標準)</value></data>
+<data name="AdvancedColorSpace_HSV" xml:space="preserve"><value>HSV (色彩為主)</value></data>
+<data name="AdvancedColorSpace_Lab" xml:space="preserve"><value>CIE Lab (感知距離)</value></data>
+<data name="AdvancedColorSpace_YUV" xml:space="preserve"><value>YUV (廣播級)</value></data>
+<data name="AdvancedColorSpace_XYZ" xml:space="preserve"><value>XYZ (CIE標準)</value></data>
+<data name="AdvancedColorSpace_LCH" xml:space="preserve"><value>LCH (感知圓柱)</value></data>
+<data name="AdvancedColorSpace_CIEDE2000" xml:space="preserve"><value>CIEDE2000 (最高精度)</value></data>
+<data name="KeyColorType_Custom" xml:space="preserve"><value>自訂</value></data>
+<data name="KeyColorType_Green" xml:space="preserve"><value>綠色</value></data>
+<data name="KeyColorType_Blue" xml:space="preserve"><value>藍色</value></data>
+<data name="KeyColorType_Red" xml:space="preserve"><value>紅色</value></data>
+<data name="DebugViewMode_Result" xml:space="preserve"><value>最終結果</value></data>
+<data name="DebugViewMode_Matte" xml:space="preserve"><value>顯示遮罩</value></data>
+<data name="DebugViewMode_ColorDistance" xml:space="preserve"><value>顏色距離</value></data>
+<data name="DebugViewMode_SpillSuppressed" xml:space="preserve"><value>去除溢色後</value></data>
+<data name="DebugViewMode_ColorCorrected" xml:space="preserve"><value>校正顏色後</value></data>
+<data name="QualityPreset_Fast" xml:space="preserve"><value>高速</value></data>
+<data name="QualityPreset_Balanced" xml:space="preserve"><value>平衡</value></data>
+<data name="QualityPreset_HighQuality" xml:space="preserve"><value>高品質</value></data>
+<data name="ValidationRule_Error_BaseColorTransparency" xml:space="preserve"><value>在自定义模式下，请将基本颜色设置为不透明。完全透明的颜色无法进行抠像处理。</value></data>
+<data name="ValidationRule_Error_ClipBlackWhiteInverted" xml:space="preserve"><value>剪裁(黑)的值大於或等於剪裁(白)的值。遮罩無法正確生成。</value></data>
+<data name="ValidationRule_Warning_ToleranceExtremelyLow" xml:space="preserve"><value>容差極低，可能導致意圖的範圍無法透過。</value></data>
+<data name="ValidationRule_Warning_ToleranceExtremelyHigh" xml:space="preserve"><value>容差極高，可能導致前景中不需要的部分被透過。</value></data>
+<data name="ValidationRule_Warning_SoftnessWithoutTolerance" xml:space="preserve"><value>要使邊緣柔和度正常工作，需要提高容差值。</value></data>
+<data name="ValidationRule_Warning_HighLuminanceMix" xml:space="preserve"><value>亮度混合过高会导致颜色信息被忽略，仅使用亮度进行抠像。</value></data>
+<data name="ValidationRule_Warning_ClipAndSoftnessConflict" xml:space="preserve"><value>剪裁設置和邊緣柔和度的設置都很高。可能導致出現不期望的硬邊。</value></data>
+<data name="ValidationRule_Info_GradientStrengthZero" xml:space="preserve"><value>漸層強度為0%，因此「終端色」和「漸層角度」無效。</value></data>
+<data name="ValidationRule_Info_SpillSuppressionWithCustom" xml:space="preserve"><value>溅色去除在主要鍵色為綠、藍或紅時最有效。</value></data>
+<data name="ValidationRule_Info_ReplaceIntensityZero" xml:space="preserve"><value>替換強度為0%，因此「替換色」和「保留亮度」無效。</value></data>
+<data name="ValidationRule_Info_ReplaceColorTransparent" xml:space="preserve"><value>替換色是透明的。這將降低移除區域的不透明度。</value></data>
+<data name="ValidationRule_Info_ColorSpaceForCustomOnly" xml:space="preserve"><value>色彩空間更改僅在主要鍵色設置為「自訂」時才適用。</value></data>
+<data name="ValidationRule_Info_HueRangeForSpecificSpaces" xml:space="preserve"><value>色相範圍僅在色彩空間為「HSV」或「LCH」時有效。</value></data>
+<data name="ValidationRule_Info_SaturationThresholdForHsvOnly" xml:space="preserve"><value>飽和度閾值僅在色彩空間為「HSV」時有效。</value></data>
+<data name="ValidationRule_Info_LuminanceRangeForSpecificSpaces" xml:space="preserve"><value>亮度範圍僅在色彩空間為「RGB」或「YUV」時有效。</value></data>
+<data name="ValidationRule_Info_CompleteKeyBypassesQuality" xml:space="preserve"><value>在完全去背模式下，濺色去除、邊緣去飽和和保留亮度都被禁用。</value></data>
+<data name="ValidationRule_Warning_ExceptionColorTransparent" xml:space="preserve"><value>例外色設置為透明，因此「例外設定」將不起作用。</value></data>
+<data name="ValidationRule_Info_ExceptionGradientStrengthZero" xml:space="preserve"><value>例外漸層強度為0%，因此「例外色2 (終端)」和「漸層角度」無效。</value></data>
+<data name="ValidationRule_Info_ResidualColorCorrectionZero" xml:space="preserve"><value>殘存色補正強度為0%，因此「補正對象色」和「補正後的色」無效。</value></data>
+<data name="ValidationRule_Warning_GradientStrengthHigh" xml:space="preserve"><value>如果漸層強度過高，可能會對意外的範圍進行去背處理。如果煙霧等高透明度部分出現問題，請提高「透明度品質」。</value></data>
+<data name="ValidationRule_Performance_HighQualitySettings" xml:space="preserve"><value>在高品質模式下結合了重型處理。這可能會影響效能。</value></data>
+<data name="UpdateChecker_NewVersionAvailable" xml:space="preserve"><value>新版本 v{0} 可用。(目前: v{1})</value></data>
+</root>

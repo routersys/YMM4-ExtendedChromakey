@@ -114,7 +114,7 @@ namespace ExtendedChromaKey.Services
                         {
                             var effect = _entries[i].Effect;
                             _entries.RemoveAt(i);
-                            try { effect.Dispose(); } catch (Exception) { }
+                            try { effect.Dispose(); } catch { }
                         }
                     }
                 }
@@ -125,24 +125,17 @@ namespace ExtendedChromaKey.Services
                 lock (_lock)
                 {
                     foreach (var entry in _entries)
-                    {
-                        try { entry.Effect.Dispose(); } catch (Exception) { }
-                    }
+                        try { entry.Effect.Dispose(); } catch { }
+
                     _entries.Clear();
                 }
             }
         }
 
-        private readonly struct PooledEntry
+        private readonly struct PooledEntry(ExtendedChromaKeyCustomEffect effect)
         {
-            public readonly ExtendedChromaKeyCustomEffect Effect;
-            public readonly long ReturnTimeTicks;
-
-            public PooledEntry(ExtendedChromaKeyCustomEffect effect)
-            {
-                Effect = effect;
-                ReturnTimeTicks = Environment.TickCount64;
-            }
+            public readonly ExtendedChromaKeyCustomEffect Effect = effect;
+            public readonly long ReturnTimeTicks = Environment.TickCount64;
         }
     }
-}
+}

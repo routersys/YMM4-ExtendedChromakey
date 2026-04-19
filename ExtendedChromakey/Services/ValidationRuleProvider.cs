@@ -1,3 +1,4 @@
+using ExtendedChromaKey.Localization;
 using ExtendedChromaKey.Models;
 using System.Collections.Immutable;
 using YukkuriMovieMaker.Commons;
@@ -6,6 +7,17 @@ namespace ExtendedChromaKey.Services
 {
     internal sealed class ValidationRuleProvider
     {
+        private const double ToleranceLowThreshold = 1.0;
+        private const double ToleranceHighThreshold = 85.0;
+        private const double LuminanceMixHighThreshold = 90.0;
+        private const double ClipMidThreshold = 50.0;
+        private const double EdgeSoftnessMidThreshold = 50.0;
+        private const double GradientStrengthHighThreshold = 90.0;
+        private const double EdgeBlurComplexThreshold = 20.0;
+        private const double DespotComplexThreshold = 5.0;
+        private const double DefaultGradientAngle = 90.0;
+        private const int RuleCount = 21;
+
         private static readonly Lazy<ImmutableArray<ValidationRule>> _rules =
             new(BuildRules, LazyThreadSafetyMode.ExecutionAndPublication);
 
@@ -13,138 +25,158 @@ namespace ExtendedChromaKey.Services
 
         private static ImmutableArray<ValidationRule> BuildRules()
         {
-            var builder = ImmutableArray.CreateBuilder<ValidationRule>(21);
+            var builder = ImmutableArray.CreateBuilder<ValidationRule>(RuleCount);
 
             builder.Add(new ValidationRule(
                 "Error_BaseColorTransparency",
-                static effect => effect.MainKeyColor == KeyColorType.Custom && effect.BaseColor.A == 0,
-                "カスタムモードでは、基本色を不透明に設定してください。完全に透明な色はキーイングできません。",
+                static e => e.MainKeyColor == KeyColorType.Custom && e.BaseColor.A == 0,
+                Texts.ValidationRule_Error_BaseColorTransparency,
                 ValidationLevel.Error));
 
             builder.Add(new ValidationRule(
                 "Error_ClipBlackWhiteInverted",
-                static effect => GetAnimationValue(effect.ClipBlack) >= GetAnimationValue(effect.ClipWhite),
-                "クリップ(黒)の値がクリップ(白)以上になっています。マスクが正常に生成されません。",
+                static e => GetValue(e.ClipBlack) >= GetValue(e.ClipWhite),
+                Texts.ValidationRule_Error_ClipBlackWhiteInverted,
                 ValidationLevel.Error));
 
             builder.Add(new ValidationRule(
                 "Warning_ToleranceExtremelyLow",
-                static effect => GetAnimationValue(effect.Tolerance) < 1,
-                "許容値が極端に低いため、意図した範囲が透過されない可能性があります。",
+                static e => GetValue(e.Tolerance) < ToleranceLowThreshold,
+                Texts.ValidationRule_Warning_ToleranceExtremelyLow,
                 ValidationLevel.Warning));
 
             builder.Add(new ValidationRule(
                 "Warning_ToleranceExtremelyHigh",
-                static effect => GetAnimationValue(effect.Tolerance) > 85,
-                "許容値が極端に高いため、前景の意図しない部分まで透過される可能性があります。",
+                static e => GetValue(e.Tolerance) > ToleranceHighThreshold,
+                Texts.ValidationRule_Warning_ToleranceExtremelyHigh,
                 ValidationLevel.Warning));
 
             builder.Add(new ValidationRule(
                 "Warning_SoftnessWithoutTolerance",
-                static effect => GetAnimationValue(effect.EdgeSoftness) > 0 && GetAnimationValue(effect.Tolerance) < 1,
-                "エッジの柔らかさを機能させるには、許容値を少し上げる必要があります。",
+                static e => GetValue(e.EdgeSoftness) > 0 && GetValue(e.Tolerance) < ToleranceLowThreshold,
+                Texts.ValidationRule_Warning_SoftnessWithoutTolerance,
                 ValidationLevel.Warning));
 
             builder.Add(new ValidationRule(
                 "Warning_HighLuminanceMix",
-                static effect => GetAnimationValue(effect.LuminanceMix) > 90,
-                "輝度ミックスが高すぎると、色の情報が無視され、明るさだけでキーイングされます。",
+                static e => GetValue(e.LuminanceMix) > LuminanceMixHighThreshold,
+                Texts.ValidationRule_Warning_HighLuminanceMix,
                 ValidationLevel.Warning));
 
             builder.Add(new ValidationRule(
                 "Warning_ClipAndSoftnessConflict",
-                static effect => (GetAnimationValue(effect.ClipBlack) > 50 || GetAnimationValue(effect.ClipWhite) < 50) && GetAnimationValue(effect.EdgeSoftness) > 50,
-                "クリップ設定とエッジの柔らかさの両方が高く設定されています。意図しない硬い輪郭になる可能性があります。",
+                static e => (GetValue(e.ClipBlack) > ClipMidThreshold || GetValue(e.ClipWhite) < ClipMidThreshold)
+                         && GetValue(e.EdgeSoftness) > EdgeSoftnessMidThreshold,
+                Texts.ValidationRule_Warning_ClipAndSoftnessConflict,
                 ValidationLevel.Warning));
 
             builder.Add(new ValidationRule(
                 "Info_GradientStrengthZero",
-                static effect => GetAnimationValue(effect.GradientStrength) == 0 && (effect.EndColor != effect.BaseColor || GetAnimationValue(effect.GradientAngle) != 90),
-                "グラデーション強度が0%のため、「終端色」と「グラデーション角度」は効果がありません。",
+                static e => GetValue(e.GradientStrength) == 0
+                         && (e.EndColor != e.BaseColor || GetValue(e.GradientAngle) != DefaultGradientAngle),
+                Texts.ValidationRule_Info_GradientStrengthZero,
                 ValidationLevel.Info));
 
             builder.Add(new ValidationRule(
                 "Info_SpillSuppressionWithCustom",
-                static effect => effect.MainKeyColor == KeyColorType.Custom && GetAnimationValue(effect.SpillSuppression) > 0,
-                "スピル除去は、主要キーイング色が「緑」「青」「赤」の時に最も効果的です。",
+                static e => e.MainKeyColor == KeyColorType.Custom && GetValue(e.SpillSuppression) > 0,
+                Texts.ValidationRule_Info_SpillSuppressionWithCustom,
                 ValidationLevel.Info));
 
             builder.Add(new ValidationRule(
                 "Info_ReplaceIntensityZero",
-                static effect => GetAnimationValue(effect.ReplaceIntensity) == 0 && (effect.ReplaceColor != System.Windows.Media.Colors.Transparent || GetAnimationValue(effect.PreserveLuminance) > 0),
-                "置換の強度が0%のため、「置換色」と「輝度保持」は効果がありません。",
+                static e => GetValue(e.ReplaceIntensity) == 0
+                         && (e.ReplaceColor.A != 0 || GetValue(e.PreserveLuminance) > 0),
+                Texts.ValidationRule_Info_ReplaceIntensityZero,
                 ValidationLevel.Info));
 
             builder.Add(new ValidationRule(
                 "Info_ReplaceColorTransparent",
-                static effect => GetAnimationValue(effect.ReplaceIntensity) > 0 && effect.ReplaceColor.A == 0,
-                "置換色が透明です。これは除去した領域の不透明度を下げる効果になります。",
+                static e => GetValue(e.ReplaceIntensity) > 0 && e.ReplaceColor.A == 0,
+                Texts.ValidationRule_Info_ReplaceColorTransparent,
                 ValidationLevel.Info));
 
             builder.Add(new ValidationRule(
                 "Info_ColorSpaceForCustomOnly",
-                static effect => effect.MainKeyColor != KeyColorType.Custom && effect.ColorSpace != AdvancedColorSpace.Lab,
-                "色空間の変更は、主要キーイング色が「カスタム」の時にのみ適用されます。",
+                static e => e.MainKeyColor != KeyColorType.Custom && e.ColorSpace != AdvancedColorSpace.Lab,
+                Texts.ValidationRule_Info_ColorSpaceForCustomOnly,
                 ValidationLevel.Info));
 
             builder.Add(new ValidationRule(
                 "Info_HueRangeForSpecificSpaces",
-                static effect => GetAnimationValue(effect.HueRange) > 0 && effect.MainKeyColor == KeyColorType.Custom && effect.ColorSpace != AdvancedColorSpace.HSV && effect.ColorSpace != AdvancedColorSpace.LCH,
-                "色相範囲は、色空間が「HSV」または「LCH」の場合にのみ有効です。",
+                static e => GetValue(e.HueRange) > 0
+                         && e.MainKeyColor == KeyColorType.Custom
+                         && e.ColorSpace != AdvancedColorSpace.HSV
+                         && e.ColorSpace != AdvancedColorSpace.LCH,
+                Texts.ValidationRule_Info_HueRangeForSpecificSpaces,
                 ValidationLevel.Info));
 
             builder.Add(new ValidationRule(
                 "Info_SaturationThresholdForHsvOnly",
-                static effect => GetAnimationValue(effect.SaturationThreshold) > 0 && effect.MainKeyColor == KeyColorType.Custom && effect.ColorSpace != AdvancedColorSpace.HSV,
-                "彩度閾値は、色空間が「HSV」の場合にのみ有効です。",
+                static e => GetValue(e.SaturationThreshold) > 0
+                         && e.MainKeyColor == KeyColorType.Custom
+                         && e.ColorSpace != AdvancedColorSpace.HSV,
+                Texts.ValidationRule_Info_SaturationThresholdForHsvOnly,
                 ValidationLevel.Info));
 
             builder.Add(new ValidationRule(
                 "Info_LuminanceRangeForSpecificSpaces",
-                static effect => GetAnimationValue(effect.LuminanceRange) > 0 && effect.MainKeyColor == KeyColorType.Custom && effect.ColorSpace != AdvancedColorSpace.RGB && effect.ColorSpace != AdvancedColorSpace.YUV,
-                "明度範囲は、色空間が「RGB」または「YUV」の場合にのみ有効です。",
+                static e => GetValue(e.LuminanceRange) > 0
+                         && e.MainKeyColor == KeyColorType.Custom
+                         && e.ColorSpace != AdvancedColorSpace.RGB
+                         && e.ColorSpace != AdvancedColorSpace.YUV,
+                Texts.ValidationRule_Info_LuminanceRangeForSpecificSpaces,
                 ValidationLevel.Info));
 
             builder.Add(new ValidationRule(
                 "Info_CompleteKeyBypassesQuality",
-                static effect => effect.IsCompleteKey && (GetAnimationValue(effect.SpillSuppression) > 0 || GetAnimationValue(effect.EdgeDesaturation) > 0 || GetAnimationValue(effect.PreserveLuminance) > 0),
-                "完全クロマキーモードでは、スピル除去・エッジ彩度除去・輝度保持は無効になります。",
+                static e => e.IsCompleteKey
+                         && (GetValue(e.SpillSuppression) > 0
+                          || GetValue(e.EdgeDesaturation) > 0
+                          || GetValue(e.PreserveLuminance) > 0),
+                Texts.ValidationRule_Info_CompleteKeyBypassesQuality,
                 ValidationLevel.Info));
 
             builder.Add(new ValidationRule(
                 "Warning_ExceptionColorTransparent",
-                static effect => effect.ExceptionColor1.A == 0 && GetAnimationValue(effect.ExceptionTolerance) > 0,
-                "例外色が透明に設定されているため、「例外設定」は機能しません。",
+                static e => e.ExceptionColor1.A == 0 && GetValue(e.ExceptionTolerance) > 0,
+                Texts.ValidationRule_Warning_ExceptionColorTransparent,
                 ValidationLevel.Warning));
 
             builder.Add(new ValidationRule(
                 "Info_ExceptionGradientStrengthZero",
-                static effect => effect.ExceptionColor1.A > 0 && GetAnimationValue(effect.ExceptionGradientStrength) == 0 && (effect.ExceptionColor1 != effect.ExceptionColor2 || GetAnimationValue(effect.ExceptionGradientAngle) != 90),
-                "例外グラデーション強度が0%のため、「例外色2 (終端)」と「グラデーション角度」は効果がありません。",
+                static e => e.ExceptionColor1.A > 0
+                         && GetValue(e.ExceptionGradientStrength) == 0
+                         && (e.ExceptionColor1 != e.ExceptionColor2
+                          || GetValue(e.ExceptionGradientAngle) != DefaultGradientAngle),
+                Texts.ValidationRule_Info_ExceptionGradientStrengthZero,
                 ValidationLevel.Info));
 
             builder.Add(new ValidationRule(
                 "Info_ResidualColorCorrectionZero",
-                static effect => GetAnimationValue(effect.ResidualColorCorrection) == 0 && (effect.TargetResidualColor != System.Windows.Media.Colors.Transparent || effect.CorrectedColor != System.Windows.Media.Colors.Transparent),
-                "残存色補正の強度が0%のため、「補正対象色」と「補正後の色」は効果がありません。",
+                static e => GetValue(e.ResidualColorCorrection) == 0
+                         && (e.TargetResidualColor.A != 0 || e.CorrectedColor.A != 0),
+                Texts.ValidationRule_Info_ResidualColorCorrectionZero,
                 ValidationLevel.Info));
 
             builder.Add(new ValidationRule(
                 "Warning_GradientStrengthHigh",
-                static effect => GetAnimationValue(effect.GradientStrength) > 90,
-                "グラデーション強度が高すぎると、意図しない範囲まで透過される可能性があります。煙などの透明度が高い部分で問題が発生する場合は、「透明度品質」を上げてください。",
+                static e => GetValue(e.GradientStrength) > GradientStrengthHighThreshold,
+                Texts.ValidationRule_Warning_GradientStrengthHigh,
                 ValidationLevel.Warning));
 
             builder.Add(new ValidationRule(
                 "Performance_HighQualitySettings",
-                static effect => effect.QualityPreset == QualityPreset.HighQuality && (GetAnimationValue(effect.EdgeBlur) > 20 || GetAnimationValue(effect.Despot) > 5),
-                "高品質モードで重い処理が組み合わさっています。パフォーマンスに影響する可能性があります。",
+                static e => e.QualityPreset == QualityPreset.HighQuality
+                         && (GetValue(e.EdgeBlur) > EdgeBlurComplexThreshold
+                          || GetValue(e.Despot) > DespotComplexThreshold),
+                Texts.ValidationRule_Performance_HighQualitySettings,
                 ValidationLevel.Performance));
 
             return builder.MoveToImmutable();
         }
 
-        private static double GetAnimationValue(Animation animation) =>
+        private static double GetValue(Animation animation) =>
             animation.Values.Count > 0 ? animation.Values[0].Value : animation.DefaultValue;
     }
-}
+}

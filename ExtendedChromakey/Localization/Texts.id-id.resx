@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+<data name="CurrentCulture" xml:space="preserve"><value>id-id</value></data>
+<data name="ExtendedChromaKey_Label" xml:space="preserve"><value>Kroma Key yang Diperluas</value></data>
+<data name="GroupName_BasicSettings" xml:space="preserve"><value>Pengaturan Dasar</value></data>
+<data name="GroupName_KeyingMode" xml:space="preserve"><value>Mode Keying</value></data>
+<data name="GroupName_KeyingAdjustment" xml:space="preserve"><value>Penyesuaian Keying</value></data>
+<data name="GroupName_Gradient" xml:space="preserve"><value>Gradasi</value></data>
+<data name="GroupName_ColorReplacement" xml:space="preserve"><value>Penggantian Warana</value></data>
+<data name="GroupName_QualityOptimization" xml:space="preserve"><value>Optimasi Kualitas</value></data>
+<data name="GroupName_ExceptionSettings" xml:space="preserve"><value>Pengaturan Pengecualian</value></data>
+<data name="GroupName_ColorCorrection" xml:space="preserve"><value>Koreksi Warna</value></data>
+<data name="GroupName_Other" xml:space="preserve"><value>Lainnya</value></data>
+<data name="GroupName_Debug" xml:space="preserve"><value>Debug</value></data>
+<data name="BaseColor_Name" xml:space="preserve"><value>Warna Dasar</value></data>
+<data name="BaseColor_Desc" xml:space="preserve"><value>Menentukan warna dasar untuk transparansi.</value></data>
+<data name="EndColor_Name" xml:space="preserve"><value>Warna Akhir</value></data>
+<data name="EndColor_Desc" xml:space="preserve"><value>Menentukan warna akhir gradasi. Rentang antara warna dasar dan warna ini akan dipotong.</value></data>
+<data name="MainKeyColor_Name" xml:space="preserve"><value>Warna Kunci Utama</value></data>
+<data name="MainKeyColor_Desc" xml:space="preserve"><value>Pilih warna utama yang akan dikunci. Sesuaikan dengan warna latar belakang.</value></data>
+<data name="Tolerance_Name" xml:space="preserve"><value>Toleransi</value></data>
+<data name="Tolerance_Desc" xml:space="preserve"><value>Toleransi rentang warna. 0% hanya akan memotong warna yang sama persis.</value></data>
+<data name="LuminanceMix_Name" xml:space="preserve"><value>Campuran Luminasi</value></data>
+<data name="LuminanceMix_Desc" xml:space="preserve"><value>Menyesuaikan seberapa banyak pencahayaan digunakan untuk keying. Nilai tinggi membantu memisahkan area terang dari latar belakang.</value></data>
+<data name="EdgeSoftness_Name" xml:space="preserve"><value>Kelembutan Tepi</value></data>
+<data name="EdgeSoftness_Desc" xml:space="preserve"><value>Menyesuaikan kelembutan batas transparan.</value></data>
+<data name="ClipBlack_Name" xml:space="preserve"><value>Klip Hitam</value></data>
+<data name="ClipBlack_Desc" xml:space="preserve"><value>Menyesuaikan tingkat hitam pada matte. Berguna untuk menghilangkan noise latar belakang.</value></data>
+<data name="ClipWhite_Name" xml:space="preserve"><value>Klip Putih</value></data>
+<data name="ClipWhite_Desc" xml:space="preserve"><value>Menyesuaikan tingkat putih pada matte. Membantu mempertahankan objek depan tetap jelas.</value></data>
+<data name="EdgeBlur_Name" xml:space="preserve"><value>Blur Tepi</value></data>
+<data name="EdgeBlur_Desc" xml:space="preserve"><value>Membuat batas matte menjadi buram agar lebih halus. Efektif untuk batas kasar.</value></data>
+<data name="GradientStrength_Name" xml:space="preserve"><value>Kekuatan Gradasi</value></data>
+<data name="GradientStrength_Desc" xml:space="preserve"><value>Menyesuaikan kekuatan efek gradasi. 0% hanya warna dasar, 100% gradasi penuh.</value></data>
+<data name="GradientAngle_Name" xml:space="preserve"><value>Sudut Gradasi</value></data>
+<data name="GradientAngle_Desc" xml:space="preserve"><value>Menentukan arah gradasi dalam derajat.</value></data>
+<data name="ReplaceColor_Name" xml:space="preserve"><value>Ganti Warna</value></data>
+<data name="ReplaceColor_Desc" xml:space="preserve"><value>Menentukan warna untuk mengganti area yang dihapus.</value></data>
+<data name="ReplaceIntensity_Name" xml:space="preserve"><value>Intensitas Penggantian</value></data>
+<data name="ReplaceIntensity_Desc" xml:space="preserve"><value>Intensitas pengisian area dengan warna ganti.</value></data>
+<data name="PreserveLuminance_Name" xml:space="preserve"><value>Pertahankan Luminasi</value></data>
+<data name="PreserveLuminance_Desc" xml:space="preserve"><value>Seberapa banyak pencahayaan asli yang dipertahankan.</value></data>
+<data name="ColorSpace_Name" xml:space="preserve"><value>Ruang Warna (Kustom)</value></data>
+<data name="ColorSpace_Desc" xml:space="preserve"><value>Pilih ruang warna yang digunakan untuk jarak warna saat disetel ke kustom.</value></data>
+<data name="HueRange_Name" xml:space="preserve"><value>Rentang Rona</value></data>
+<data name="HueRange_Desc" xml:space="preserve"><value>Toleransi rentang rona saat menggunakan ruang warna HSV/LCH.</value></data>
+<data name="SaturationThreshold_Name" xml:space="preserve"><value>Ambang Batas Saturasi</value></data>
+<data name="SaturationThreshold_Desc" xml:space="preserve"><value>Warna dengan saturasi di bawah ini akan dibandingkan berdasarkan kecerahan.</value></data>
+<data name="LuminanceRange_Name" xml:space="preserve"><value>Rentang Luminasi</value></data>
+<data name="LuminanceRange_Desc" xml:space="preserve"><value>Toleransi perbedaan luminasi pada ruang warna RGB/YUV.</value></data>
+<data name="SpillSuppression_Name" xml:space="preserve"><value>Penekan Tumpahan</value></data>
+<data name="SpillSuppression_Desc" xml:space="preserve"><value>Menghilangkan pantulan warna latar belakang pada objek.</value></data>
+<data name="EdgeBalance_Name" xml:space="preserve"><value>Keseimbangan Tepi</value></data>
+<data name="EdgeBalance_Desc" xml:space="preserve"><value>Menyesuaikan batas ke dalam atau ke luar. Positif ke dalam, negatif ke luar.</value></data>
+<data name="Despot_Name" xml:space="preserve"><value>Despot</value></data>
+<data name="Despot_Desc" xml:space="preserve"><value>Menghilangkan bintik atau noise kecil dari matte.</value></data>
+<data name="Erode_Name" xml:space="preserve"><value>Kikis Tepi</value></data>
+<data name="Erode_Desc" xml:space="preserve"><value>Memperluas atau mengecilkan batas matte untuk menghapus tepi tipis.</value></data>
+<data name="ExceptionColor1_Name" xml:space="preserve"><value>Warna Pengecualian 1</value></data>
+<data name="ExceptionColor1_Desc" xml:space="preserve"><value>Warna yang dikecualikan. Nonaktif jika diatur ke transparan.</value></data>
+<data name="ExceptionColor2_Name" xml:space="preserve"><value>Warna Pengecualian 2</value></data>
+<data name="ExceptionColor2_Desc" xml:space="preserve"><value>Warna akhir gradasi untuk dikecualikan.</value></data>
+<data name="ExceptionTolerance_Name" xml:space="preserve"><value>Toleransi Pengecualian</value></data>
+<data name="ExceptionTolerance_Desc" xml:space="preserve"><value>Batas toleransi untuk warna pengecualian.</value></data>
+<data name="ExceptionGradientStrength_Name" xml:space="preserve"><value>Kekuatan Gradasi</value></data>
+<data name="ExceptionGradientStrength_Desc" xml:space="preserve"><value>Kekuatan efek gradasi pengecualian.</value></data>
+<data name="ExceptionGradientAngle_Name" xml:space="preserve"><value>Sudut Gradasi</value></data>
+<data name="ExceptionGradientAngle_Desc" xml:space="preserve"><value>Arah gradasi warna pengecualian.</value></data>
+<data name="EdgeDesaturation_Name" xml:space="preserve"><value>Pengurangan Saturasi Tepi</value></data>
+<data name="EdgeDesaturation_Desc" xml:space="preserve"><value>Mengurangi warna tumpah di tepi untuk hasil yang lebih alami.</value></data>
+<data name="KeyCleanup_Name" xml:space="preserve"><value>Pembersihan Kunci</value></data>
+<data name="KeyCleanup_Desc" xml:space="preserve"><value>Ajusta el límite del mate. Negativo reduce</value></data>
+<data name="EdgeDetection_Name" xml:space="preserve"><value>Deteksi Tepi</value></data>
+<data name="EdgeDetection_Desc" xml:space="preserve"><value>Kekuatan mempertahankan detail tepi. Dapat memperjelas tepi namun memicu noise.</value></data>
+<data name="Denoise_Name" xml:space="preserve"><value>Penghilang Noise</value></data>
+<data name="Denoise_Desc" xml:space="preserve"><value>Menghilangkan noise halus dari matte.</value></data>
+<data name="Feathering_Name" xml:space="preserve"><value>Bulu Halus</value></data>
+<data name="Feathering_Desc" xml:space="preserve"><value>Menghaluskan tepi matte untuk bercampur dengan latar.</value></data>
+<data name="TranslucentDespill_Name" xml:space="preserve"><value>Penghilang Tumpahan Transparan</value></data>
+<data name="TranslucentDespill_Desc" xml:space="preserve"><value>Menghapus pantulan warna di area transparan seperti kaca atau asap.</value></data>
+<data name="TransparencyQuality_Name" xml:space="preserve"><value>Kualitas Transparansi</value></data>
+<data name="TransparencyQuality_Desc" xml:space="preserve"><value>Meningkatkan kualitas bagian yang transparan (seperti asap).</value></data>
+<data name="AlphaBlendAdjustment_Name" xml:space="preserve"><value>Penyesuaian Alpha Blend</value></data>
+<data name="AlphaBlendAdjustment_Desc" xml:space="preserve"><value>Menyesuaikan cara campuran latar depan dan latar belakang.</value></data>
+<data name="TargetResidualColor_Name" xml:space="preserve"><value>Warna Tersisa Target</value></data>
+<data name="TargetResidualColor_Desc" xml:space="preserve"><value>Menentukan sisa warna latar yang akan dikoreksi.</value></data>
+<data name="CorrectedColor_Name" xml:space="preserve"><value>Warna Terkoreksi</value></data>
+<data name="CorrectedColor_Desc" xml:space="preserve"><value>Mengubah sisa warna target menjadi warna ini.</value></data>
+<data name="ResidualColorCorrection_Name" xml:space="preserve"><value>Koreksi Sisa Warna</value></data>
+<data name="ResidualColorCorrection_Desc" xml:space="preserve"><value>Mengubah warna latar belakang tersisa ke warna lain.</value></data>
+<data name="CorrectionTolerance_Name" xml:space="preserve"><value>Toleransi Koreksi</value></data>
+<data name="CorrectionTolerance_Desc" xml:space="preserve"><value>Toleransi koreksi warna. Nilai lebih tinggi memproses lebih banyak warna.</value></data>
+<data name="ForegroundBrightness_Name" xml:space="preserve"><value>Kecerahan Depan</value></data>
+<data name="ForegroundBrightness_Desc" xml:space="preserve"><value>Menyesuaikan kecerahan objek depan.</value></data>
+<data name="ForegroundContrast_Name" xml:space="preserve"><value>Kontras Depan</value></data>
+<data name="ForegroundContrast_Desc" xml:space="preserve"><value>Menyesuaikan kontras objek depan.</value></data>
+<data name="ForegroundSaturation_Name" xml:space="preserve"><value>Saturasi Depan</value></data>
+<data name="ForegroundSaturation_Desc" xml:space="preserve"><value>Menyesuaikan saturasi objek depan.</value></data>
+<data name="IsCompleteKey_Name" xml:space="preserve"><value>Kunci Lengkap</value></data>
+<data name="IsCompleteKey_Desc" xml:space="preserve"><value>Membuat kunci sepenuhnya transparan tanpa mempertahankan luminasi.</value></data>
+<data name="IsInverted_Name" xml:space="preserve"><value>Balik</value></data>
+<data name="IsInverted_Desc" xml:space="preserve"><value>Membalikkan area transparan.</value></data>
+<data name="QualityPreset_Name" xml:space="preserve"><value>Preset Kualitas</value></data>
+<data name="QualityPreset_Desc" xml:space="preserve"><value>Pilih kualitas pemrosesan. Kualitas lebih tinggi lebih berat.</value></data>
+<data name="DebugMode_Name" xml:space="preserve"><value>Mode Tampilan</value></data>
+<data name="DebugMode_Desc" xml:space="preserve"><value>Menampilkan tahapan efek untuk debug.</value></data>
+<data name="AdvancedColorSpace_RGB" xml:space="preserve"><value>RGB (Standar)</value></data>
+<data name="AdvancedColorSpace_HSV" xml:space="preserve"><value>HSV (Fokus Rona)</value></data>
+<data name="AdvancedColorSpace_Lab" xml:space="preserve"><value>CIE Lab (Perseptual)</value></data>
+<data name="AdvancedColorSpace_YUV" xml:space="preserve"><value>YUV (Kualitas Siaran)</value></data>
+<data name="AdvancedColorSpace_XYZ" xml:space="preserve"><value>XYZ (Standar CIE)</value></data>
+<data name="AdvancedColorSpace_LCH" xml:space="preserve"><value>LCH (Silinder Perseptual)</value></data>
+<data name="AdvancedColorSpace_CIEDE2000" xml:space="preserve"><value>CIEDE2000 (Presisi Tertinggi)</value></data>
+<data name="KeyColorType_Custom" xml:space="preserve"><value>Kustom</value></data>
+<data name="KeyColorType_Green" xml:space="preserve"><value>Hijau</value></data>
+<data name="KeyColorType_Blue" xml:space="preserve"><value>Biru</value></data>
+<data name="KeyColorType_Red" xml:space="preserve"><value>Merah</value></data>
+<data name="DebugViewMode_Result" xml:space="preserve"><value>Hasil Akhir</value></data>
+<data name="DebugViewMode_Matte" xml:space="preserve"><value>Tampilan Matte</value></data>
+<data name="DebugViewMode_ColorDistance" xml:space="preserve"><value>Jarak Warna</value></data>
+<data name="DebugViewMode_SpillSuppressed" xml:space="preserve"><value>Setelah Penghilang Tumpahan</value></data>
+<data name="DebugViewMode_ColorCorrected" xml:space="preserve"><value>Setelah Koreksi Warna</value></data>
+<data name="QualityPreset_Fast" xml:space="preserve"><value>Cepat</value></data>
+<data name="QualityPreset_Balanced" xml:space="preserve"><value>Seimbang</value></data>
+<data name="QualityPreset_HighQuality" xml:space="preserve"><value>Kualitas Tinggi</value></data>
+<data name="ValidationRule_Error_BaseColorTransparency" xml:space="preserve"><value>establece el color base como opaco. Los colores completamente transparentes no se pueden recortar.</value></data>
+<data name="ValidationRule_Error_ClipBlackWhiteInverted" xml:space="preserve"><value>Nilai Klip Hitam lebih besar dari atau sama dengan nilai Klip Putih. Matte tidak akan dihasilkan dengan benar.</value></data>
+<data name="ValidationRule_Warning_ToleranceExtremelyLow" xml:space="preserve"><value>Toleransi sangat rendah, sehingga rentang yang dimaksudkan mungkin tidak dikunci.</value></data>
+<data name="ValidationRule_Warning_ToleranceExtremelyHigh" xml:space="preserve"><value>Toleransi sangat tinggi, sehingga bagian objek depan yang tidak diinginkan mungkin dikunci.</value></data>
+<data name="ValidationRule_Warning_SoftnessWithoutTolerance" xml:space="preserve"><value>Kelembutan Tepi memerlukan toleransi ditingkatkan untuk berfungsi dengan baik.</value></data>
+<data name="ValidationRule_Warning_HighLuminanceMix" xml:space="preserve"><value>la información de color se ignorará y solo se usará brillo.</value></data>
+<data name="ValidationRule_Warning_ClipAndSoftnessConflict" xml:space="preserve"><value>Pengaturan Klip dan Kelembutan Tepi sama-sama diatur tinggi. Ini dapat menghasilkan tepi keras yang tidak diinginkan.</value></data>
+<data name="ValidationRule_Info_GradientStrengthZero" xml:space="preserve"><value>Kekuatan Gradasi adalah 0%, jadi "Warna Akhir" dan "Sudut Gradasi" tidak berpengaruh.</value></data>
+<data name="ValidationRule_Info_SpillSuppressionWithCustom" xml:space="preserve"><value>Penekan Warna Lepas paling efektif ketika warna kunci utama adalah Hijau, Biru, atau Merah.</value></data>
+<data name="ValidationRule_Info_ReplaceIntensityZero" xml:space="preserve"><value>Intensitas Penggantian adalah 0%, jadi "Warna Penggantian" dan "Pertahankan Luminasi" tidak berpengaruh.</value></data>
+<data name="ValidationRule_Info_ReplaceColorTransparent" xml:space="preserve"><value>Warna Penggantian transparan. Ini mengurangi opasitas area yang dihapus.</value></data>
+<data name="ValidationRule_Info_ColorSpaceForCustomOnly" xml:space="preserve"><value>Perubahan Ruang Warna diterapkan hanya ketika warna kunci utama diatur ke "Khusus".</value></data>
+<data name="ValidationRule_Info_HueRangeForSpecificSpaces" xml:space="preserve"><value>Rentang Hue valid hanya ketika Ruang Warna adalah "HSV" أو "LCH".</value></data>
+<data name="ValidationRule_Info_SaturationThresholdForHsvOnly" xml:space="preserve"><value>Ambang Saturasi valid hanya ketika Ruang Warna adalah HSV.</value></data>
+<data name="ValidationRule_Info_LuminanceRangeForSpecificSpaces" xml:space="preserve"><value>Rentang Luminasi valid hanya ketika Ruang Warna adalah RGB atau YUV.</value></data>
+<data name="ValidationRule_Info_CompleteKeyBypassesQuality" xml:space="preserve"><value>Dalam mode Kunci Lengkap, Penekan Warna Lepas, Desaturasi Tepi, dan Pertahankan Luminasi dinonaktifkan.</value></data>
+<data name="ValidationRule_Warning_ExceptionColorTransparent" xml:space="preserve"><value>Warna Pengecualian diatur transparan, jadi "Pengaturan Pengecualian" tidak akan berfungsi.</value></data>
+<data name="ValidationRule_Info_ExceptionGradientStrengthZero" xml:space="preserve"><value>Kekuatan Gradasi Pengecualian adalah 0%, jadi "Warna Pengecualian 2 (Akhir)" dan "Sudut Gradasi" tidak berpengaruh.</value></data>
+<data name="ValidationRule_Info_ResidualColorCorrectionZero" xml:space="preserve"><value>Intensitas Koreksi Warna Residu adalah 0%, jadi "Warna Residu Target" dan "Warna Terkoreksi" tidak berpengaruh.</value></data>
+<data name="ValidationRule_Warning_GradientStrengthHigh" xml:space="preserve"><value>Jika Kekuatan Gradasi terlalu tinggi, area yang tidak diinginkan dapat dikunci. Jika masalah terjadi dengan area transparan tinggi seperti asap, tingkatkan "Kualitas Transparansi".</value></data>
+<data name="ValidationRule_Performance_HighQualitySettings" xml:space="preserve"><value>Pemrosesan berat digabungkan dalam mode Kualitas Tinggi. Ini dapat mempengaruhi kinerja.</value></data>
+<data name="UpdateChecker_NewVersionAvailable" xml:space="preserve"><value>Versi baru v{0} tersedia. (Saat ini: v{1})</value></data>
+</root>

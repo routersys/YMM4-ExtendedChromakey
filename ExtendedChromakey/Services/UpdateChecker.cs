@@ -1,3 +1,4 @@
+using ExtendedChromaKey.Localization;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
@@ -56,7 +57,7 @@ namespace ExtendedChromaKey.Services
                         latestVersion > currentVersion)
                     {
                         Volatile.Write(ref _updateMessage,
-                            $"新しいバージョン v{latestVersionStr} が利用可能です。(現在: v{currentVersion})");
+                            string.Format(Texts.UpdateChecker_NewVersionAvailable, latestVersionStr, currentVersion));
                     }
                 }
             }
@@ -82,4 +83,4 @@ namespace ExtendedChromaKey.Services
             _httpClient.Dispose();
         }
     }
-}
+}

@@ -1,4 +1,5 @@
 using ExtendedChromaKey.Attributes;
+using ExtendedChromaKey.Localization;
 using ExtendedChromaKey.Models;
 using ExtendedChromaKey.Services;
 using System.ComponentModel.DataAnnotations;
@@ -11,16 +12,16 @@ using YukkuriMovieMaker.Plugin.Effects;
 
 namespace ExtendedChromaKey.Effect
 {
-    [VideoEffect("拡張クロマキー", ["拡張"], ["extended chroma key", "拡張クロマキー", "chromakey"], IsAviUtlSupported = false)]
+    [VideoEffect(nameof(Texts.ExtendedChromaKey_Label), ["拡張"], ["extended chroma key", "拡張クロマキー", "chromakey"], IsAviUtlSupported = false, ResourceType = typeof(Texts))]
     public sealed class ExtendedChromaKeyEffect : VideoEffectBase
     {
-        public override string Label => "拡張クロマキー";
+        public override string Label => Texts.ExtendedChromaKey_Label;
 
-        [Display(GroupName = "基本設定", Name = "", Order = 0)]
+        [Display(GroupName = nameof(Texts.GroupName_BasicSettings), Name = nameof(Texts.Empty), Order = 0, ResourceType = typeof(Texts))]
         [ValidationPanelEditor(PropertyEditorSize = PropertyEditorSize.FullWidth)]
         public bool ValidationPlaceholder { get; set; }
 
-        [Display(GroupName = "基本設定", Name = "基本色", Description = "透過する基本色を指定します。", Order = 1)]
+        [Display(GroupName = nameof(Texts.GroupName_BasicSettings), Name = nameof(Texts.BaseColor_Name), Description = nameof(Texts.BaseColor_Desc), Order = 1, ResourceType = typeof(Texts))]
         [ColorPicker]
         public Color BaseColor
         {
@@ -33,95 +34,95 @@ namespace ExtendedChromaKey.Effect
         }
         private Color baseColor = Colors.Transparent;
 
-        [Display(GroupName = "基本設定", Name = "終端色", Description = "グラデーションの終端色を指定します。基本色とこの色の間がクロマキー対象になります。", Order = 2)]
+        [Display(GroupName = nameof(Texts.GroupName_BasicSettings), Name = nameof(Texts.EndColor_Name), Description = nameof(Texts.EndColor_Desc), Order = 2, ResourceType = typeof(Texts))]
         [ColorPicker]
         public Color EndColor { get => endColor; set => Set(ref endColor, value); }
         private Color endColor = Colors.Transparent;
 
-        [Display(GroupName = "キーイングモード", Name = "主要キーイング色", Description = "キーイングの基準となる主要な色を選択します。背景色に合わせて選択してください。", Order = 3)]
+        [Display(GroupName = nameof(Texts.GroupName_KeyingMode), Name = nameof(Texts.MainKeyColor_Name), Description = nameof(Texts.MainKeyColor_Desc), Order = 3, ResourceType = typeof(Texts))]
         [EnumComboBox]
         public KeyColorType MainKeyColor { get => mainKeyColor; set => Set(ref mainKeyColor, value); }
         private KeyColorType mainKeyColor = KeyColorType.Custom;
 
-        [Display(GroupName = "キーイング調整", Name = "許容値", Description = "色の許容範囲。0%に設定すると選択した色のみが対象になります。", Order = 4)]
+        [Display(GroupName = nameof(Texts.GroupName_KeyingAdjustment), Name = nameof(Texts.Tolerance_Name), Description = nameof(Texts.Tolerance_Desc), Order = 4, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
         public Animation Tolerance { get; } = new(20, 0, 100);
 
-        [Display(GroupName = "キーイング調整", Name = "輝度ミックス", Description = "輝度をキーイング判定にどれだけ使用するかを調整します。値を上げると、明るい部分（発光など）が背景から分離されやすくなります。", Order = 5)]
+        [Display(GroupName = nameof(Texts.GroupName_KeyingAdjustment), Name = nameof(Texts.LuminanceMix_Name), Description = nameof(Texts.LuminanceMix_Desc), Order = 5, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
         public Animation LuminanceMix { get; } = new(50, 0, 100);
 
-        [Display(GroupName = "キーイング調整", Name = "エッジの柔らかさ", Description = "透過境界の柔らかさを調整します。", Order = 6)]
+        [Display(GroupName = nameof(Texts.GroupName_KeyingAdjustment), Name = nameof(Texts.EdgeSoftness_Name), Description = nameof(Texts.EdgeSoftness_Desc), Order = 6, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
         public Animation EdgeSoftness { get; } = new(10, 0, 100);
 
-        [Display(GroupName = "キーイング調整", Name = "クリップ(黒)", Description = "マスクの黒レベルを調整します。背景のノイズ除去に有効です。", Order = 7)]
+        [Display(GroupName = nameof(Texts.GroupName_KeyingAdjustment), Name = nameof(Texts.ClipBlack_Name), Description = nameof(Texts.ClipBlack_Desc), Order = 7, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
         public Animation ClipBlack { get; } = new(0, 0, 100);
 
-        [Display(GroupName = "キーイング調整", Name = "クリップ(白)", Description = "マスクの白レベルを調整します。前景（特に発光部分）をくっきりと残すのに有効です。", Order = 8)]
+        [Display(GroupName = nameof(Texts.GroupName_KeyingAdjustment), Name = nameof(Texts.ClipWhite_Name), Description = nameof(Texts.ClipWhite_Desc), Order = 8, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
         public Animation ClipWhite { get; } = new(100, 0, 100);
 
-        [Display(GroupName = "キーイング調整", Name = "エッジぼかし", Description = "マスクの境界をぼかして滑らかにします。粗いエッジの調整に有効です。", Order = 9)]
+        [Display(GroupName = nameof(Texts.GroupName_KeyingAdjustment), Name = nameof(Texts.EdgeBlur_Name), Description = nameof(Texts.EdgeBlur_Desc), Order = 9, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "px", 0, 50)]
         public Animation EdgeBlur { get; } = new(0, 0, 50);
 
-        [Display(GroupName = "グラデーション", Name = "グラデーション強度", Description = "グラデーション効果の強さを調整します。0%で基本色のみ、100%で基本色から終端色へのグラデーションになります。", Order = 10)]
+        [Display(GroupName = nameof(Texts.GroupName_Gradient), Name = nameof(Texts.GradientStrength_Name), Description = nameof(Texts.GradientStrength_Desc), Order = 10, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
         public Animation GradientStrength { get; } = new(0, 0, 100);
 
-        [Display(GroupName = "グラデーション", Name = "グラデーション角度", Description = "グラデーションの方向を度数で指定します。", Order = 11)]
+        [Display(GroupName = nameof(Texts.GroupName_Gradient), Name = nameof(Texts.GradientAngle_Name), Description = nameof(Texts.GradientAngle_Desc), Order = 11, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "°", -360, 360)]
         public Animation GradientAngle { get; } = new(90, -360, 360);
 
-        [Display(GroupName = "色置換", Name = "置換色", Description = "除去した領域を置き換える色を指定します。", Order = 12)]
+        [Display(GroupName = nameof(Texts.GroupName_ColorReplacement), Name = nameof(Texts.ReplaceColor_Name), Description = nameof(Texts.ReplaceColor_Desc), Order = 12, ResourceType = typeof(Texts))]
         [ColorPicker]
         public Color ReplaceColor { get => replaceColor; set => Set(ref replaceColor, value); }
         private Color replaceColor = Colors.Transparent;
 
-        [Display(GroupName = "色置換", Name = "置換の強度", Description = "除去領域を置換色で塗りつぶす強度。", Order = 13)]
+        [Display(GroupName = nameof(Texts.GroupName_ColorReplacement), Name = nameof(Texts.ReplaceIntensity_Name), Description = nameof(Texts.ReplaceIntensity_Desc), Order = 13, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
         public Animation ReplaceIntensity { get; } = new(0, 0, 100);
 
-        [Display(GroupName = "色置換", Name = "輝度保持", Description = "色置換時に元の輝度をどれだけ保持するか。", Order = 14)]
+        [Display(GroupName = nameof(Texts.GroupName_ColorReplacement), Name = nameof(Texts.PreserveLuminance_Name), Description = nameof(Texts.PreserveLuminance_Desc), Order = 14, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
         public Animation PreserveLuminance { get; } = new(75, 0, 100);
 
-        [Display(GroupName = "キーイングモード", Name = "色空間(カスタム用)", Description = "「主要キーイング色」でカスタムを選択した場合の色距離計算に使用する色空間を選択します。", Order = 15)]
+        [Display(GroupName = nameof(Texts.GroupName_KeyingMode), Name = nameof(Texts.ColorSpace_Name), Description = nameof(Texts.ColorSpace_Desc), Order = 15, ResourceType = typeof(Texts))]
         [EnumComboBox]
         public AdvancedColorSpace ColorSpace { get => colorSpace; set => Set(ref colorSpace, value); }
         private AdvancedColorSpace colorSpace = AdvancedColorSpace.Lab;
 
-        [Display(GroupName = "キーイングモード", Name = "色相範囲", Description = "HSV/LCH色空間使用時の色相許容範囲。", Order = 16)]
+        [Display(GroupName = nameof(Texts.GroupName_KeyingMode), Name = nameof(Texts.HueRange_Name), Description = nameof(Texts.HueRange_Desc), Order = 16, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 50)]
         public Animation HueRange { get; } = new(10, 0, 50);
 
-        [Display(GroupName = "キーイングモード", Name = "彩度閾値", Description = "この値以下の彩度の色は、彩度を無視して明度で比較されます。", Order = 17)]
+        [Display(GroupName = nameof(Texts.GroupName_KeyingMode), Name = nameof(Texts.SaturationThreshold_Name), Description = nameof(Texts.SaturationThreshold_Desc), Order = 17, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
         public Animation SaturationThreshold { get; } = new(10, 0, 100);
 
-        [Display(GroupName = "キーイングモード", Name = "明度範囲", Description = "RGB/YUV色空間使用時の明度差の許容範囲。", Order = 18)]
+        [Display(GroupName = nameof(Texts.GroupName_KeyingMode), Name = nameof(Texts.LuminanceRange_Name), Description = nameof(Texts.LuminanceRange_Desc), Order = 18, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
         public Animation LuminanceRange { get; } = new(40, 0, 100);
 
-        [Display(GroupName = "品質最適化", Name = "スピル除去", Description = "背景色の被写体への全体的な映り込み（色かぶり）を除去します。", Order = 19)]
+        [Display(GroupName = nameof(Texts.GroupName_QualityOptimization), Name = nameof(Texts.SpillSuppression_Name), Description = nameof(Texts.SpillSuppression_Desc), Order = 19, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
         public Animation SpillSuppression { get; } = new(15, 0, 100);
 
-        [Display(GroupName = "品質最適化", Name = "エッジバランス", Description = "キーイングの境界を内外に調整します。プラスで内側、マイナスで外側に移動します。", Order = 20)]
+        [Display(GroupName = nameof(Texts.GroupName_QualityOptimization), Name = nameof(Texts.EdgeBalance_Name), Description = nameof(Texts.EdgeBalance_Desc), Order = 20, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", -100, 100)]
         public Animation EdgeBalance { get; } = new(0, -100, 100);
 
-        [Display(GroupName = "品質最適化", Name = "デスポット", Description = "マスク内の小さなノイズ（穴やゴミ）を除去します。", Order = 21)]
+        [Display(GroupName = nameof(Texts.GroupName_QualityOptimization), Name = nameof(Texts.Despot_Name), Description = nameof(Texts.Despot_Desc), Order = 21, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "px", 0, 10)]
         public Animation Despot { get; } = new(0, 0, 10);
 
-        [Display(GroupName = "品質最適化", Name = "エッジの浸食", Description = "マスクの境界を拡大・縮小します。輪郭に残る細いフリンジの除去に有効です。", Order = 22)]
+        [Display(GroupName = nameof(Texts.GroupName_QualityOptimization), Name = nameof(Texts.Erode_Name), Description = nameof(Texts.Erode_Desc), Order = 22, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "px", -10, 10)]
         public Animation Erode { get; } = new(0, -10, 10);
 
-        [Display(GroupName = "例外設定", Name = "例外色1 (基本)", Description = "クロマキーから除外する基本色を指定します。この色が透明の場合、この機能は無効になります。", Order = 23)]
+        [Display(GroupName = nameof(Texts.GroupName_ExceptionSettings), Name = nameof(Texts.ExceptionColor1_Name), Description = nameof(Texts.ExceptionColor1_Desc), Order = 23, ResourceType = typeof(Texts))]
         [ColorPicker]
         public Color ExceptionColor1
         {
@@ -134,101 +135,101 @@ namespace ExtendedChromaKey.Effect
         }
         private Color exceptionColor1 = Colors.Transparent;
 
-        [Display(GroupName = "例外設定", Name = "例外色2 (終端)", Description = "グラデーションの終端色を指定します。この範囲の色はクロマキーされにくくなります。", Order = 24)]
+        [Display(GroupName = nameof(Texts.GroupName_ExceptionSettings), Name = nameof(Texts.ExceptionColor2_Name), Description = nameof(Texts.ExceptionColor2_Desc), Order = 24, ResourceType = typeof(Texts))]
         [ColorPicker]
         public Color ExceptionColor2 { get => exceptionColor2; set => Set(ref exceptionColor2, value); }
         private Color exceptionColor2 = Colors.Transparent;
 
-        [Display(GroupName = "例外設定", Name = "許容値", Description = "例外色の許容範囲。値を大きくすると、より広い範囲の色が保護されます。", Order = 25)]
+        [Display(GroupName = nameof(Texts.GroupName_ExceptionSettings), Name = nameof(Texts.ExceptionTolerance_Name), Description = nameof(Texts.ExceptionTolerance_Desc), Order = 25, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
         public Animation ExceptionTolerance { get; } = new(10, 0, 100);
 
-        [Display(GroupName = "例外設定", Name = "グラデーション強度", Description = "例外色のグラデーション効果の強さ。", Order = 26)]
+        [Display(GroupName = nameof(Texts.GroupName_ExceptionSettings), Name = nameof(Texts.ExceptionGradientStrength_Name), Description = nameof(Texts.ExceptionGradientStrength_Desc), Order = 26, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
         public Animation ExceptionGradientStrength { get; } = new(0, 0, 100);
 
-        [Display(GroupName = "例外設定", Name = "グラデーション角度", Description = "例外色のグラデーションの方向。", Order = 27)]
+        [Display(GroupName = nameof(Texts.GroupName_ExceptionSettings), Name = nameof(Texts.ExceptionGradientAngle_Name), Description = nameof(Texts.ExceptionGradientAngle_Desc), Order = 27, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "°", -360, 360)]
         public Animation ExceptionGradientAngle { get; } = new(90, -360, 360);
 
-        [Display(GroupName = "品質最適化", Name = "エッジの色のじみ除去", Description = "輪郭部分の色の映り込みを低減させ、より自然な合成を実現します。", Order = 28)]
+        [Display(GroupName = nameof(Texts.GroupName_QualityOptimization), Name = nameof(Texts.EdgeDesaturation_Name), Description = nameof(Texts.EdgeDesaturation_Desc), Order = 28, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
         public Animation EdgeDesaturation { get; } = new(20, 0, 100);
 
-        [Display(GroupName = "品質最適化", Name = "キー・クリーンアップ", Description = "キーイングしたマスクの境界を調整します。マイナスで縮小、プラスで拡大します。", Order = 29)]
+        [Display(GroupName = nameof(Texts.GroupName_QualityOptimization), Name = nameof(Texts.KeyCleanup_Name), Description = nameof(Texts.KeyCleanup_Desc), Order = 29, ResourceType = typeof(Texts))]
         [AnimationSlider("F2", "px", -50, 50)]
         public Animation KeyCleanup { get; } = new(0, -50, 50);
 
-        [Display(GroupName = "品質最適化", Name = "エッジ検出", Description = "輪郭のディテールを保持する強度。値を上げるとエッジがシャープになりますが、ノイズが増えることがあります。", Order = 30)]
+        [Display(GroupName = nameof(Texts.GroupName_QualityOptimization), Name = nameof(Texts.EdgeDetection_Name), Description = nameof(Texts.EdgeDetection_Desc), Order = 30, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
         public Animation EdgeDetection { get; } = new(0, 0, 100);
 
-        [Display(GroupName = "品質最適化", Name = "ノイズ除去", Description = "マスクから細かいノイズを除去します。", Order = 31)]
+        [Display(GroupName = nameof(Texts.GroupName_QualityOptimization), Name = nameof(Texts.Denoise_Name), Description = nameof(Texts.Denoise_Desc), Order = 31, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
         public Animation Denoise { get; } = new(0, 0, 100);
 
-        [Display(GroupName = "品質最適化", Name = "フェザリング", Description = "マスクのエッジをぼかして、背景となじませます。", Order = 32)]
+        [Display(GroupName = nameof(Texts.GroupName_QualityOptimization), Name = nameof(Texts.Feathering_Name), Description = nameof(Texts.Feathering_Desc), Order = 32, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
         public Animation Feathering { get; } = new(0, 0, 100);
 
-        [Display(GroupName = "品質最適化", Name = "半透明デスピル", Description = "半透明部分に残る背景色（スピル）を除去します。グラスや煙、モーションブラーなどに有効です。", Order = 33)]
+        [Display(GroupName = nameof(Texts.GroupName_QualityOptimization), Name = nameof(Texts.TranslucentDespill_Name), Description = nameof(Texts.TranslucentDespill_Desc), Order = 33, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
         public Animation TranslucentDespill { get; } = new(0, 0, 100);
 
-        [Display(GroupName = "品質最適化", Name = "透明度品質", Description = "透明度の高い部分（煙など）の処理品質を向上させます。", Order = 34)]
+        [Display(GroupName = nameof(Texts.GroupName_QualityOptimization), Name = nameof(Texts.TransparencyQuality_Name), Description = nameof(Texts.TransparencyQuality_Desc), Order = 34, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
         public Animation TransparencyQuality { get; } = new(50, 0, 100);
 
-        [Display(GroupName = "品質最適化", Name = "アルファブレンド調整", Description = "前景と背景の混合処理を調整します。", Order = 35)]
+        [Display(GroupName = nameof(Texts.GroupName_QualityOptimization), Name = nameof(Texts.AlphaBlendAdjustment_Name), Description = nameof(Texts.AlphaBlendAdjustment_Desc), Order = 35, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
         public Animation AlphaBlendAdjustment { get; } = new(0, 0, 100);
 
-        [Display(GroupName = "色補正", Name = "補正対象色", Description = "補正したい残存色を指定します。", Order = 36)]
+        [Display(GroupName = nameof(Texts.GroupName_ColorCorrection), Name = nameof(Texts.TargetResidualColor_Name), Description = nameof(Texts.TargetResidualColor_Desc), Order = 36, ResourceType = typeof(Texts))]
         [ColorPicker]
         public Color TargetResidualColor { get => targetResidualColor; set => Set(ref targetResidualColor, value); }
         private Color targetResidualColor = Colors.Transparent;
 
-        [Display(GroupName = "色補正", Name = "補正後の色", Description = "残存色をこの色に変換します。", Order = 37)]
+        [Display(GroupName = nameof(Texts.GroupName_ColorCorrection), Name = nameof(Texts.CorrectedColor_Name), Description = nameof(Texts.CorrectedColor_Desc), Order = 37, ResourceType = typeof(Texts))]
         [ColorPicker]
         public Color CorrectedColor { get => correctedColor; set => Set(ref correctedColor, value); }
         private Color correctedColor = Colors.Transparent;
 
-        [Display(GroupName = "色補正", Name = "残存色補正", Description = "クロマキーで残った背景色を他の色に変換します。", Order = 38)]
+        [Display(GroupName = nameof(Texts.GroupName_ColorCorrection), Name = nameof(Texts.ResidualColorCorrection_Name), Description = nameof(Texts.ResidualColorCorrection_Desc), Order = 38, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
         public Animation ResidualColorCorrection { get; } = new(0, 0, 100);
 
-        [Display(GroupName = "色補正", Name = "補正許容値", Description = "色補正の許容範囲。値を大きくすると、より広い範囲の色が補正されます。", Order = 39)]
+        [Display(GroupName = nameof(Texts.GroupName_ColorCorrection), Name = nameof(Texts.CorrectionTolerance_Name), Description = nameof(Texts.CorrectionTolerance_Desc), Order = 39, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
         public Animation CorrectionTolerance { get; } = new(20, 0, 100);
 
-        [Display(GroupName = "色補正", Name = "前景の明るさ", Description = "キーイング後の前景（くり抜かれた部分）の明るさを調整します。", Order = 40)]
+        [Display(GroupName = nameof(Texts.GroupName_ColorCorrection), Name = nameof(Texts.ForegroundBrightness_Name), Description = nameof(Texts.ForegroundBrightness_Desc), Order = 40, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", -100, 100)]
         public Animation ForegroundBrightness { get; } = new(0, -100, 100);
 
-        [Display(GroupName = "色補正", Name = "前景のコントラスト", Description = "キーイング後の前景のコントラストを調整します。", Order = 41)]
+        [Display(GroupName = nameof(Texts.GroupName_ColorCorrection), Name = nameof(Texts.ForegroundContrast_Name), Description = nameof(Texts.ForegroundContrast_Desc), Order = 41, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", -100, 100)]
         public Animation ForegroundContrast { get; } = new(0, -100, 100);
 
-        [Display(GroupName = "色補正", Name = "前景の彩度", Description = "キーイング後の前景の彩度を調整します。", Order = 42)]
+        [Display(GroupName = nameof(Texts.GroupName_ColorCorrection), Name = nameof(Texts.ForegroundSaturation_Name), Description = nameof(Texts.ForegroundSaturation_Desc), Order = 42, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", -100, 100)]
         public Animation ForegroundSaturation { get; } = new(0, -100, 100);
 
-        [Display(GroupName = "その他", Name = "完全クロマキー", Description = "オンにすると、輝度を保持せず完全に透過させます。スピル除去なども無効になります。", Order = 43)]
+        [Display(GroupName = nameof(Texts.GroupName_Other), Name = nameof(Texts.IsCompleteKey_Name), Description = nameof(Texts.IsCompleteKey_Desc), Order = 43, ResourceType = typeof(Texts))]
         [ToggleSlider]
         public bool IsCompleteKey { get => isCompleteKey; set => Set(ref isCompleteKey, value); }
         private bool isCompleteKey;
 
-        [Display(GroupName = "その他", Name = "反転", Description = "透過範囲を反転します。", Order = 44)]
+        [Display(GroupName = nameof(Texts.GroupName_Other), Name = nameof(Texts.IsInverted_Name), Description = nameof(Texts.IsInverted_Desc), Order = 44, ResourceType = typeof(Texts))]
         [ToggleSlider]
         public bool IsInverted { get => isInverted; set => Set(ref isInverted, value); }
         private bool isInverted;
 
-        [Display(GroupName = "その他", Name = "品質プリセット", Description = "処理の品質を選択します。高品質ほど処理が重くなります。", Order = 45)]
+        [Display(GroupName = nameof(Texts.GroupName_Other), Name = nameof(Texts.QualityPreset_Name), Description = nameof(Texts.QualityPreset_Desc), Order = 45, ResourceType = typeof(Texts))]
         [EnumComboBox]
         public QualityPreset QualityPreset { get => qualityPreset; set => Set(ref qualityPreset, value); }
         private QualityPreset qualityPreset = QualityPreset.Balanced;
 
-        [Display(GroupName = "デバッグ", Name = "表示モード", Description = "デバッグ用に、エフェクトの各処理段階の画像を表示します。", Order = 46)]
+        [Display(GroupName = nameof(Texts.GroupName_Debug), Name = nameof(Texts.DebugMode_Name), Description = nameof(Texts.DebugMode_Desc), Order = 46, ResourceType = typeof(Texts))]
         [EnumComboBox]
         public DebugViewMode DebugMode { get => debugMode; set => Set(ref debugMode, value); }
         private DebugViewMode debugMode = DebugViewMode.Result;

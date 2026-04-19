@@ -15,7 +15,16 @@ namespace ExtendedChromaKey.Services
         private readonly ValidationRuleProvider _validationRuleProvider = new();
         private int _disposed;
 
-        private ServiceRegistry() { }
+        private ServiceRegistry()
+        {
+            AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
+        }
+
+        private static void OnProcessExit(object? sender, EventArgs e)
+        {
+            if (_instance.IsValueCreated)
+                _instance.Value.Dispose();
+        }
 
         public GraphicsEffectPool EffectPool
         {
@@ -57,8 +66,9 @@ namespace ExtendedChromaKey.Services
             if (Interlocked.Exchange(ref _disposed, 1) == 1)
                 return;
 
+            AppDomain.CurrentDomain.ProcessExit -= OnProcessExit;
             _effectPool.Dispose();
             _updateChecker.Dispose();
         }
     }
-}
+}

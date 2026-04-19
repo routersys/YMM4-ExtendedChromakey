@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+<data name="CurrentCulture" xml:space="preserve"><value>en-us</value></data>
+<data name="ExtendedChromaKey_Label" xml:space="preserve"><value>Extended Chroma Key</value></data>
+<data name="GroupName_BasicSettings" xml:space="preserve"><value>Basic Settings</value></data>
+<data name="GroupName_KeyingMode" xml:space="preserve"><value>Keying Mode</value></data>
+<data name="GroupName_KeyingAdjustment" xml:space="preserve"><value>Keying Adjustment</value></data>
+<data name="GroupName_Gradient" xml:space="preserve"><value>Gradient</value></data>
+<data name="GroupName_ColorReplacement" xml:space="preserve"><value>Color Replacement</value></data>
+<data name="GroupName_QualityOptimization" xml:space="preserve"><value>Quality Optimization</value></data>
+<data name="GroupName_ExceptionSettings" xml:space="preserve"><value>Exception Settings</value></data>
+<data name="GroupName_ColorCorrection" xml:space="preserve"><value>Color Correction</value></data>
+<data name="GroupName_Other" xml:space="preserve"><value>Other</value></data>
+<data name="GroupName_Debug" xml:space="preserve"><value>Debug</value></data>
+<data name="BaseColor_Name" xml:space="preserve"><value>Base Color</value></data>
+<data name="BaseColor_Desc" xml:space="preserve"><value>Specifies the base color for transparency.</value></data>
+<data name="EndColor_Name" xml:space="preserve"><value>End Color</value></data>
+<data name="EndColor_Desc" xml:space="preserve"><value>Specifies the end color of the gradient. The range between the base color and this color will be keyed.</value></data>
+<data name="MainKeyColor_Name" xml:space="preserve"><value>Main Key Color</value></data>
+<data name="MainKeyColor_Desc" xml:space="preserve"><value>Select the primary color to be keyed. Choose according to your background color.</value></data>
+<data name="Tolerance_Name" xml:space="preserve"><value>Tolerance</value></data>
+<data name="Tolerance_Desc" xml:space="preserve"><value>Tolerance range for the key color. 0% targets only the exact selected color.</value></data>
+<data name="LuminanceMix_Name" xml:space="preserve"><value>Luminance Mix</value></data>
+<data name="LuminanceMix_Desc" xml:space="preserve"><value>Adjusts how much luminance is used for keying. Higher values help separate bright areas from the background.</value></data>
+<data name="EdgeSoftness_Name" xml:space="preserve"><value>Edge Softness</value></data>
+<data name="EdgeSoftness_Desc" xml:space="preserve"><value>Adjusts the softness of the transparent boundary.</value></data>
+<data name="ClipBlack_Name" xml:space="preserve"><value>Clip Black</value></data>
+<data name="ClipBlack_Desc" xml:space="preserve"><value>Adjusts the black level of the matte. Useful for removing background noise.</value></data>
+<data name="ClipWhite_Name" xml:space="preserve"><value>Clip White</value></data>
+<data name="ClipWhite_Desc" xml:space="preserve"><value>Adjusts the white level of the matte. Helps keep the foreground (especially luminous parts) solid.</value></data>
+<data name="EdgeBlur_Name" xml:space="preserve"><value>Edge Blur</value></data>
+<data name="EdgeBlur_Desc" xml:space="preserve"><value>Blurs the edges of the matte to make them smoother. Good for fixing rough edges.</value></data>
+<data name="GradientStrength_Name" xml:space="preserve"><value>Gradient Strength</value></data>
+<data name="GradientStrength_Desc" xml:space="preserve"><value>Adjusts the strength of the gradient effect. 0% is base color only, 100% is a full gradient to the end color.</value></data>
+<data name="GradientAngle_Name" xml:space="preserve"><value>Gradient Angle</value></data>
+<data name="GradientAngle_Desc" xml:space="preserve"><value>Specifies the direction of the gradient in degrees.</value></data>
+<data name="ReplaceColor_Name" xml:space="preserve"><value>Replace Color</value></data>
+<data name="ReplaceColor_Desc" xml:space="preserve"><value>Specifies the color to replace the removed area.</value></data>
+<data name="ReplaceIntensity_Name" xml:space="preserve"><value>Replace Intensity</value></data>
+<data name="ReplaceIntensity_Desc" xml:space="preserve"><value>Intensity of filling the removed area with the replace color.</value></data>
+<data name="PreserveLuminance_Name" xml:space="preserve"><value>Preserve Luminance</value></data>
+<data name="PreserveLuminance_Desc" xml:space="preserve"><value>How much of the original luminance to preserve when replacing color.</value></data>
+<data name="ColorSpace_Name" xml:space="preserve"><value>Color Space (Custom)</value></data>
+<data name="ColorSpace_Desc" xml:space="preserve"><value>Selects the color space used to calculate color distance when the main key color is set to custom.</value></data>
+<data name="HueRange_Name" xml:space="preserve"><value>Hue Range</value></data>
+<data name="HueRange_Desc" xml:space="preserve"><value>Hue tolerance range when using HSV/LCH color spaces.</value></data>
+<data name="SaturationThreshold_Name" xml:space="preserve"><value>Saturation Threshold</value></data>
+<data name="SaturationThreshold_Desc" xml:space="preserve"><value>Colors with saturation below this value will be compared by brightness, ignoring saturation.</value></data>
+<data name="LuminanceRange_Name" xml:space="preserve"><value>Luminance Range</value></data>
+<data name="LuminanceRange_Desc" xml:space="preserve"><value>Luminance difference tolerance when using RGB/YUV color spaces.</value></data>
+<data name="SpillSuppression_Name" xml:space="preserve"><value>Spill Suppression</value></data>
+<data name="SpillSuppression_Desc" xml:space="preserve"><value>Removes background color casting (spill) on the subject.</value></data>
+<data name="EdgeBalance_Name" xml:space="preserve"><value>Edge Balance</value></data>
+<data name="EdgeBalance_Desc" xml:space="preserve"><value>Adjusts the boundary inwards/outwards. Positive moves inward, negative moves outward.</value></data>
+<data name="Despot_Name" xml:space="preserve"><value>Despot</value></data>
+<data name="Despot_Desc" xml:space="preserve"><value>Removes small noise (holes or specks) from the matte.</value></data>
+<data name="Erode_Name" xml:space="preserve"><value>Erode Edge</value></data>
+<data name="Erode_Desc" xml:space="preserve"><value>Expands or shrinks the matte boundaries. Useful for removing thin fringes on edges.</value></data>
+<data name="ExceptionColor1_Name" xml:space="preserve"><value>Exception Color 1</value></data>
+<data name="ExceptionColor1_Desc" xml:space="preserve"><value>Color to exclude from keying. If set to transparent, this function is disabled.</value></data>
+<data name="ExceptionColor2_Name" xml:space="preserve"><value>Exception Color 2</value></data>
+<data name="ExceptionColor2_Desc" xml:space="preserve"><value>gradient end color to exclude. Colors within this range will resist being keyed.</value></data>
+<data name="ExceptionTolerance_Name" xml:space="preserve"><value>Exception Tolerance</value></data>
+<data name="ExceptionTolerance_Desc" xml:space="preserve"><value>Tolerance range for exception colors. Higher values protect more colors.</value></data>
+<data name="ExceptionGradientStrength_Name" xml:space="preserve"><value>Gradient Strength</value></data>
+<data name="ExceptionGradientStrength_Desc" xml:space="preserve"><value>Strength of the exception color gradient effect.</value></data>
+<data name="ExceptionGradientAngle_Name" xml:space="preserve"><value>Gradient Angle</value></data>
+<data name="ExceptionGradientAngle_Desc" xml:space="preserve"><value>Direction of the exception color gradient.</value></data>
+<data name="EdgeDesaturation_Name" xml:space="preserve"><value>Edge Desaturation</value></data>
+<data name="EdgeDesaturation_Desc" xml:space="preserve"><value>Reduces edge color bleeding for more natural compositing.</value></data>
+<data name="KeyCleanup_Name" xml:space="preserve"><value>Key Cleanup</value></data>
+<data name="KeyCleanup_Desc" xml:space="preserve"><value>Adjusts the boundary of the keyed matte. Negative shrinks</value></data>
+<data name="EdgeDetection_Name" xml:space="preserve"><value>Edge Detection</value></data>
+<data name="EdgeDetection_Desc" xml:space="preserve"><value>Strength of preserving edge details. Higher makes edges sharper but may increase noise.</value></data>
+<data name="Denoise_Name" xml:space="preserve"><value>Denoise</value></data>
+<data name="Denoise_Desc" xml:space="preserve"><value>Removes fine noise from the matte.</value></data>
+<data name="Feathering_Name" xml:space="preserve"><value>Feathering</value></data>
+<data name="Feathering_Desc" xml:space="preserve"><value>Feathers matte edges to blend them into the background.</value></data>
+<data name="TranslucentDespill_Name" xml:space="preserve"><value>Translucent Despill</value></data>
+<data name="TranslucentDespill_Desc" xml:space="preserve"><value>Removes background spill in translucent areas like glass, smoke, or motion blur.</value></data>
+<data name="TransparencyQuality_Name" xml:space="preserve"><value>Transparency Quality</value></data>
+<data name="TransparencyQuality_Desc" xml:space="preserve"><value>Improves processing quality for highly transparent areas (like smoke).</value></data>
+<data name="AlphaBlendAdjustment_Name" xml:space="preserve"><value>Alpha Blend Fix</value></data>
+<data name="AlphaBlendAdjustment_Desc" xml:space="preserve"><value>Adjusts blending logic between foreground and background.</value></data>
+<data name="TargetResidualColor_Name" xml:space="preserve"><value>Target Residual Color</value></data>
+<data name="TargetResidualColor_Desc" xml:space="preserve"><value>Specifies the residual background color you want to correct.</value></data>
+<data name="CorrectedColor_Name" xml:space="preserve"><value>Corrected Color</value></data>
+<data name="CorrectedColor_Desc" xml:space="preserve"><value>Converts target residual color to this.</value></data>
+<data name="ResidualColorCorrection_Name" xml:space="preserve"><value>Residual Color Fix</value></data>
+<data name="ResidualColorCorrection_Desc" xml:space="preserve"><value>Converts remaining keyed background colors into another color.</value></data>
+<data name="CorrectionTolerance_Name" xml:space="preserve"><value>Correction Tolerance</value></data>
+<data name="CorrectionTolerance_Desc" xml:space="preserve"><value>Tolerance for color correction. Higher values affect more colors.</value></data>
+<data name="ForegroundBrightness_Name" xml:space="preserve"><value>Foreground Brightness</value></data>
+<data name="ForegroundBrightness_Desc" xml:space="preserve"><value>Adjusts brightness of the foreground (keyed element) after keying.</value></data>
+<data name="ForegroundContrast_Name" xml:space="preserve"><value>Foreground Contrast</value></data>
+<data name="ForegroundContrast_Desc" xml:space="preserve"><value>Adjusts contrast of the foreground after keying.</value></data>
+<data name="ForegroundSaturation_Name" xml:space="preserve"><value>Foreground Saturation</value></data>
+<data name="ForegroundSaturation_Desc" xml:space="preserve"><value>Adjusts saturation of the foreground after keying.</value></data>
+<data name="IsCompleteKey_Name" xml:space="preserve"><value>Complete Key</value></data>
+<data name="IsCompleteKey_Desc" xml:space="preserve"><value>Makes key fully transparent without retaining luminance. Disables despill.</value></data>
+<data name="IsInverted_Name" xml:space="preserve"><value>Invert</value></data>
+<data name="IsInverted_Desc" xml:space="preserve"><value>Inverts the transparent areas.</value></data>
+<data name="QualityPreset_Name" xml:space="preserve"><value>Quality Preset</value></data>
+<data name="QualityPreset_Desc" xml:space="preserve"><value>Select processing quality. Higher quality is more demanding on performance.</value></data>
+<data name="DebugMode_Name" xml:space="preserve"><value>Display Mode</value></data>
+<data name="DebugMode_Desc" xml:space="preserve"><value>Displays different effect processing stages for debugging.</value></data>
+<data name="AdvancedColorSpace_RGB" xml:space="preserve"><value>RGB (Standard)</value></data>
+<data name="AdvancedColorSpace_HSV" xml:space="preserve"><value>HSV (Hue-centric)</value></data>
+<data name="AdvancedColorSpace_Lab" xml:space="preserve"><value>CIE Lab (Perceptual)</value></data>
+<data name="AdvancedColorSpace_YUV" xml:space="preserve"><value>YUV (Broadcast Quality)</value></data>
+<data name="AdvancedColorSpace_XYZ" xml:space="preserve"><value>XYZ (CIE Standard)</value></data>
+<data name="AdvancedColorSpace_LCH" xml:space="preserve"><value>LCH (Perceptual Cylinder)</value></data>
+<data name="AdvancedColorSpace_CIEDE2000" xml:space="preserve"><value>CIEDE2000 (Highest Precision)</value></data>
+<data name="KeyColorType_Custom" xml:space="preserve"><value>Custom</value></data>
+<data name="KeyColorType_Green" xml:space="preserve"><value>Green</value></data>
+<data name="KeyColorType_Blue" xml:space="preserve"><value>Blue</value></data>
+<data name="KeyColorType_Red" xml:space="preserve"><value>Red</value></data>
+<data name="DebugViewMode_Result" xml:space="preserve"><value>Final Result</value></data>
+<data name="DebugViewMode_Matte" xml:space="preserve"><value>Matte Display</value></data>
+<data name="DebugViewMode_ColorDistance" xml:space="preserve"><value>Color Distance</value></data>
+<data name="DebugViewMode_SpillSuppressed" xml:space="preserve"><value>After Spill Suppression</value></data>
+<data name="DebugViewMode_ColorCorrected" xml:space="preserve"><value>After Color Correction</value></data>
+<data name="QualityPreset_Fast" xml:space="preserve"><value>Fast</value></data>
+<data name="QualityPreset_Balanced" xml:space="preserve"><value>Balanced</value></data>
+<data name="QualityPreset_HighQuality" xml:space="preserve"><value>High Quality</value></data>
+<data name="ValidationRule_Error_BaseColorTransparency" xml:space="preserve"><value>In custom mode</value></data>
+<data name="ValidationRule_Error_ClipBlackWhiteInverted" xml:space="preserve"><value>Clip Black value is greater than or equal to Clip White value. The mask will not be generated correctly.</value></data>
+<data name="ValidationRule_Warning_ToleranceExtremelyLow" xml:space="preserve"><value>Tolerance is extremely low, so the intended range may not be keyed.</value></data>
+<data name="ValidationRule_Warning_ToleranceExtremelyHigh" xml:space="preserve"><value>Tolerance is extremely high, so unintended parts of the foreground may be keyed.</value></data>
+<data name="ValidationRule_Warning_SoftnessWithoutTolerance" xml:space="preserve"><value>Edge Softness requires tolerance to be increased to function properly.</value></data>
+<data name="ValidationRule_Warning_HighLuminanceMix" xml:space="preserve"><value>If Luminance Mix is too high</value></data>
+<data name="ValidationRule_Warning_ClipAndSoftnessConflict" xml:space="preserve"><value>Both Clip settings and Edge Softness are set high. This may result in unintended hard edges.</value></data>
+<data name="ValidationRule_Info_GradientStrengthZero" xml:space="preserve"><value>Gradient Strength is 0%, so "End Color" and "Gradient Angle" have no effect.</value></data>
+<data name="ValidationRule_Info_SpillSuppressionWithCustom" xml:space="preserve"><value>Spill Suppression is most effective when the main key color is Green, Blue, or Red.</value></data>
+<data name="ValidationRule_Info_ReplaceIntensityZero" xml:space="preserve"><value>Replace Intensity is 0%, so "Replace Color" and "Preserve Luminance" have no effect.</value></data>
+<data name="ValidationRule_Info_ReplaceColorTransparent" xml:space="preserve"><value>Replace Color is transparent. This has the effect of reducing opacity of the removed area.</value></data>
+<data name="ValidationRule_Info_ColorSpaceForCustomOnly" xml:space="preserve"><value>Color Space changes are applied only when the main key color is set to "Custom".</value></data>
+<data name="ValidationRule_Info_HueRangeForSpecificSpaces" xml:space="preserve"><value>Hue Range is valid only when Color Space is "HSV" or "LCH".</value></data>
+<data name="ValidationRule_Info_SaturationThresholdForHsvOnly" xml:space="preserve"><value>Saturation Threshold is valid only when Color Space is HSV.</value></data>
+<data name="ValidationRule_Info_LuminanceRangeForSpecificSpaces" xml:space="preserve"><value>Luminance Range is valid only when Color Space is RGB or YUV.</value></data>
+<data name="ValidationRule_Info_CompleteKeyBypassesQuality" xml:space="preserve"><value>In Complete Key mode, Spill Suppression, Edge Desaturation, and Preserve Luminance are disabled.</value></data>
+<data name="ValidationRule_Warning_ExceptionColorTransparent" xml:space="preserve"><value>Exception Color is set to transparent, so "Exception Settings" will not function.</value></data>
+<data name="ValidationRule_Info_ExceptionGradientStrengthZero" xml:space="preserve"><value>Exception Gradient Strength is 0%, so "Exception Color 2 (End)" and "Gradient Angle" have no effect.</value></data>
+<data name="ValidationRule_Info_ResidualColorCorrectionZero" xml:space="preserve"><value>Residual Color Correction intensity is 0%, so "Target Residual Color" and "Corrected Color" have no effect.</value></data>
+<data name="ValidationRule_Warning_GradientStrengthHigh" xml:space="preserve"><value>If Gradient Strength is too high, unintended areas may be keyed. If issues occur with high-transparency areas like smoke, increase "Transparency Quality".</value></data>
+<data name="ValidationRule_Performance_HighQualitySettings" xml:space="preserve"><value>Heavy processing is combined in High Quality mode. This may impact performance.</value></data>
+<data name="UpdateChecker_NewVersionAvailable" xml:space="preserve"><value>New version v{0} is available. (Current: v{1})</value></data>
+</root>

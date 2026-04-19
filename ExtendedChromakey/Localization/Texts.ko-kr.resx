@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+<data name="CurrentCulture" xml:space="preserve"><value>ko-kr</value></data>
+<data name="ExtendedChromaKey_Label" xml:space="preserve"><value>확장 크로마키</value></data>
+<data name="GroupName_BasicSettings" xml:space="preserve"><value>기본 설정</value></data>
+<data name="GroupName_KeyingMode" xml:space="preserve"><value>키잉 모드</value></data>
+<data name="GroupName_KeyingAdjustment" xml:space="preserve"><value>키잉 조정</value></data>
+<data name="GroupName_Gradient" xml:space="preserve"><value>그라데이션</value></data>
+<data name="GroupName_ColorReplacement" xml:space="preserve"><value>색상 오버레이</value></data>
+<data name="GroupName_QualityOptimization" xml:space="preserve"><value>품질 최적화</value></data>
+<data name="GroupName_ExceptionSettings" xml:space="preserve"><value>예외 설정</value></data>
+<data name="GroupName_ColorCorrection" xml:space="preserve"><value>색상 보정</value></data>
+<data name="GroupName_Other" xml:space="preserve"><value>기타</value></data>
+<data name="GroupName_Debug" xml:space="preserve"><value>디버그</value></data>
+<data name="BaseColor_Name" xml:space="preserve"><value>기본 색상</value></data>
+<data name="BaseColor_Desc" xml:space="preserve"><value>투명하게 만들 기본 색상을 지정합니다.</value></data>
+<data name="EndColor_Name" xml:space="preserve"><value>끝 색상</value></data>
+<data name="EndColor_Desc" xml:space="preserve"><value>그라데이션의 끝 색상을 지정합니다. 기본 색상과 이 색상 사이가 크로마키 대상이 됩니다.</value></data>
+<data name="MainKeyColor_Name" xml:space="preserve"><value>주요 키잉 색상</value></data>
+<data name="MainKeyColor_Desc" xml:space="preserve"><value>키잉의 기준이 되는 주요 색상을 선택합니다. 배경색에 맞게 선택하세요.</value></data>
+<data name="Tolerance_Name" xml:space="preserve"><value>허용 오차</value></data>
+<data name="Tolerance_Desc" xml:space="preserve"><value>색상의 허용 범위입니다. 0%로 설정하면 선택한 색상만 대상이 됩니다.</value></data>
+<data name="LuminanceMix_Name" xml:space="preserve"><value>휘도 혼합</value></data>
+<data name="LuminanceMix_Desc" xml:space="preserve"><value>키잉 판정에 휘도를 얼마나 사용할지 조정합니다. 값을 올리면 밝은 부분이 배경에서 더 쉽게 분리됩니다.</value></data>
+<data name="EdgeSoftness_Name" xml:space="preserve"><value>가장자리 부드러움</value></data>
+<data name="EdgeSoftness_Desc" xml:space="preserve"><value>투명 경계의 부드러움을 조정합니다.</value></data>
+<data name="ClipBlack_Name" xml:space="preserve"><value>클립(블랙)</value></data>
+<data name="ClipBlack_Desc" xml:space="preserve"><value>마스크의 검은색 레벨을 조정합니다. 배경의 노이즈를 제거하는 데 효과적입니다.</value></data>
+<data name="ClipWhite_Name" xml:space="preserve"><value>클립(화이트)</value></data>
+<data name="ClipWhite_Desc" xml:space="preserve"><value>마스크의 흰색 레벨을 조정합니다. 전경(특히 발광 부분)을 뚜렷하게 남기는 데 효과적입니다.</value></data>
+<data name="EdgeBlur_Name" xml:space="preserve"><value>가장자리 흐림</value></data>
+<data name="EdgeBlur_Desc" xml:space="preserve"><value>마스크의 경계를 흐리게 하여 매끄럽게 만듭니다. 거친 가장자리 조정에 효과적입니다.</value></data>
+<data name="GradientStrength_Name" xml:space="preserve"><value>그라데이션 강도</value></data>
+<data name="GradientStrength_Desc" xml:space="preserve"><value>그라데이션 효과의 강도를 조정합니다. 0%는 기본 색상, 100%는 끝 색상까지의 완벽한 그라데이션입니다.</value></data>
+<data name="GradientAngle_Name" xml:space="preserve"><value>그라데이션 각도</value></data>
+<data name="GradientAngle_Desc" xml:space="preserve"><value>그라데이션의 방향을 각도로 지정합니다.</value></data>
+<data name="ReplaceColor_Name" xml:space="preserve"><value>대체 색상</value></data>
+<data name="ReplaceColor_Desc" xml:space="preserve"><value>제거된 영역을 대체할 색상을 지정합니다.</value></data>
+<data name="ReplaceIntensity_Name" xml:space="preserve"><value>대체 강도</value></data>
+<data name="ReplaceIntensity_Desc" xml:space="preserve"><value>제거된 영역을 대체 색상으로 채우는 강도입니다.</value></data>
+<data name="PreserveLuminance_Name" xml:space="preserve"><value>휘도 유지</value></data>
+<data name="PreserveLuminance_Desc" xml:space="preserve"><value>색상을 대체할 때 원래의 휘도를 얼마나 유지할지 결정합니다.</value></data>
+<data name="ColorSpace_Name" xml:space="preserve"><value>색 공간(사용자 지정)</value></data>
+<data name="ColorSpace_Desc" xml:space="preserve"><value>주요 키잉 색상이 사용자 지정일 때 색상 거리 계산에 사용할 색 공간을 선택합니다.</value></data>
+<data name="HueRange_Name" xml:space="preserve"><value>색조 범위</value></data>
+<data name="HueRange_Desc" xml:space="preserve"><value>HSV/LCH 색 공간을 사용할 때의 색조 허용 범위입니다.</value></data>
+<data name="SaturationThreshold_Name" xml:space="preserve"><value>채도 임계값</value></data>
+<data name="SaturationThreshold_Desc" xml:space="preserve"><value>이 값 이하의 채도를 가진 색상은 채도를 무시하고 명도로 비교됩니다.</value></data>
+<data name="LuminanceRange_Name" xml:space="preserve"><value>명도 범위</value></data>
+<data name="LuminanceRange_Desc" xml:space="preserve"><value>RGB/YUV 색 공간을 사용할 때의 명도 차이 허용 범위입니다.</value></data>
+<data name="SpillSuppression_Name" xml:space="preserve"><value>스필 제거</value></data>
+<data name="SpillSuppression_Desc" xml:space="preserve"><value>피사체에 전체적으로 반사된 배경색(스필)을 제거합니다.</value></data>
+<data name="EdgeBalance_Name" xml:space="preserve"><value>가장자리 균형</value></data>
+<data name="EdgeBalance_Desc" xml:space="preserve"><value>키잉 경계를 안팎으로 조절합니다. 양수는 안쪽, 음수는 바깥쪽입니다.</value></data>
+<data name="Despot_Name" xml:space="preserve"><value>디스팟(반점 제거)</value></data>
+<data name="Despot_Desc" xml:space="preserve"><value>마스크 내의 작은 노이즈(구멍이나 얼룩)를 제거합니다.</value></data>
+<data name="Erode_Name" xml:space="preserve"><value>가장자리 침식</value></data>
+<data name="Erode_Desc" xml:space="preserve"><value>마스크 경계를 확대/축소합니다. 얇은 프린지 제거에 유용합니다.</value></data>
+<data name="ExceptionColor1_Name" xml:space="preserve"><value>예외 색상 1 (기본)</value></data>
+<data name="ExceptionColor1_Desc" xml:space="preserve"><value>크로마키에서 제외할 기본 색상을 지정합니다. 투명인 경우 기능이 비활성화됩니다.</value></data>
+<data name="ExceptionColor2_Name" xml:space="preserve"><value>예외 색상 2 (끝)</value></data>
+<data name="ExceptionColor2_Desc" xml:space="preserve"><value>보호할 그라데이션의 끝 색상을 지정합니다. 이 범위의 색상은 잘 지워지지 않습니다.</value></data>
+<data name="ExceptionTolerance_Name" xml:space="preserve"><value>예외 허용 오차</value></data>
+<data name="ExceptionTolerance_Desc" xml:space="preserve"><value>예외 색상의 허용 범위입니다. 값을 높이면 더 넓은 범위가 보호됩니다.</value></data>
+<data name="ExceptionGradientStrength_Name" xml:space="preserve"><value>그라데이션 강도</value></data>
+<data name="ExceptionGradientStrength_Desc" xml:space="preserve"><value>예외 색상의 그라데이션 효과 강도입니다.</value></data>
+<data name="ExceptionGradientAngle_Name" xml:space="preserve"><value>그라데이션 각도</value></data>
+<data name="ExceptionGradientAngle_Desc" xml:space="preserve"><value>예외 색상의 그라데이션 방향입니다.</value></data>
+<data name="EdgeDesaturation_Name" xml:space="preserve"><value>가장자리 채도 감소</value></data>
+<data name="EdgeDesaturation_Desc" xml:space="preserve"><value>가장자리의 색 번짐을 줄여 자연스러운 합성을 도와줍니다.</value></data>
+<data name="KeyCleanup_Name" xml:space="preserve"><value>키 정리</value></data>
+<data name="KeyCleanup_Desc" xml:space="preserve"><value>調整去背遮罩邊界。負值縮小遮罩，正值擴大。</value></data>
+<data name="EdgeDetection_Name" xml:space="preserve"><value>가장자리 감지</value></data>
+<data name="EdgeDetection_Desc" xml:space="preserve"><value>윤곽 디테일 유지 강도입니다. 올리면 뚜렷해지지만 노이즈가 늘 수 있습니다.</value></data>
+<data name="Denoise_Name" xml:space="preserve"><value>노이즈 제거</value></data>
+<data name="Denoise_Desc" xml:space="preserve"><value>마스크에서 미세한 노이즈를 제거합니다.</value></data>
+<data name="Feathering_Name" xml:space="preserve"><value>페더링(테두리 흐림)</value></data>
+<data name="Feathering_Desc" xml:space="preserve"><value>마스크 테두리를 흐리게 하여 배경 속으로 자연스럽게 만듭니다.</value></data>
+<data name="TranslucentDespill_Name" xml:space="preserve"><value>반투명 디스필</value></data>
+<data name="TranslucentDespill_Desc" xml:space="preserve"><value>유리나 연기 등 반투명한 부분에 남는 배경색을 제거합니다.</value></data>
+<data name="TransparencyQuality_Name" xml:space="preserve"><value>투명도 품질</value></data>
+<data name="TransparencyQuality_Desc" xml:space="preserve"><value>투명도가 높은 부분의 처리 품질을 개선합니다.</value></data>
+<data name="AlphaBlendAdjustment_Name" xml:space="preserve"><value>알파 블렌드 조절</value></data>
+<data name="AlphaBlendAdjustment_Desc" xml:space="preserve"><value>전경과 배경의 혼합 처리를 조절합니다.</value></data>
+<data name="TargetResidualColor_Name" xml:space="preserve"><value>보정 대상 색상</value></data>
+<data name="TargetResidualColor_Desc" xml:space="preserve"><value>보정할 남아있는 배경색을 선택합니다.</value></data>
+<data name="CorrectedColor_Name" xml:space="preserve"><value>보정 결과 색상</value></data>
+<data name="CorrectedColor_Desc" xml:space="preserve"><value>잔존 색상을 이 색상으로 변환합니다.</value></data>
+<data name="ResidualColorCorrection_Name" xml:space="preserve"><value>잔존 색상 보정</value></data>
+<data name="ResidualColorCorrection_Desc" xml:space="preserve"><value>크로마키 후 남아있는 배경색을 다른 색으로 변환합니다.</value></data>
+<data name="CorrectionTolerance_Name" xml:space="preserve"><value>보정 허용 오차</value></data>
+<data name="CorrectionTolerance_Desc" xml:space="preserve"><value>색상 보정의 허용 범위. 클수록 넓은 범위가 보정됩니다.</value></data>
+<data name="ForegroundBrightness_Name" xml:space="preserve"><value>전경 밝기</value></data>
+<data name="ForegroundBrightness_Desc" xml:space="preserve"><value>크로마키 처리된 전경의 밝기를 조절합니다.</value></data>
+<data name="ForegroundContrast_Name" xml:space="preserve"><value>전경 대비</value></data>
+<data name="ForegroundContrast_Desc" xml:space="preserve"><value>크로마키 처리된 전경의 대비를 조절합니다.</value></data>
+<data name="ForegroundSaturation_Name" xml:space="preserve"><value>전경 채도</value></data>
+<data name="ForegroundSaturation_Desc" xml:space="preserve"><value>크로마키 처리된 전경의 채도를 조절합니다.</value></data>
+<data name="IsCompleteKey_Name" xml:space="preserve"><value>완전 크로마키</value></data>
+<data name="IsCompleteKey_Desc" xml:space="preserve"><value>켜면 휘도를 유지하지 않고 완전히 투명하게 만듭니다. 스필 제거 등도 비활성화됩니다.</value></data>
+<data name="IsInverted_Name" xml:space="preserve"><value>반전</value></data>
+<data name="IsInverted_Desc" xml:space="preserve"><value>투명한 범위를 반전합니다.</value></data>
+<data name="QualityPreset_Name" xml:space="preserve"><value>품질 프리셋</value></data>
+<data name="QualityPreset_Desc" xml:space="preserve"><value>처리 품질을 설정합니다. 고품질일수록 처리가 무거워집니다.</value></data>
+<data name="DebugMode_Name" xml:space="preserve"><value>표시 모드</value></data>
+<data name="DebugMode_Desc" xml:space="preserve"><value>디버그를 위해 이펙트의 각 처리 단계를 표시합니다.</value></data>
+<data name="AdvancedColorSpace_RGB" xml:space="preserve"><value>RGB (표준)</value></data>
+<data name="AdvancedColorSpace_HSV" xml:space="preserve"><value>HSV (색조 중심)</value></data>
+<data name="AdvancedColorSpace_Lab" xml:space="preserve"><value>CIE Lab (지각적)</value></data>
+<data name="AdvancedColorSpace_YUV" xml:space="preserve"><value>YUV (방송 품질)</value></data>
+<data name="AdvancedColorSpace_XYZ" xml:space="preserve"><value>XYZ (CIE 표준)</value></data>
+<data name="AdvancedColorSpace_LCH" xml:space="preserve"><value>LCH (지각적 원통형)</value></data>
+<data name="AdvancedColorSpace_CIEDE2000" xml:space="preserve"><value>CIEDE2000 (최고 정밀도)</value></data>
+<data name="KeyColorType_Custom" xml:space="preserve"><value>사용자 지정</value></data>
+<data name="KeyColorType_Green" xml:space="preserve"><value>녹색</value></data>
+<data name="KeyColorType_Blue" xml:space="preserve"><value>파란색</value></data>
+<data name="KeyColorType_Red" xml:space="preserve"><value>빨간색</value></data>
+<data name="DebugViewMode_Result" xml:space="preserve"><value>최종 결과</value></data>
+<data name="DebugViewMode_Matte" xml:space="preserve"><value>마스크 표시</value></data>
+<data name="DebugViewMode_ColorDistance" xml:space="preserve"><value>색 거리</value></data>
+<data name="DebugViewMode_SpillSuppressed" xml:space="preserve"><value>스필 제거 후</value></data>
+<data name="DebugViewMode_ColorCorrected" xml:space="preserve"><value>색상 보정 후</value></data>
+<data name="QualityPreset_Fast" xml:space="preserve"><value>빠름</value></data>
+<data name="QualityPreset_Balanced" xml:space="preserve"><value>균형</value></data>
+<data name="QualityPreset_HighQuality" xml:space="preserve"><value>고품질</value></data>
+<data name="ValidationRule_Error_BaseColorTransparency" xml:space="preserve"><value>在自訂模式下，請將基本色設置為不透明。完全透明的色彩無法進行去背處理。</value></data>
+<data name="ValidationRule_Error_ClipBlackWhiteInverted" xml:space="preserve"><value>클립(검은색)의 값이 클립(흰색) 이상입니다. 마스크가 올바르게 생성되지 않습니다.</value></data>
+<data name="ValidationRule_Warning_ToleranceExtremelyLow" xml:space="preserve"><value>허용 오차가 극도로 낮아서 의도한 범위가 키잉되지 않을 수 있습니다.</value></data>
+<data name="ValidationRule_Warning_ToleranceExtremelyHigh" xml:space="preserve"><value>허용 오차가 극도로 높아서 전경의 원치 않은 부분이 키잉될 수 있습니다.</value></data>
+<data name="ValidationRule_Warning_SoftnessWithoutTolerance" xml:space="preserve"><value>가장자리 부드러움 기능이 작동하려면 허용 오차를 약간 높여야 합니다.</value></data>
+<data name="ValidationRule_Warning_HighLuminanceMix" xml:space="preserve"><value>亮度混合過高會導致色彩資訊被忽略，僅使用亮度進行去背。</value></data>
+<data name="ValidationRule_Warning_ClipAndSoftnessConflict" xml:space="preserve"><value>클립 설정과 가장자리 부드러움이 모두 높게 설정되어 있습니다. 예상치 못한 경계가 생길 수 있습니다.</value></data>
+<data name="ValidationRule_Info_GradientStrengthZero" xml:space="preserve"><value>그라데이션 강도가 0%이므로 "끝 색상"과 "그라데이션 각도"는 효과가 없습니다.</value></data>
+<data name="ValidationRule_Info_SpillSuppressionWithCustom" xml:space="preserve"><value>스필 제거는 주요 키잉 색상이 녹색, 파란색 또는 빨간색일 때 가장 효과적입니다.</value></data>
+<data name="ValidationRule_Info_ReplaceIntensityZero" xml:space="preserve"><value>교체 강도가 0%이므로 "교체 색상"과 "휘도 보존"은 효과가 없습니다.</value></data>
+<data name="ValidationRule_Info_ReplaceColorTransparent" xml:space="preserve"><value>교체 색상이 투명합니다. 이는 제거된 영역의 불투명도를 감소시킵니다.</value></data>
+<data name="ValidationRule_Info_ColorSpaceForCustomOnly" xml:space="preserve"><value>색상 공간 변경은 주요 키잉 색상이 "사용자 정의"로 설정된 경우에만 적용됩니다.</value></data>
+<data name="ValidationRule_Info_HueRangeForSpecificSpaces" xml:space="preserve"><value>색상 범위는 색상 공간이 "HSV" 또는 "LCH"인 경우에만 유효합니다.</value></data>
+<data name="ValidationRule_Info_SaturationThresholdForHsvOnly" xml:space="preserve"><value>포화도 임계값은 색상 공간이 HSV인 경우에만 유효합니다.</value></data>
+<data name="ValidationRule_Info_LuminanceRangeForSpecificSpaces" xml:space="preserve"><value>휘도 범위는 색상 공간이 RGB 또는 YUV인 경우에만 유효합니다.</value></data>
+<data name="ValidationRule_Info_CompleteKeyBypassesQuality" xml:space="preserve"><value>완전 키잉 모드에서는 스필 제거, 에지 채도 제거 및 휘도 보존이 비활성화됩니다.</value></data>
+<data name="ValidationRule_Warning_ExceptionColorTransparent" xml:space="preserve"><value>예외 색상이 투명하게 설정되어 있으므로 "예외 설정"이 작동하지 않습니다.</value></data>
+<data name="ValidationRule_Info_ExceptionGradientStrengthZero" xml:space="preserve"><value>예외 그라데이션 강도가 0%이므로 "예외 색상 2 (끝)" 및 "그라데이션 각도"는 효과가 없습니다.</value></data>
+<data name="ValidationRule_Info_ResidualColorCorrectionZero" xml:space="preserve"><value>잔존 색상 보정 강도가 0%이므로 "대상 잔존 색상" 및 "보정된 색상"은 효과가 없습니다.</value></data>
+<data name="ValidationRule_Warning_GradientStrengthHigh" xml:space="preserve"><value>그라데이션 강도가 너무 높으면 의도하지 않은 영역이 키잉될 수 있습니다. 연기 등 높은 투명도 영역에서 문제가 발생하면 "투명도 품질"을 높이세요.</value></data>
+<data name="ValidationRule_Performance_HighQualitySettings" xml:space="preserve"><value>고품질 모드에서 무거운 처리가 결합되어 있습니다. 이는 성능에 영향을 미칠 수 있습니다.</value></data>
+<data name="UpdateChecker_NewVersionAvailable" xml:space="preserve"><value>새로운 버전 v{0}을(를) 사용할 수 있습니다. (현재: v{1})</value></data>
+</root>

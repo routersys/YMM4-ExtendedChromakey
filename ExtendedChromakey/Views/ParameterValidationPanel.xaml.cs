@@ -13,7 +13,6 @@ namespace ExtendedChromaKey.Views
     public partial class ParameterValidationPanel : UserControl, IPropertyEditorControl
     {
         private readonly ValidationPanelViewModel _viewModel = new();
-        private readonly DispatcherTimer _debounceTimer;
         private readonly DispatcherTimer _scrollDelayTimer;
         private Storyboard? _scrollStoryboard;
 
@@ -36,9 +35,7 @@ namespace ExtendedChromaKey.Views
         public ParameterValidationPanel()
         {
             InitializeComponent();
-
-            _debounceTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(250), IsEnabled = false };
-            _debounceTimer.Tick += OnDebounceTimerTick;
+            DataContext = _viewModel;
 
             _scrollDelayTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1), IsEnabled = false };
             _scrollDelayTimer.Tick += OnScrollDelayTimerTick;
@@ -68,86 +65,35 @@ namespace ExtendedChromaKey.Views
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
         {
-            StopAllTimersAndAnimations();
+            StopScrollAnimation();
             _viewModel.DetachEffect();
         }
 
         private static void OnEffectChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is not ParameterValidationPanel panel) return;
-
             panel._viewModel.AttachEffect(e.NewValue as ExtendedChromaKeyEffect);
-
-            if (e.NewValue is null)
-                panel.SyncViewHidden();
-            else
+            if (e.NewValue is not null)
                 panel._viewModel.Evaluate();
         }
 
         private void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName is nameof(ValidationPanelViewModel.HasMessages)
-                or nameof(ValidationPanelViewModel.DisplayLevel)
-                or nameof(ValidationPanelViewModel.PrimaryMessage)
-                or nameof(ValidationPanelViewModel.AdditionalCount)
-                or nameof(ValidationPanelViewModel.HasAdditional))
-            {
-                _debounceTimer.Stop();
-                _debounceTimer.Start();
-            }
-        }
+            if (e.PropertyName != nameof(ValidationPanelViewModel.PrimaryMessage)) return;
 
-        private void OnDebounceTimerTick(object? sender, EventArgs e)
-        {
-            _debounceTimer.Stop();
-            SyncViewToViewModel();
+            _scrollDelayTimer.Stop();
+            _scrollStoryboard?.Stop();
+            _scrollStoryboard = null;
+            Canvas.SetLeft(MessageText, 0);
+
+            if (_viewModel.HasMessages)
+                _scrollDelayTimer.Start();
         }
 
         private void OnScrollDelayTimerTick(object? sender, EventArgs e)
         {
             _scrollDelayTimer.Stop();
             StartTextScrolling();
-        }
-
-        private void SyncViewToViewModel()
-        {
-            if (!_viewModel.HasMessages)
-            {
-                SyncViewHidden();
-                return;
-            }
-
-            MainValidationPanel.Tag = _viewModel.DisplayLevel;
-            MessageText.Text = _viewModel.PrimaryMessage;
-
-            if (_viewModel.HasAdditional)
-            {
-                CountText.Text = $"+{_viewModel.AdditionalCount}";
-                CountBadge.Visibility = Visibility.Visible;
-                MainValidationPanel.ToolTip = new ToolTip { Content = _viewModel.TooltipText };
-            }
-            else
-            {
-                CountBadge.Visibility = Visibility.Collapsed;
-                MainValidationPanel.ToolTip = new ToolTip { Content = _viewModel.PrimaryMessage };
-            }
-
-            _scrollDelayTimer.Stop();
-            _scrollDelayTimer.Start();
-        }
-
-        private void SyncViewHidden()
-        {
-            StopAllTimersAndAnimations();
-            MainValidationPanel.Tag = null;
-        }
-
-        private void StopAllTimersAndAnimations()
-        {
-            _debounceTimer.Stop();
-            _scrollDelayTimer.Stop();
-            _scrollStoryboard?.Stop();
-            _scrollStoryboard = null;
         }
 
         private void StartTextScrolling()
@@ -175,6 +121,13 @@ namespace ExtendedChromaKey.Views
             Storyboard.SetTarget(animation, MessageText);
             Storyboard.SetTargetProperty(animation, new PropertyPath("(Canvas.Left)"));
             _scrollStoryboard.Begin();
+        }
+
+        private void StopScrollAnimation()
+        {
+            _scrollDelayTimer.Stop();
+            _scrollStoryboard?.Stop();
+            _scrollStoryboard = null;
         }
     }
 }

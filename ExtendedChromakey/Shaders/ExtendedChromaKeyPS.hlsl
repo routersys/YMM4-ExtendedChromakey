@@ -77,499 +77,684 @@ cbuffer Constants : register(b0)
 };
 
 static const float PI = 3.14159265358979323846;
+static const float EPSILON = 1e-10;
+static const float MIN_VALID_ALPHA = 0.0001;
 static const float3 LUM_COEFF = float3(0.2126, 0.7152, 0.0722);
+
+float safe_divide(float a, float b)
+{
+    return abs(b) > EPSILON ? (a / b) : 0.0;
+}
+
+float safe_sqrt(float x)
+{
+    return sqrt(max(x, 0.0));
+}
+
+float safe_atan2(float y, float x)
+{
+    if (abs(x) < EPSILON && abs(y) < EPSILON)
+        return 0.0;
+    return atan2(y, x);
+}
+
+float hue_difference(float h1, float h2)
+{
+    float diff = abs(h1 - h2);
+    return min(diff, 360.0 - diff);
+}
 
 float3 RGBtoHSV(float3 c)
 {
-    float4 K = float4(0.0, -1.0/3.0, 2.0/3.0, -1.0);
-    float4 p = lerp(float4(c.bg, K.wz), float4(c.gb, K.xy), step(c.b, c.g));
-    float4 q = lerp(float4(p.xyw, c.r), float4(c.r, p.yzx), step(p.x, c.r));
-    float d = q.x - min(q.w, q.y);
-    float e = 1.0e-10;
-    return float3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
+    c = saturate(c);
+    float maxComp = max(max(c.r, c.g), c.b);
+    float minComp = min(min(c.r, c.g), c.b);
+    float delta = maxComp - minComp;
+    float3 hsv = float3(0.0, 0.0, maxComp);
+    if (maxComp > EPSILON)
+    {
+        hsv.y = safe_divide(delta, maxComp);
+        if (delta > EPSILON)
+        {
+            if (abs(maxComp - c.r) < EPSILON)
+                hsv.x = safe_divide(c.g - c.b, delta);
+            else if (abs(maxComp - c.g) < EPSILON)
+                hsv.x = 2.0 + safe_divide(c.b - c.r, delta);
+            else
+                hsv.x = 4.0 + safe_divide(c.r - c.g, delta);
+            hsv.x = frac(hsv.x / 6.0 + 1.0);
+        }
+    }
+    return hsv;
 }
 
-float3 RGBtoLab(float3 rgb)
+float3 sRGBToLinear(float3 c)
 {
-    float3 xyz;
-    float3 lin = float3(
-        (rgb.r > 0.04045) ? pow((rgb.r + 0.055) / 1.055, 2.4) : rgb.r / 12.92,
-        (rgb.g > 0.04045) ? pow((rgb.g + 0.055) / 1.055, 2.4) : rgb.g / 12.92,
-        (rgb.b > 0.04045) ? pow((rgb.b + 0.055) / 1.055, 2.4) : rgb.b / 12.92);
-    xyz.x = lin.r * 0.4124564 + lin.g * 0.3575761 + lin.b * 0.1804375;
-    xyz.y = lin.r * 0.2126729 + lin.g * 0.7151522 + lin.b * 0.0721750;
-    xyz.z = lin.r * 0.0193339 + lin.g * 0.1191920 + lin.b * 0.9503041;
-    xyz /= float3(0.95047, 1.0, 1.08883);
-    float3 f = float3(
-        (xyz.x > 0.008856) ? pow(xyz.x, 1.0/3.0) : (7.787 * xyz.x + 16.0/116.0),
-        (xyz.y > 0.008856) ? pow(xyz.y, 1.0/3.0) : (7.787 * xyz.y + 16.0/116.0),
-        (xyz.z > 0.008856) ? pow(xyz.z, 1.0/3.0) : (7.787 * xyz.z + 16.0/116.0));
-    return float3(116.0 * f.y - 16.0, 500.0 * (f.x - f.y), 200.0 * (f.y - f.z));
-}
-
-float3 RGBtoYUV(float3 rgb)
-{
+    c = saturate(c);
     return float3(
-        0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b,
-        -0.14713 * rgb.r - 0.28886 * rgb.g + 0.436 * rgb.b,
-        0.615 * rgb.r - 0.51499 * rgb.g - 0.10001 * rgb.b);
+        (c.r > 0.04045) ? pow(max((c.r + 0.055) / 1.055, EPSILON), 2.4) : c.r / 12.92,
+        (c.g > 0.04045) ? pow(max((c.g + 0.055) / 1.055, EPSILON), 2.4) : c.g / 12.92,
+        (c.b > 0.04045) ? pow(max((c.b + 0.055) / 1.055, EPSILON), 2.4) : c.b / 12.92);
 }
 
 float3 RGBtoXYZ(float3 rgb)
 {
-    float3 lin = float3(
-        (rgb.r > 0.04045) ? pow((rgb.r + 0.055) / 1.055, 2.4) : rgb.r / 12.92,
-        (rgb.g > 0.04045) ? pow((rgb.g + 0.055) / 1.055, 2.4) : rgb.g / 12.92,
-        (rgb.b > 0.04045) ? pow((rgb.b + 0.055) / 1.055, 2.4) : rgb.b / 12.92);
+    float3 lin = sRGBToLinear(rgb);
     return float3(
         lin.r * 0.4124564 + lin.g * 0.3575761 + lin.b * 0.1804375,
         lin.r * 0.2126729 + lin.g * 0.7151522 + lin.b * 0.0721750,
         lin.r * 0.0193339 + lin.g * 0.1191920 + lin.b * 0.9503041);
 }
 
+float labf(float t)
+{
+    float delta = 6.0 / 29.0;
+    return (t > delta * delta * delta) ? pow(max(t, EPSILON), 1.0 / 3.0) : t / (3.0 * delta * delta) + 4.0 / 29.0;
+}
+
+float3 RGBtoLab(float3 rgb)
+{
+    float3 xyz = RGBtoXYZ(rgb);
+    xyz /= float3(0.95047, 1.0, 1.08883);
+    return float3(
+        116.0 * labf(xyz.y) - 16.0,
+        500.0 * (labf(xyz.x) - labf(xyz.y)),
+        200.0 * (labf(xyz.y) - labf(xyz.z)));
+}
+
+float3 RGBtoYUV(float3 rgb)
+{
+    rgb = saturate(rgb);
+    return float3(
+        0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b,
+        -0.14713 * rgb.r - 0.28886 * rgb.g + 0.436 * rgb.b,
+        0.615 * rgb.r - 0.51499 * rgb.g - 0.10001 * rgb.b);
+}
+
 float3 RGBtoLCH(float3 rgb)
 {
     float3 lab = RGBtoLab(rgb);
-    float C = sqrt(lab.y * lab.y + lab.z * lab.z);
-    float H = atan2(lab.z, lab.y);
+    float C = safe_sqrt(lab.y * lab.y + lab.z * lab.z);
+    float H = fmod(safe_atan2(lab.z, lab.y) * (180.0 / PI) + 360.0, 360.0);
     return float3(lab.x, C, H);
 }
 
 float CalculateColorDistance(float3 srcColor, float3 keyColor, int colorSpaceType,
     float hueRangeParam, float satThresholdParam, float lumRangeParam, float lumMixParam)
 {
-    float dist = 0;
+    srcColor = saturate(srcColor);
+    keyColor = saturate(keyColor);
 
     if (colorSpaceType == 0)
     {
         float chromaDist = length(srcColor - keyColor);
         float lumDist = abs(dot(srcColor, LUM_COEFF) - dot(keyColor, LUM_COEFF));
-        dist = lerp(chromaDist, lumDist, lumMixParam);
-        if (lumRangeParam > 0)
+        float dist = lerp(chromaDist, lumDist, lumMixParam);
+        if (lumRangeParam > 0.0)
         {
             float lumDiff = abs(dot(srcColor, LUM_COEFF) - dot(keyColor, LUM_COEFF));
-            if (lumDiff > lumRangeParam) dist += lumDiff - lumRangeParam;
+            if (lumDiff > lumRangeParam)
+                dist += lumDiff - lumRangeParam;
         }
+        return dist;
     }
-    else if (colorSpaceType == 1)
+    if (colorSpaceType == 1)
     {
         float3 srcHSV = RGBtoHSV(srcColor);
         float3 keyHSV = RGBtoHSV(keyColor);
-        float hueDiff = abs(srcHSV.x - keyHSV.x);
-        if (hueDiff > 0.5) hueDiff = 1.0 - hueDiff;
-        float satDiff = abs(srcHSV.y - keyHSV.y);
-        float valDiff = abs(srcHSV.z - keyHSV.z);
-        dist = hueDiff * 2.0 + satDiff * 0.5 + valDiff * lumMixParam;
-        if (hueRangeParam > 0 && hueDiff * 360.0 > hueRangeParam) dist += (hueDiff * 360.0 - hueRangeParam) / 360.0;
-        if (satThresholdParam > 0 && srcHSV.y < satThresholdParam) dist *= 0.3;
+        if (srcHSV.y < satThresholdParam && keyHSV.y < satThresholdParam)
+            return safe_divide(abs(srcHSV.z - keyHSV.z), max(lumRangeParam, EPSILON));
+        if (srcHSV.y < satThresholdParam || keyHSV.y < satThresholdParam)
+        {
+            float lD = abs(srcHSV.z - keyHSV.z);
+            float sD = abs(srcHSV.y - keyHSV.y);
+            return safe_sqrt(lD * lD + sD * sD * 0.5);
+        }
+        float hueDiff = hue_difference(srcHSV.x * 360.0, keyHSV.x * 360.0) / 360.0;
+        if (hueRangeParam > 0.0 && hueDiff > hueRangeParam)
+            return 1.0;
+        float satD = abs(srcHSV.y - keyHSV.y);
+        float valD = abs(srcHSV.z - keyHSV.z);
+        return safe_sqrt(hueDiff * hueDiff * 4.0 + satD * satD + valD * valD) / safe_sqrt(6.0);
     }
-    else if (colorSpaceType == 2)
+    if (colorSpaceType == 2)
     {
-        float3 srcLab = RGBtoLab(srcColor);
-        float3 keyLab = RGBtoLab(keyColor);
-        float3 diff = srcLab - keyLab;
-        dist = sqrt(diff.x * diff.x + diff.y * diff.y + diff.z * diff.z) / 100.0;
+        float3 diff = RGBtoLab(srcColor) - RGBtoLab(keyColor);
+        return safe_sqrt(diff.x * diff.x + diff.y * diff.y + diff.z * diff.z) / 100.0;
     }
-    else if (colorSpaceType == 3)
+    if (colorSpaceType == 3)
     {
         float3 srcYUV = RGBtoYUV(srcColor);
         float3 keyYUV = RGBtoYUV(keyColor);
-        float chromaDist = length(srcYUV.yz - keyYUV.yz);
-        float lumDist = abs(srcYUV.x - keyYUV.x);
-        dist = lerp(chromaDist, lumDist, lumMixParam);
-        if (lumRangeParam > 0 && lumDist > lumRangeParam) dist += lumDist - lumRangeParam;
+        if (lumRangeParam > 0.0 && abs(srcYUV.x - keyYUV.x) > lumRangeParam)
+            return 1.0;
+        return length(srcYUV - keyYUV);
     }
-    else if (colorSpaceType == 4)
-    {
-        float3 srcXYZ = RGBtoXYZ(srcColor);
-        float3 keyXYZ = RGBtoXYZ(keyColor);
-        dist = length(srcXYZ - keyXYZ);
-    }
-    else if (colorSpaceType == 5)
+    if (colorSpaceType == 4)
+        return length(RGBtoXYZ(srcColor) - RGBtoXYZ(keyColor));
+    if (colorSpaceType == 5)
     {
         float3 srcLCH = RGBtoLCH(srcColor);
         float3 keyLCH = RGBtoLCH(keyColor);
         float dL = srcLCH.x - keyLCH.x;
         float dC = srcLCH.y - keyLCH.y;
-        float dH = srcLCH.z - keyLCH.z;
-        if (dH > PI) dH -= 2.0 * PI;
-        if (dH < -PI) dH += 2.0 * PI;
-        float dHChroma = 2.0 * sqrt(srcLCH.y * keyLCH.y) * sin(dH / 2.0);
-        dist = sqrt(dL * dL + dC * dC + dHChroma * dHChroma) / 100.0;
-        if (hueRangeParam > 0 && abs(dH) * 180.0 / PI > hueRangeParam) dist += (abs(dH) * 180.0 / PI - hueRangeParam) / 360.0;
+        float dH = hue_difference(srcLCH.z, keyLCH.z);
+        if (hueRangeParam > 0.0 && dH > hueRangeParam * 360.0)
+            return 1.0;
+        return safe_sqrt(dL * dL + dC * dC + (dH * 0.5) * (dH * 0.5)) / 100.0;
     }
-    else
     {
         float3 srcLab = RGBtoLab(srcColor);
         float3 keyLab = RGBtoLab(keyColor);
-        float C1 = sqrt(srcLab.y * srcLab.y + srcLab.z * srcLab.z);
-        float C2 = sqrt(keyLab.y * keyLab.y + keyLab.z * keyLab.z);
+        float C1 = safe_sqrt(srcLab.y * srcLab.y + srcLab.z * srcLab.z);
+        float C2 = safe_sqrt(keyLab.y * keyLab.y + keyLab.z * keyLab.z);
         float Cab = (C1 + C2) / 2.0;
-        float Cab7 = pow(Cab, 7.0);
-        float G = 0.5 * (1.0 - sqrt(Cab7 / (Cab7 + pow(25.0, 7.0))));
+        float Cab7 = pow(max(Cab, EPSILON), 7.0);
+        float G = 0.5 * (1.0 - safe_sqrt(Cab7 / (Cab7 + pow(25.0, 7.0))));
         float a1p = srcLab.y * (1.0 + G);
         float a2p = keyLab.y * (1.0 + G);
-        float C1p = sqrt(a1p * a1p + srcLab.z * srcLab.z);
-        float C2p = sqrt(a2p * a2p + keyLab.z * keyLab.z);
-        float h1p = atan2(srcLab.z, a1p);
-        float h2p = atan2(keyLab.z, a2p);
-        if (h1p < 0) h1p += 2.0 * PI;
-        if (h2p < 0) h2p += 2.0 * PI;
+        float C1p = safe_sqrt(a1p * a1p + srcLab.z * srcLab.z);
+        float C2p = safe_sqrt(a2p * a2p + keyLab.z * keyLab.z);
+        float h1p = safe_atan2(srcLab.z, a1p);
+        float h2p = safe_atan2(keyLab.z, a2p);
+        if (h1p < 0.0)
+            h1p += 2.0 * PI;
+        if (h2p < 0.0)
+            h2p += 2.0 * PI;
+        float h1d = h1p * (180.0 / PI);
+        float h2d = h2p * (180.0 / PI);
         float dLp = keyLab.x - srcLab.x;
         float dCp = C2p - C1p;
         float dhp = h2p - h1p;
-        if (dhp > PI) dhp -= 2.0 * PI;
-        if (dhp < -PI) dhp += 2.0 * PI;
-        float dHp = 2.0 * sqrt(C1p * C2p) * sin(dhp / 2.0);
+        if (dhp > PI)
+            dhp -= 2.0 * PI;
+        if (dhp < -PI)
+            dhp += 2.0 * PI;
+        float dHp = 2.0 * safe_sqrt(C1p * C2p) * sin(dhp / 2.0);
         float Lbp = (srcLab.x + keyLab.x) / 2.0;
         float Cbp = (C1p + C2p) / 2.0;
-        float hbp = (abs(h1p - h2p) <= PI) ? (h1p + h2p) / 2.0 : (h1p + h2p + 2.0 * PI) / 2.0;
-        float T = 1.0 - 0.17 * cos(hbp - PI/6.0) + 0.24 * cos(2.0*hbp) + 0.32 * cos(3.0*hbp + PI/30.0) - 0.20 * cos(4.0*hbp - 63.0*PI/180.0);
+        float hDiff = abs(h1d - h2d);
+        float hSum = h1d + h2d;
+        float hbpd;
+        if (C1p * C2p < EPSILON)
+            hbpd = 0.0;
+        else if (hDiff <= 180.0)
+            hbpd = hSum / 2.0;
+        else
+            hbpd = (hSum < 360.0) ? (hSum + 360.0) / 2.0 : (hSum - 360.0) / 2.0;
+        float hbp = hbpd * (PI / 180.0);
+        float T = 1.0 - 0.17 * cos(hbp - PI / 6.0) + 0.24 * cos(2.0 * hbp)
+                + 0.32 * cos(3.0 * hbp + PI / 30.0) - 0.20 * cos(4.0 * hbp - 63.0 * PI / 180.0);
         float Lbpm50sq = (Lbp - 50.0) * (Lbp - 50.0);
-        float SL = 1.0 + 0.015 * Lbpm50sq / sqrt(20.0 + Lbpm50sq);
+        float SL = 1.0 + 0.015 * Lbpm50sq / safe_sqrt(20.0 + Lbpm50sq);
         float SC = 1.0 + 0.045 * Cbp;
         float SH = 1.0 + 0.015 * Cbp * T;
-        float Cbp7 = pow(Cbp, 7.0);
-        float RT = -2.0 * sqrt(Cbp7 / (Cbp7 + pow(25.0, 7.0))) * sin(PI/3.0 * exp(-((hbp - 275.0*PI/180.0)/(25.0*PI/180.0)) * ((hbp - 275.0*PI/180.0)/(25.0*PI/180.0))));
-        dist = sqrt(pow(dLp/SL, 2.0) + pow(dCp/SC, 2.0) + pow(dHp/SH, 2.0) + RT * (dCp/SC) * (dHp/SH)) / 100.0;
+        float Cbp7 = pow(max(Cbp, EPSILON), 7.0);
+        float dTheta = 30.0 * exp(-((hbpd - 275.0) / 25.0) * ((hbpd - 275.0) / 25.0));
+        float RT = -2.0 * safe_sqrt(Cbp7 / (Cbp7 + pow(25.0, 7.0))) * sin(dTheta * (PI / 180.0));
+        return safe_sqrt(
+            pow(safe_divide(dLp, SL), 2.0) +
+            pow(safe_divide(dCp, SC), 2.0) +
+            pow(safe_divide(dHp, SH), 2.0) +
+            RT * safe_divide(dCp, SC) * safe_divide(dHp, SH)) / 100.0;
     }
-
-    return dist;
 }
 
-float3 GetKeyColorForPreset(int preset)
+float CalculatePresetDistance(float3 color, int preset, float lumMixParam)
 {
-    if (preset == 1) return float3(0, 1, 0);
-    if (preset == 2) return float3(0, 0, 1);
-    if (preset == 3) return float3(1, 0, 0);
-    return float3(0, 1, 0);
+    float key_primary, other_max;
+    if (preset == 1)
+    {
+        key_primary = color.g;
+        other_max = max(color.r, color.b);
+    }
+    else if (preset == 2)
+    {
+        key_primary = color.b;
+        other_max = max(color.r, color.g);
+    }
+    else
+    {
+        key_primary = color.r;
+        other_max = max(color.g, color.b);
+    }
+    float matte = saturate(key_primary - other_max);
+    if (lumMixParam > EPSILON)
+        matte *= lerp(1.0, 1.0 - dot(saturate(color), LUM_COEFF), saturate(lumMixParam));
+    return 1.0 - matte;
 }
 
-float3 SuppressSpill(float3 color, int keyType, float strength)
+float3 CalcGradientKeyColor(float2 uv, float3 baseCol, float3 endCol, float strength, float angle)
 {
-    if (strength <= 0 || keyType == 0) return color;
+    if (strength < EPSILON)
+        return baseCol;
+    float rad = angle * PI / 180.0;
+    float gradPos = saturate(dot(uv - 0.5, float2(cos(rad), sin(rad))) + 0.5);
+    return lerp(baseCol, endCol, saturate(gradPos * strength));
+}
 
+float ComputeDistanceFromColor(float3 color, float2 uv)
+{
+    if (MainKeyColor != 0)
+        return CalculatePresetDistance(color, MainKeyColor, LuminanceMix);
+    float3 keyColor = CalcGradientKeyColor(uv, BaseColor.rgb, EndColor, GradientStrength, GradientAngle);
+    return CalculateColorDistance(color, keyColor, ColorSpace, HueRange, SaturationThreshold, LuminanceRange, LuminanceMix);
+}
+
+float SampleDistanceAtUV(float2 uv)
+{
+    float4 samp = InputTexture.Sample(InputSampler, saturate(uv));
+    if (samp.a < MIN_VALID_ALPHA)
+        return 1.0;
+    float3 color = saturate(samp.rgb / max(samp.a, MIN_VALID_ALPHA));
+    return ComputeDistanceFromColor(color, uv);
+}
+
+float DistanceToMask(float dist)
+{
+    return smoothstep(max(Tolerance - EdgeSoftness * Tolerance, 0.0), Tolerance, dist);
+}
+
+float SampleMaskAtUV(float2 uv)
+{
+    return DistanceToMask(SampleDistanceAtUV(uv));
+}
+
+float ApplyEdgeBlurFilter(float2 uv, float centerDist)
+{
+    float2 ts = 1.0 / max(ScreenSize, float2(1.0, 1.0));
+    float totalDist = centerDist;
+    float totalWeight = 1.0;
+    int sampleCount = (QualityPreset == 2) ? 12 : (QualityPreset == 1) ? 8 : 4;
+    for (int i = 0; i < 12; i++)
+    {
+        if (i >= sampleCount)
+            break;
+        float a = (float) i / (float) sampleCount * 2.0 * PI;
+        float2 offset = float2(cos(a), sin(a)) * ts * EdgeBlur;
+        float w = exp(-length(offset) * 2.0);
+        totalDist += SampleDistanceAtUV(uv + offset) * w;
+        totalWeight += w;
+    }
+    return safe_divide(totalDist, totalWeight);
+}
+
+float ApplyMorphologyOperation(float2 uv, float operationSize, bool isErosion)
+{
+    float2 ts = 1.0 / max(ScreenSize, float2(1.0, 1.0));
+    float extreme = isErosion ? 1.0 : 0.0;
+    int sampleCount = (QualityPreset == 0) ? 4 : 8;
+    float2 offsets[8] =
+    {
+        float2(0, -1), float2(1, 0), float2(0, 1), float2(-1, 0),
+        float2(-1, -1), float2(1, -1), float2(1, 1), float2(-1, 1)
+    };
+    for (int i = 0; i < 8; i++)
+    {
+        if (i >= sampleCount)
+            break;
+        float s = SampleDistanceAtUV(uv + ts * offsets[i] * operationSize);
+        extreme = isErosion ? min(extreme, s) : max(extreme, s);
+    }
+    return extreme;
+}
+
+float ApplyDespotFilter(float2 uv, float despotSize, float centerDist)
+{
+    float2 ts = 1.0 / max(ScreenSize, float2(1.0, 1.0));
+    float neighborSum = 0.0;
+    int sampleCount = (QualityPreset == 0) ? 4 : 8;
+    float2 offsets[8] =
+    {
+        float2(0, -1), float2(1, 0), float2(0, 1), float2(-1, 0),
+        float2(-1, -1), float2(1, -1), float2(1, 1), float2(-1, 1)
+    };
+    for (int i = 0; i < 8; i++)
+    {
+        if (i >= sampleCount)
+            break;
+        neighborSum += SampleDistanceAtUV(uv + ts * offsets[i] * despotSize);
+    }
+    float neighborAvg = safe_divide(neighborSum, (float) sampleCount);
+    if (centerDist < 0.5 && neighborAvg > 0.5)
+        return lerp(centerDist, neighborAvg, 0.8);
+    if (centerDist > 0.5 && neighborAvg < 0.5)
+        return lerp(centerDist, neighborAvg, 0.8);
+    return centerDist;
+}
+
+float ApplyKeyCleanup(float2 uv, float cleanupAmount, float centerDist)
+{
+    float2 ts = 1.0 / max(ScreenSize, float2(1.0, 1.0));
+    float radius = abs(cleanupAmount) * 0.01;
+    int sampleCount = (QualityPreset == 2) ? 8 : 4;
+    float2 offsets[8] =
+    {
+        float2(-radius, 0.0), float2(radius, 0.0),
+        float2(0.0, -radius), float2(0.0, radius),
+        float2(-radius, -radius), float2(radius, -radius),
+        float2(-radius, radius), float2(radius, radius)
+    };
+    float minD = centerDist;
+    float maxD = centerDist;
+    for (int i = 0; i < 8; i++)
+    {
+        if (i >= sampleCount)
+            break;
+        float d = SampleDistanceAtUV(uv + ts * offsets[i]);
+        minD = min(minD, d);
+        maxD = max(maxD, d);
+    }
+    return (cleanupAmount < 0.0) ? maxD : minD;
+}
+
+float ApplyEdgeDetectionFilter(float2 uv)
+{
+    float2 ts = 1.0 / max(ScreenSize, float2(1.0, 1.0));
+    float d[9];
+    float2 sobelOffsets[9] =
+    {
+        float2(-1, -1), float2(0, -1), float2(1, -1),
+        float2(-1, 0), float2(0, 0), float2(1, 0),
+        float2(-1, 1), float2(0, 1), float2(1, 1)
+    };
+    for (int i = 0; i < 9; i++)
+        d[i] = SampleDistanceAtUV(uv + ts * sobelOffsets[i]);
+    float sobelX = (d[2] + 2.0 * d[5] + d[8]) - (d[0] + 2.0 * d[3] + d[6]);
+    float sobelY = (d[6] + 2.0 * d[7] + d[8]) - (d[0] + 2.0 * d[1] + d[2]);
+    return safe_sqrt(sobelX * sobelX + sobelY * sobelY) * 0.125;
+}
+
+float ApplyDenoiseFilter(float2 uv, float centerMask)
+{
+    float2 ts = 1.0 / max(ScreenSize, float2(1.0, 1.0));
+    float sum = 0.0;
+    for (int ni = -1; ni <= 1; ni++)
+        for (int nj = -1; nj <= 1; nj++)
+            sum += SampleMaskAtUV(uv + float2(ni, nj) * ts);
+    return lerp(centerMask, sum / 9.0, Denoise);
+}
+
+float ApplyFeatheringFilter(float2 uv, float centerMask)
+{
+    float2 ts = 1.0 / max(ScreenSize, float2(1.0, 1.0));
+    float sum = 0.0;
+    int fSamples = (QualityPreset == 2) ? 8 : 4;
+    float2 offsets[8] =
+    {
+        float2(0, -1), float2(1, 0), float2(0, 1), float2(-1, 0),
+        float2(-1, -1), float2(1, -1), float2(1, 1), float2(-1, 1)
+    };
+    for (int fi = 0; fi < 8; fi++)
+    {
+        if (fi >= fSamples)
+            break;
+        sum += SampleMaskAtUV(uv + offsets[fi] * ts * Feathering);
+    }
+    return lerp(centerMask, safe_divide(sum, (float) fSamples), 0.5);
+}
+
+float NoiseReduction(float mask, float threshold)
+{
+    float t = threshold * 0.5;
+    if (mask < t)
+        return 0.0;
+    if (mask > 1.0 - t)
+        return 1.0;
+    return smoothstep(t, 1.0 - t, mask);
+}
+
+float ImproveTransparencyQuality(float mask, float origAlpha, float quality)
+{
+    if (origAlpha < MIN_VALID_ALPHA)
+        return mask;
+    float alphaDiff = abs(mask - origAlpha);
+    float adjustment = lerp(0.0, alphaDiff * 0.5, quality);
+    if (origAlpha < 0.5)
+        mask = lerp(mask, origAlpha, adjustment);
+    return saturate(mask);
+}
+
+float3 SuppressSpill(float3 color, int keyType, float strength, float mask)
+{
+    if (strength <= 0.0 || keyType == 0)
+        return color;
+    float spill = 0.0;
     float3 result = color;
     if (keyType == 1)
     {
-        float spillAmount = max(0, color.g - max(color.r, color.b));
-        result.g -= spillAmount * strength;
-        result.r += spillAmount * strength * 0.5;
-        result.b += spillAmount * strength * 0.5;
+        spill = saturate(color.g - max(color.r, color.b));
+        if (spill > EPSILON)
+        {
+            float avg = (color.r + color.b) * 0.5;
+            result.g = lerp(color.g, lerp(color.g, avg, spill * 0.8), strength);
+        }
     }
     else if (keyType == 2)
     {
-        float spillAmount = max(0, color.b - max(color.r, color.g));
-        result.b -= spillAmount * strength;
-        result.r += spillAmount * strength * 0.5;
-        result.g += spillAmount * strength * 0.5;
+        spill = saturate(color.b - max(color.r, color.g));
+        if (spill > EPSILON)
+        {
+            float avg = (color.r + color.g) * 0.5;
+            result.b = lerp(color.b, lerp(color.b, avg, spill * 0.8), strength);
+        }
     }
     else if (keyType == 3)
     {
-        float spillAmount = max(0, color.r - max(color.g, color.b));
-        result.r -= spillAmount * strength;
-        result.g += spillAmount * strength * 0.5;
-        result.b += spillAmount * strength * 0.5;
+        spill = saturate(color.r - max(color.g, color.b));
+        if (spill > EPSILON)
+        {
+            float avg = (color.g + color.b) * 0.5;
+            result.r = lerp(color.r, lerp(color.r, avg, spill * 0.8), strength);
+        }
     }
-    return saturate(result);
+    float origLuma = dot(color, LUM_COEFF);
+    float newLuma = dot(result, LUM_COEFF);
+    if (newLuma > EPSILON && origLuma > EPSILON)
+        result *= safe_divide(origLuma, newLuma);
+    float edgeFactor = saturate((1.0 - mask) * 2.0);
+    return saturate(lerp(color, result, saturate(strength * edgeFactor * spill)));
 }
 
 float3 SuppressTranslucentSpill(float3 color, int keyType, float alpha, float strength)
 {
-    if (strength <= 0 || keyType == 0 || alpha >= 1.0 || alpha <= 0.0) return color;
-
-    float translucentFactor = 1.0 - alpha;
-    float adjustedStrength = strength * translucentFactor;
-    return SuppressSpill(color, keyType, adjustedStrength);
+    if (strength <= 0.0 || keyType == 0 || alpha >= 1.0 || alpha <= 0.0)
+        return color;
+    float3 keyColor;
+    if (keyType == 1)
+        keyColor = float3(0, 1, 0);
+    else if (keyType == 2)
+        keyColor = float3(0, 0, 1);
+    else
+        keyColor = float3(1, 0, 0);
+    float3 restored = (color - (1.0 - alpha) * keyColor) / max(alpha, EPSILON);
+    return lerp(color, saturate(restored), strength);
 }
 
-float CalculateGradientKey(float2 uv, float3 baseCol, float3 endCol, float3 srcColor,
-    float strength, float angle, int colorSpaceType,
-    float hueRangeParam, float satThresholdParam, float lumRangeParam, float lumMixParam, float tolerance)
+float3 ApplyEdgeDesaturation(float3 color, float mask)
 {
-    if (strength <= 0) return 0;
+    float edgeFactor = saturate((1.0 - mask) * mask * 4.0);
+    float luma = dot(color, LUM_COEFF);
+    return lerp(color, float3(luma, luma, luma), EdgeDesaturation * edgeFactor);
+}
 
-    float rad = angle * PI / 180.0;
-    float gradPos = dot(uv - 0.5, float2(cos(rad), sin(rad))) + 0.5;
-    gradPos = saturate(gradPos);
+float3 ApplyResidualColorCorrection(float3 color)
+{
+    float resDist = length(color - TargetResidualColor);
+    float resFactor = 1.0 - smoothstep(CorrectionTolerance * 0.5, CorrectionTolerance, resDist);
+    float origLuma = dot(color, LUM_COEFF);
+    float corrLuma = dot(CorrectedColor, LUM_COEFF);
+    float3 corrected = CorrectedColor;
+    if (corrLuma > EPSILON)
+        corrected *= safe_divide(origLuma, corrLuma);
+    return lerp(color, saturate(corrected), resFactor * ResidualColorCorrection);
+}
 
-    float3 gradColor = lerp(baseCol, endCol, gradPos);
-    float gradDist = CalculateColorDistance(srcColor, gradColor, colorSpaceType,
-        hueRangeParam, satThresholdParam, lumRangeParam, lumMixParam);
-
-    float gradMask = 1.0 - smoothstep(tolerance * 0.5, tolerance, gradDist);
-    return gradMask * strength;
+float3 ApplyForegroundCorrection(float3 color)
+{
+    if (abs(ForegroundBrightness) > EPSILON)
+        color += ForegroundBrightness;
+    if (abs(ForegroundContrast) > EPSILON)
+        color = (color - 0.5) * (1.0 + ForegroundContrast) + 0.5;
+    if (abs(ForegroundSaturation) > EPSILON)
+    {
+        float gray = dot(color, LUM_COEFF);
+        color = lerp(float3(gray, gray, gray), color, 1.0 + ForegroundSaturation);
+    }
+    return saturate(color);
 }
 
 float4 main(float4 pos : SV_POSITION, float4 posScene : SCENE_POSITION, float2 uv : TEXCOORD0) : SV_TARGET
 {
     float4 src = InputTexture.Sample(InputSampler, uv);
 
-    if (src.a <= 0.001) return float4(0, 0, 0, 0);
-
-    float3 srcRGB = src.rgb / max(src.a, 0.001);
-
-    float3 keyColor;
-    int actualColorSpace;
-    if (MainKeyColor == 0)
+    if (src.a < MIN_VALID_ALPHA)
     {
-        keyColor = BaseColor.rgb;
-        actualColorSpace = ColorSpace;
+        if (DebugMode > 0)
+            return float4(0, 0, 0, 1);
+        return src;
     }
+
+    float3 srcRGB = saturate(src.rgb / max(src.a, MIN_VALID_ALPHA));
+
+    if (MainKeyColor == 0 && BaseColor.a < MIN_VALID_ALPHA)
+    {
+        if (DebugMode > 0)
+            return float4(0, 0, 0, 1);
+        return src;
+    }
+
+    float dist = ComputeDistanceFromColor(srcRGB, uv);
+
+    if (DebugMode == 2)
+        return float4(dist, dist, dist, 1.0);
+
+    if (!IsCompleteKey)
+    {
+        dist = saturate(dist + EdgeBalance * 0.01);
+
+        if (EdgeBlur > EPSILON)
+            dist = ApplyEdgeBlurFilter(uv, dist);
+
+        if (Despot > EPSILON)
+            dist = ApplyDespotFilter(uv, Despot, dist);
+
+        if (abs(Erode) > EPSILON)
+            dist = ApplyMorphologyOperation(uv, abs(Erode) * 0.1, Erode > 0.0);
+
+        if (EdgeDetection > EPSILON)
+            dist = saturate(dist - ApplyEdgeDetectionFilter(uv) * EdgeDetection);
+
+        if (abs(KeyCleanup) > EPSILON)
+            dist = ApplyKeyCleanup(uv, KeyCleanup / 50.0, dist);
+    }
+
+    float mask;
+    if (IsCompleteKey)
+        mask = (dist < Tolerance) ? 0.0 : 1.0;
     else
+        mask = DistanceToMask(dist);
+
+    mask = smoothstep(ClipBlack, max(ClipBlack + EPSILON, ClipWhite), mask);
+
+    if (Denoise > EPSILON)
+        mask = NoiseReduction(mask, Denoise);
+
+    if (Feathering > EPSILON)
+        mask = ApplyFeatheringFilter(uv, mask);
+
+    if (EdgeBalance != 0.0 && !IsCompleteKey)
     {
-        keyColor = GetKeyColorForPreset(MainKeyColor);
-        actualColorSpace = 2;
+        if (EdgeBalance > 0.0)
+            mask = pow(max(mask, 0.0), 1.0 / (1.0 + EdgeBalance));
+        else
+            mask = pow(max(mask, 0.0), 1.0 + abs(EdgeBalance));
     }
 
-    float dist = CalculateColorDistance(srcRGB, keyColor, actualColorSpace,
-        HueRange, SaturationThreshold, LuminanceRange, LuminanceMix);
+    if (TransparencyQuality > EPSILON)
+        mask = ImproveTransparencyQuality(mask, src.a, TransparencyQuality);
 
-    float mask = smoothstep(Tolerance - EdgeSoftness * Tolerance, Tolerance, dist);
+    if (IsInverted)
+        mask = 1.0 - mask;
 
-    float gradContrib = CalculateGradientKey(uv, keyColor, EndColor, srcRGB,
-        GradientStrength, GradientAngle, actualColorSpace,
-        HueRange, SaturationThreshold, LuminanceRange, LuminanceMix, Tolerance);
-
-    mask = min(mask, 1.0 - gradContrib);
-
-    float exMask = 0;
-    if (ExceptionColor1.a > 0 && ExceptionTolerance > 0)
+    if (ExceptionColor1.a > MIN_VALID_ALPHA && ExceptionTolerance > 0.0)
     {
-        float exDist = CalculateColorDistance(srcRGB, ExceptionColor1.rgb, actualColorSpace,
-            0, 0, 0, LuminanceMix);
-        exMask = 1.0 - smoothstep(ExceptionTolerance * 0.8, ExceptionTolerance, exDist);
-
-        float exGrad = CalculateGradientKey(uv, ExceptionColor1.rgb, ExceptionColor2, srcRGB,
-            ExceptionGradientStrength, ExceptionGradientAngle, actualColorSpace,
-            0, 0, 0, LuminanceMix, ExceptionTolerance);
-        exMask = max(exMask, exGrad);
-    }
-    mask = max(mask, exMask);
-
-    float2 texelSize = 1.0 / ScreenSize;
-
-    if (EdgeBlur > 0)
-    {
-        float blurRadius = EdgeBlur;
-        int samples;
-        if (QualityPreset == 0) samples = 4;
-        else if (QualityPreset == 2) samples = 12;
-        else samples = 8;
-
-        float blurredMask = 0;
-        float totalWeight = 0;
-        for (int i = 0; i < samples; i++)
-        {
-            float angle2 = (float)i / (float)samples * 2.0 * PI;
-            float2 offset = float2(cos(angle2), sin(angle2)) * texelSize * blurRadius;
-            float4 neighborSrc = InputTexture.Sample(InputSampler, uv + offset);
-            if (neighborSrc.a > 0.001)
-            {
-                float3 nRGB = neighborSrc.rgb / max(neighborSrc.a, 0.001);
-                float nDist = CalculateColorDistance(nRGB, keyColor, actualColorSpace,
-                    HueRange, SaturationThreshold, LuminanceRange, LuminanceMix);
-                float nMask = smoothstep(Tolerance - EdgeSoftness * Tolerance, Tolerance, nDist);
-                blurredMask += nMask;
-                totalWeight += 1.0;
-            }
-        }
-        if (totalWeight > 0) mask = lerp(mask, blurredMask / totalWeight, 0.7);
+        float3 effectiveExColor = CalcGradientKeyColor(uv, ExceptionColor1.rgb, ExceptionColor2, ExceptionGradientStrength, ExceptionGradientAngle);
+        float exDist = CalculateColorDistance(srcRGB, effectiveExColor, ColorSpace, 0.0, 0.0, 0.0, LuminanceMix);
+        float exMask = 1.0 - smoothstep(0.0, max(ExceptionTolerance, EPSILON), exDist);
+        mask = max(mask, exMask);
     }
 
-    if (Despot > 0)
-    {
-        float despotRadius = Despot;
-        float minMask = mask;
-        float maxMask = mask;
-        for (int dx = -1; dx <= 1; dx++)
-        {
-            for (int dy = -1; dy <= 1; dy++)
-            {
-                if (dx == 0 && dy == 0) continue;
-                float2 nUV = uv + float2(dx, dy) * texelSize * despotRadius;
-                float4 nSrc = InputTexture.Sample(InputSampler, nUV);
-                if (nSrc.a > 0.001)
-                {
-                    float3 nRGB = nSrc.rgb / max(nSrc.a, 0.001);
-                    float nDist = CalculateColorDistance(nRGB, keyColor, actualColorSpace,
-                        HueRange, SaturationThreshold, LuminanceRange, LuminanceMix);
-                    float nMask = smoothstep(Tolerance - EdgeSoftness * Tolerance, Tolerance, nDist);
-                    minMask = min(minMask, nMask);
-                    maxMask = max(maxMask, nMask);
-                }
-            }
-        }
-        if (maxMask - minMask > 0.5) mask = minMask;
-    }
-
-    if (Erode > 0)
-    {
-        float erodeMin = mask;
-        for (int ex = -1; ex <= 1; ex++)
-        {
-            for (int ey = -1; ey <= 1; ey++)
-            {
-                if (ex == 0 && ey == 0) continue;
-                float2 nUV = uv + float2(ex, ey) * texelSize * Erode;
-                float4 nSrc = InputTexture.Sample(InputSampler, nUV);
-                if (nSrc.a > 0.001)
-                {
-                    float3 nRGB = nSrc.rgb / max(nSrc.a, 0.001);
-                    float nDist = CalculateColorDistance(nRGB, keyColor, actualColorSpace,
-                        HueRange, SaturationThreshold, LuminanceRange, LuminanceMix);
-                    float nMask = smoothstep(Tolerance - EdgeSoftness * Tolerance, Tolerance, nDist);
-                    erodeMin = min(erodeMin, nMask);
-                }
-            }
-        }
-        mask = erodeMin;
-    }
-
-    if (KeyCleanup > 0)
-    {
-        if (mask < KeyCleanup * 0.5) mask = 0;
-        else if (mask > 1.0 - KeyCleanup * 0.5) mask = 1;
-    }
-
-    if (Feathering > 0)
-    {
-        float featherSum = 0;
-        float featherWeight = 0;
-        int fSamples = (QualityPreset == 2) ? 8 : 4;
-        for (int fi = 0; fi < fSamples; fi++)
-        {
-            float fAngle = (float)fi / (float)fSamples * 2.0 * PI;
-            float2 fOffset = float2(cos(fAngle), sin(fAngle)) * texelSize * Feathering;
-            float4 fSrc = InputTexture.Sample(InputSampler, uv + fOffset);
-            if (fSrc.a > 0.001)
-            {
-                float3 fRGB = fSrc.rgb / max(fSrc.a, 0.001);
-                float fDist = CalculateColorDistance(fRGB, keyColor, actualColorSpace,
-                    HueRange, SaturationThreshold, LuminanceRange, LuminanceMix);
-                float fMask = smoothstep(Tolerance - EdgeSoftness * Tolerance, Tolerance, fDist);
-                featherSum += fMask;
-                featherWeight += 1.0;
-            }
-        }
-        if (featherWeight > 0) mask = lerp(mask, featherSum / featherWeight, 0.5);
-    }
-
-    if (EdgeBalance != 0)
-    {
-        if (EdgeBalance > 0) mask = pow(mask, 1.0 / (1.0 + EdgeBalance));
-        else mask = pow(mask, 1.0 + abs(EdgeBalance));
-    }
-
-    if (Denoise > 0)
-    {
-        float noiseMask = 0;
-        float noiseW = 0;
-        for (int ni = -1; ni <= 1; ni++)
-        {
-            for (int nj = -1; nj <= 1; nj++)
-            {
-                float2 nUV = uv + float2(ni, nj) * texelSize;
-                float4 nSrc = InputTexture.Sample(InputSampler, nUV);
-                if (nSrc.a > 0.001)
-                {
-                    float3 nRGB = nSrc.rgb / max(nSrc.a, 0.001);
-                    float nDist = CalculateColorDistance(nRGB, keyColor, actualColorSpace,
-                        HueRange, SaturationThreshold, LuminanceRange, LuminanceMix);
-                    noiseMask += smoothstep(Tolerance - EdgeSoftness * Tolerance, Tolerance, nDist);
-                    noiseW += 1.0;
-                }
-            }
-        }
-        if (noiseW > 0) mask = lerp(mask, noiseMask / noiseW, Denoise);
-    }
-
-    if (EdgeDetection > 0)
-    {
-        float edgeSum = 0;
-        for (int ei = -1; ei <= 1; ei++)
-        {
-            for (int ej = -1; ej <= 1; ej++)
-            {
-                float w = (ei == 0 && ej == 0) ? -8.0 : 1.0;
-                float2 eUV = uv + float2(ei, ej) * texelSize;
-                float4 eSrc = InputTexture.Sample(InputSampler, eUV);
-                float eLum = dot(eSrc.rgb, LUM_COEFF);
-                edgeSum += eLum * w;
-            }
-        }
-        float edgeStrength = saturate(abs(edgeSum));
-        mask = lerp(mask, max(mask, edgeStrength), EdgeDetection);
-    }
-
-    mask = smoothstep(ClipBlack, ClipWhite, mask);
-
-    if (IsInverted) mask = 1.0 - mask;
-
-    if (DebugMode == 1) return float4(mask, mask, mask, 1.0);
-    if (DebugMode == 2) return float4(dist, dist, dist, 1.0);
+    if (DebugMode == 1)
+        return float4(mask, mask, mask, 1.0);
 
     float3 resultRGB = srcRGB;
 
     if (!IsCompleteKey)
     {
-        resultRGB = SuppressSpill(resultRGB, MainKeyColor, SpillSuppression * (1.0 - mask));
+        if (SpillSuppression > EPSILON)
+            resultRGB = SuppressSpill(resultRGB, MainKeyColor, SpillSuppression * (1.0 - mask), mask);
 
-        if (TranslucentDespill > 0 && mask > 0 && mask < 1.0)
+        if (TranslucentDespill > EPSILON && mask > 0.0 && mask < 1.0)
             resultRGB = SuppressTranslucentSpill(resultRGB, MainKeyColor, mask, TranslucentDespill);
 
-        if (EdgeDesaturation > 0 && mask < 1.0 && mask > 0)
-        {
-            float edgeFactor = 1.0 - mask;
-            float lum = dot(resultRGB, LUM_COEFF);
-            float3 gray = float3(lum, lum, lum);
-            resultRGB = lerp(resultRGB, gray, EdgeDesaturation * edgeFactor);
-        }
+        if (DebugMode == 3)
+            return float4(resultRGB * src.a, src.a);
 
-        if (ReplaceIntensity > 0)
+        if (EdgeDesaturation > EPSILON && mask < 1.0 && mask > 0.0)
+            resultRGB = ApplyEdgeDesaturation(resultRGB, mask);
+
+        if (ReplaceIntensity > EPSILON)
         {
-            float replaceFactor = (1.0 - mask) * ReplaceIntensity;
             float3 replaceRGB = ReplaceColor.rgb;
-            if (PreserveLuminance > 0)
+            if (PreserveLuminance > EPSILON)
             {
                 float srcLum = dot(resultRGB, LUM_COEFF);
                 float repLum = dot(replaceRGB, LUM_COEFF);
-                if (repLum > 0.001)
-                    replaceRGB *= lerp(1.0, srcLum / repLum, PreserveLuminance);
+                if (repLum > EPSILON)
+                    replaceRGB = lerp(replaceRGB, replaceRGB * safe_divide(srcLum, repLum), PreserveLuminance);
             }
-            resultRGB = lerp(resultRGB, replaceRGB, replaceFactor * ReplaceColor.a);
+            float3 blended = lerp(replaceRGB, resultRGB, mask);
+            resultRGB = lerp(resultRGB, blended, ReplaceIntensity);
+            float blendedAlpha = lerp(ReplaceColor.a, src.a, mask);
+            float fa = lerp(src.a * mask, blendedAlpha, ReplaceIntensity);
+            resultRGB = ApplyResidualColorCorrection(resultRGB);
+            resultRGB = ApplyForegroundCorrection(resultRGB);
+            if (DebugMode == 4)
+                return float4(resultRGB * src.a, src.a);
+            fa = saturate(fa);
+            if (AlphaBlendAdjustment > EPSILON)
+            {
+                float enhanced = saturate(mask + AlphaBlendAdjustment * (1.0 - mask) * 0.5);
+                mask = lerp(mask, enhanced, AlphaBlendAdjustment);
+                fa = src.a * mask;
+            }
+            return float4(saturate(resultRGB) * fa, fa);
         }
     }
 
-    if (DebugMode == 3) return float4(resultRGB * src.a, src.a);
+    if (ResidualColorCorrection > EPSILON)
+        resultRGB = ApplyResidualColorCorrection(resultRGB);
 
-    if (ResidualColorCorrection > 0)
-    {
-        float resDist = length(resultRGB - TargetResidualColor);
-        float resFactor = 1.0 - smoothstep(CorrectionTolerance * 0.5, CorrectionTolerance, resDist);
-        resultRGB = lerp(resultRGB, CorrectedColor, resFactor * ResidualColorCorrection);
-    }
+    if (DebugMode == 4)
+        return float4(resultRGB * src.a, src.a);
 
-    if (DebugMode == 4) return float4(resultRGB * src.a, src.a);
-
-    if (ForegroundBrightness != 0) resultRGB += ForegroundBrightness;
-    if (ForegroundContrast != 0) resultRGB = ((resultRGB - 0.5) * (1.0 + ForegroundContrast)) + 0.5;
-    if (ForegroundSaturation != 0)
-    {
-        float grayVal = dot(resultRGB, LUM_COEFF);
-        resultRGB = lerp(float3(grayVal, grayVal, grayVal), resultRGB, 1.0 + ForegroundSaturation);
-    }
-    resultRGB = saturate(resultRGB);
+    resultRGB = ApplyForegroundCorrection(resultRGB);
 
     float finalAlpha = src.a * mask;
 
-    if (TransparencyQuality > 0 && mask > 0 && mask < 1.0)
+    if (TransparencyQuality > EPSILON && mask > 0.0 && mask < 1.0)
     {
-        float alphaRefine = lerp(mask, smoothstep(0, 1, mask), TransparencyQuality);
+        float alphaRefine = lerp(mask, smoothstep(0.0, 1.0, mask), TransparencyQuality);
         finalAlpha = src.a * alphaRefine;
     }
 
-    if (AlphaBlendAdjustment != 0) finalAlpha = saturate(finalAlpha + AlphaBlendAdjustment * (1.0 - mask));
+    if (AlphaBlendAdjustment > EPSILON)
+    {
+        float enhanced = saturate(mask + AlphaBlendAdjustment * (1.0 - mask) * 0.5);
+        mask = lerp(mask, enhanced, AlphaBlendAdjustment);
+        finalAlpha = src.a * mask;
+    }
 
-    return float4(resultRGB * finalAlpha, finalAlpha);
-}
+    return float4(saturate(resultRGB) * finalAlpha, finalAlpha);
+}

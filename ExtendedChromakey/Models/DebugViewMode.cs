@@ -1,18 +1,19 @@
+using ExtendedChromaKey.Localization;
 using System.ComponentModel.DataAnnotations;
 
 namespace ExtendedChromaKey.Models
 {
     public enum DebugViewMode
     {
-        [Display(Name = "最終結果")]
+        [Display(Name = nameof(Texts.DebugViewMode_Result), ResourceType = typeof(Texts))]
         Result,
-        [Display(Name = "マスク表示")]
+        [Display(Name = nameof(Texts.DebugViewMode_Matte), ResourceType = typeof(Texts))]
         Matte,
-        [Display(Name = "色距離")]
+        [Display(Name = nameof(Texts.DebugViewMode_ColorDistance), ResourceType = typeof(Texts))]
         ColorDistance,
-        [Display(Name = "スピル除去後")]
+        [Display(Name = nameof(Texts.DebugViewMode_SpillSuppressed), ResourceType = typeof(Texts))]
         SpillSuppressed,
-        [Display(Name = "色補正後")]
+        [Display(Name = nameof(Texts.DebugViewMode_ColorCorrected), ResourceType = typeof(Texts))]
         ColorCorrected,
     }
-}
+}

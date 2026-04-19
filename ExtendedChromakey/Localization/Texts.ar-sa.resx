@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+<data name="CurrentCulture" xml:space="preserve"><value>ar-sa</value></data>
+<data name="ExtendedChromaKey_Label" xml:space="preserve"><value>مفتاح كروما موسع</value></data>
+<data name="GroupName_BasicSettings" xml:space="preserve"><value>الإعدادات الأساسية</value></data>
+<data name="GroupName_KeyingMode" xml:space="preserve"><value>وضع المفتاح</value></data>
+<data name="GroupName_KeyingAdjustment" xml:space="preserve"><value>ضبط المفتاح</value></data>
+<data name="GroupName_Gradient" xml:space="preserve"><value>تدرج</value></data>
+<data name="GroupName_ColorReplacement" xml:space="preserve"><value>استبدال اللون</value></data>
+<data name="GroupName_QualityOptimization" xml:space="preserve"><value>تحسين الجودة</value></data>
+<data name="GroupName_ExceptionSettings" xml:space="preserve"><value>إعدادات الاستثناء</value></data>
+<data name="GroupName_ColorCorrection" xml:space="preserve"><value>تصحيح الألوان</value></data>
+<data name="GroupName_Other" xml:space="preserve"><value>أخرى</value></data>
+<data name="GroupName_Debug" xml:space="preserve"><value>تصحيح</value></data>
+<data name="BaseColor_Name" xml:space="preserve"><value>اللون الأساسي</value></data>
+<data name="BaseColor_Desc" xml:space="preserve"><value>يحدد اللون الأساسي للشفافية.</value></data>
+<data name="EndColor_Name" xml:space="preserve"><value>لون النهاية</value></data>
+<data name="EndColor_Desc" xml:space="preserve"><value>يحدد لون نهاية التدرج. سيتم تحديد النطاق بين اللون الأساسي وهذا اللون.</value></data>
+<data name="MainKeyColor_Name" xml:space="preserve"><value>مفتاح اللون الرئيسي</value></data>
+<data name="MainKeyColor_Desc" xml:space="preserve"><value>حدد اللون الرئيسي المراد مفتاحه. اختر وفقا للون الخلفية.</value></data>
+<data name="Tolerance_Name" xml:space="preserve"><value>التسامح</value></data>
+<data name="Tolerance_Desc" xml:space="preserve"><value>نطاق التسامح للون. 0% يستهدف اللون المحدد بالضبط.</value></data>
+<data name="LuminanceMix_Name" xml:space="preserve"><value>مزيج النصوع</value></data>
+<data name="LuminanceMix_Desc" xml:space="preserve"><value>يضبط مقدار النصوع المستخدم. القيم الأعلى تساعد على فصل المناطق الساطعة بسهولة أكبر.</value></data>
+<data name="EdgeSoftness_Name" xml:space="preserve"><value>نعومة الحافة</value></data>
+<data name="EdgeSoftness_Desc" xml:space="preserve"><value>يضبط نعومة حدود الشفافية.</value></data>
+<data name="ClipBlack_Name" xml:space="preserve"><value>مقطع أسود</value></data>
+<data name="ClipBlack_Desc" xml:space="preserve"><value>يضبط مستوى الأسود للقناع. مفيد لإزالة ضوضاء الخلفية.</value></data>
+<data name="ClipWhite_Name" xml:space="preserve"><value>مقطع أبيض</value></data>
+<data name="ClipWhite_Desc" xml:space="preserve"><value>يضبط مستوى الأبيض. يحافظ على المقدمة (خاصة الأجزاء المضيئة) صلبة.</value></data>
+<data name="EdgeBlur_Name" xml:space="preserve"><value>تمويه الحافة</value></data>
+<data name="EdgeBlur_Desc" xml:space="preserve"><value>يموه حواف القناع لجعله أكثر سلاسة. مفيد لإصلاح الحواف الخشنة.</value></data>
+<data name="GradientStrength_Name" xml:space="preserve"><value>قوة التدرج</value></data>
+<data name="GradientStrength_Desc" xml:space="preserve"><value>يضبط قوة التدرج. 0% للون الأساسي فقط، 100% للتدرج الكامل للون النهائي.</value></data>
+<data name="GradientAngle_Name" xml:space="preserve"><value>زاوية التدرج</value></data>
+<data name="GradientAngle_Desc" xml:space="preserve"><value>يحدد اتجاه التدرج بالدرجات.</value></data>
+<data name="ReplaceColor_Name" xml:space="preserve"><value>لون الاستبدال</value></data>
+<data name="ReplaceColor_Desc" xml:space="preserve"><value>يحدد اللون الذي سيحل محل المنطقة المزالة.</value></data>
+<data name="ReplaceIntensity_Name" xml:space="preserve"><value>شدة الاستبدال</value></data>
+<data name="ReplaceIntensity_Desc" xml:space="preserve"><value>شدة التعبئة باللون البديل.</value></data>
+<data name="PreserveLuminance_Name" xml:space="preserve"><value>الحفاظ على النصوع</value></data>
+<data name="PreserveLuminance_Desc" xml:space="preserve"><value>مقدار النصوع الأصلي الذي يجب الحفاظ عليه عند الاستبدال.</value></data>
+<data name="ColorSpace_Name" xml:space="preserve"><value>مساحة اللون (مخصص)</value></data>
+<data name="ColorSpace_Desc" xml:space="preserve"><value>يحدد مساحة اللون لحساب المسافة عندما يكون المفتاح مخصصا.</value></data>
+<data name="HueRange_Name" xml:space="preserve"><value>نطاق تدرج اللون</value></data>
+<data name="HueRange_Desc" xml:space="preserve"><value>نطاق تسامح صبغة اللون عند استخدام مساحات HSV/LCH.</value></data>
+<data name="SaturationThreshold_Name" xml:space="preserve"><value>عتبة التشبع</value></data>
+<data name="SaturationThreshold_Desc" xml:space="preserve"><value>الألوان ذات التشبع الأقل سيتم مقارنتها بالسطوع متجاهلة التشبع.</value></data>
+<data name="LuminanceRange_Name" xml:space="preserve"><value>نطاق النصوع</value></data>
+<data name="LuminanceRange_Desc" xml:space="preserve"><value>تسامح اختلاف النصوع عند استخدام مساحات RGB/YUV.</value></data>
+<data name="SpillSuppression_Name" xml:space="preserve"><value>إزالة الانسكاب</value></data>
+<data name="SpillSuppression_Desc" xml:space="preserve"><value>يزيل انعكاس لون الخلفية على الهدف.</value></data>
+<data name="EdgeBalance_Name" xml:space="preserve"><value>توازن الحافة</value></data>
+<data name="EdgeBalance_Desc" xml:space="preserve"><value>يضبط الحدود للداخل (+)/أو للخارج (-).</value></data>
+<data name="Despot_Name" xml:space="preserve"><value>إزالة البقع</value></data>
+<data name="Despot_Desc" xml:space="preserve"><value>يزيل الضوضاء الصغيرة (الثقوب أو البقع) من القناع.</value></data>
+<data name="Erode_Name" xml:space="preserve"><value>تآكل الحافة</value></data>
+<data name="Erode_Desc" xml:space="preserve"><value>يوسع أو يقلص حدود القناع لتقليل الحواف الرقيقة.</value></data>
+<data name="ExceptionColor1_Name" xml:space="preserve"><value>لون الاستثناء 1</value></data>
+<data name="ExceptionColor1_Desc" xml:space="preserve"><value>اللون المستثنى من المفتاح. يعطل إذا كان شفافا.</value></data>
+<data name="ExceptionColor2_Name" xml:space="preserve"><value>لون الاستثناء 2</value></data>
+<data name="ExceptionColor2_Desc" xml:space="preserve"><value>لون نهاية التدرج للاستثناء. الألوان في هذا النطاق ستقاوم المفتاح.</value></data>
+<data name="ExceptionTolerance_Name" xml:space="preserve"><value>تسامح الاستثناء</value></data>
+<data name="ExceptionTolerance_Desc" xml:space="preserve"><value>نطاق التسامح للألوان المستثناة.</value></data>
+<data name="ExceptionGradientStrength_Name" xml:space="preserve"><value>قوة التدرج</value></data>
+<data name="ExceptionGradientStrength_Desc" xml:space="preserve"><value>قوة تأثير تدرج لون الاستثناء.</value></data>
+<data name="ExceptionGradientAngle_Name" xml:space="preserve"><value>زاوية التدرج</value></data>
+<data name="ExceptionGradientAngle_Desc" xml:space="preserve"><value>اتجاه تدرج لون الاستثناء.</value></data>
+<data name="EdgeDesaturation_Name" xml:space="preserve"><value>إزالة تشبع الحافة</value></data>
+<data name="EdgeDesaturation_Desc" xml:space="preserve"><value>يقلل من نزيف لون الحافة لتركيب أكثر طبيعية.</value></data>
+<data name="KeyCleanup_Name" xml:space="preserve"><value>تنظيف المفتاح</value></data>
+<data name="KeyCleanup_Desc" xml:space="preserve"><value>양수는 확대합니다.</value></data>
+<data name="EdgeDetection_Name" xml:space="preserve"><value>اكتشاف الحواف</value></data>
+<data name="EdgeDetection_Desc" xml:space="preserve"><value>قوة الحفاظ على الحواف. الحواف تبدو أكثر حدة ولكن قد يزيد الضوضاء.</value></data>
+<data name="Denoise_Name" xml:space="preserve"><value>إزالة الضوضاء</value></data>
+<data name="Denoise_Desc" xml:space="preserve"><value>يزيل الضوضاء الدقيقة من القناع.</value></data>
+<data name="Feathering_Name" xml:space="preserve"><value>ترييش</value></data>
+<data name="Feathering_Desc" xml:space="preserve"><value>يموه حواف القناع لدمجها مع الخلفية.</value></data>
+<data name="TranslucentDespill_Name" xml:space="preserve"><value>إزالة الانسكاب شبه الشفاف</value></data>
+<data name="TranslucentDespill_Desc" xml:space="preserve"><value>يزيل الانسكاب في المناطق شبه الشفافة مثل الزجاج أو الدخان.</value></data>
+<data name="TransparencyQuality_Name" xml:space="preserve"><value>جودة الشفافية</value></data>
+<data name="TransparencyQuality_Desc" xml:space="preserve"><value>يحسن جودة معالجة المناطق الشفافة للغاية.</value></data>
+<data name="AlphaBlendAdjustment_Name" xml:space="preserve"><value>ضبط مزيج ألفا</value></data>
+<data name="AlphaBlendAdjustment_Desc" xml:space="preserve"><value>يضبط المعالجة بين المقدمة والخلفية.</value></data>
+<data name="TargetResidualColor_Name" xml:space="preserve"><value>اللون المتبقي المستهدف</value></data>
+<data name="TargetResidualColor_Desc" xml:space="preserve"><value>يحدد لون الخلفية المتبقي الذي تريد تصحيحه.</value></data>
+<data name="CorrectedColor_Name" xml:space="preserve"><value>اللون المصحح</value></data>
+<data name="CorrectedColor_Desc" xml:space="preserve"><value>يحول اللون المتبقي إلى هذا اللون.</value></data>
+<data name="ResidualColorCorrection_Name" xml:space="preserve"><value>تصحيح اللون المتبقي</value></data>
+<data name="ResidualColorCorrection_Desc" xml:space="preserve"><value>يحول ألوان الخلفية المتبقية إلى لون آخر.</value></data>
+<data name="CorrectionTolerance_Name" xml:space="preserve"><value>تسامح التصحيح</value></data>
+<data name="CorrectionTolerance_Desc" xml:space="preserve"><value>التسامح لتصحيح الألوان. يؤثر على المزيد من الألوان.</value></data>
+<data name="ForegroundBrightness_Name" xml:space="preserve"><value>سطوع المقدمة</value></data>
+<data name="ForegroundBrightness_Desc" xml:space="preserve"><value>يضبط سطوع المقدمة بعد المفتاح.</value></data>
+<data name="ForegroundContrast_Name" xml:space="preserve"><value>تباين المقدمة</value></data>
+<data name="ForegroundContrast_Desc" xml:space="preserve"><value>يضبط تباين المقدمة بعد المفتاح.</value></data>
+<data name="ForegroundSaturation_Name" xml:space="preserve"><value>تشبع المقدمة</value></data>
+<data name="ForegroundSaturation_Desc" xml:space="preserve"><value>يضبط تشبع المقدمة بعد المفتاح.</value></data>
+<data name="IsCompleteKey_Name" xml:space="preserve"><value>مفتاح كامل</value></data>
+<data name="IsCompleteKey_Desc" xml:space="preserve"><value>يجعله شفافا تماما بدون نصوع. يعطل بعض الوظائف.</value></data>
+<data name="IsInverted_Name" xml:space="preserve"><value>عكس</value></data>
+<data name="IsInverted_Desc" xml:space="preserve"><value>يعكس المناطق الشفافة.</value></data>
+<data name="QualityPreset_Name" xml:space="preserve"><value>ضبط الجودة المسبق</value></data>
+<data name="QualityPreset_Desc" xml:space="preserve"><value>حدد جودة المعالجة. جودة أعلى تتطلب أداء أكثر.</value></data>
+<data name="DebugMode_Name" xml:space="preserve"><value>وضع العرض</value></data>
+<data name="DebugMode_Desc" xml:space="preserve"><value>يعرض مراحل المعالجة للتصحيح.</value></data>
+<data name="AdvancedColorSpace_RGB" xml:space="preserve"><value>RGB (قياسي)</value></data>
+<data name="AdvancedColorSpace_HSV" xml:space="preserve"><value>HSV (التركيز على الصبغة)</value></data>
+<data name="AdvancedColorSpace_Lab" xml:space="preserve"><value>CIE Lab (إدراكي)</value></data>
+<data name="AdvancedColorSpace_YUV" xml:space="preserve"><value>YUV (جودة البث)</value></data>
+<data name="AdvancedColorSpace_XYZ" xml:space="preserve"><value>XYZ (معيار CIE)</value></data>
+<data name="AdvancedColorSpace_LCH" xml:space="preserve"><value>LCH (أسطوانة إدراكية)</value></data>
+<data name="AdvancedColorSpace_CIEDE2000" xml:space="preserve"><value>CIEDE2000 (أعلى دقة)</value></data>
+<data name="KeyColorType_Custom" xml:space="preserve"><value>مخصص</value></data>
+<data name="KeyColorType_Green" xml:space="preserve"><value>أخضر</value></data>
+<data name="KeyColorType_Blue" xml:space="preserve"><value>أزرق</value></data>
+<data name="KeyColorType_Red" xml:space="preserve"><value>أحمر</value></data>
+<data name="DebugViewMode_Result" xml:space="preserve"><value>النتيجة النهائية</value></data>
+<data name="DebugViewMode_Matte" xml:space="preserve"><value>عرض القناع</value></data>
+<data name="DebugViewMode_ColorDistance" xml:space="preserve"><value>مسافة اللون</value></data>
+<data name="DebugViewMode_SpillSuppressed" xml:space="preserve"><value>بعد إزالة الانسكاب</value></data>
+<data name="DebugViewMode_ColorCorrected" xml:space="preserve"><value>بعد تصحيح الألوان</value></data>
+<data name="QualityPreset_Fast" xml:space="preserve"><value>سريع</value></data>
+<data name="QualityPreset_Balanced" xml:space="preserve"><value>متوازن</value></data>
+<data name="QualityPreset_HighQuality" xml:space="preserve"><value>جودة عالية</value></data>
+<data name="ValidationRule_Error_BaseColorTransparency" xml:space="preserve"><value>En modo personalizado</value></data>
+<data name="ValidationRule_Error_ClipBlackWhiteInverted" xml:space="preserve"><value>قيمة قص الأسود أكبر من أو تساوي قيمة قص الأبيض. لن يتم إنشاء القناع بشكل صحيح.</value></data>
+<data name="ValidationRule_Warning_ToleranceExtremelyLow" xml:space="preserve"><value>التسامح منخفض جداً، لذا قد لا يتم مفاتح النطاق المقصود.</value></data>
+<data name="ValidationRule_Warning_ToleranceExtremelyHigh" xml:space="preserve"><value>التسامح مرتفع جداً، لذا قد يتم مفاتح أجزاء غير مقصودة من المقدمة.</value></data>
+<data name="ValidationRule_Warning_SoftnessWithoutTolerance" xml:space="preserve"><value>تتطلب نعومة الحافة زيادة التسامح لكي تعمل بشكل صحيح.</value></data>
+<data name="ValidationRule_Warning_HighLuminanceMix" xml:space="preserve"><value>Si la mezcla de luminancia es demasiado alta</value></data>
+<data name="ValidationRule_Warning_ClipAndSoftnessConflict" xml:space="preserve"><value>يتم تعيين إعدادات القص ونعومة الحافة على حد سواء عالياً. قد يؤدي هذا إلى حواف صلبة غير مقصودة.</value></data>
+<data name="ValidationRule_Info_GradientStrengthZero" xml:space="preserve"><value>قوة التدرج هي 0%، لذا "لون النهاية" و"زاوية التدرج" لا تأثير لهما.</value></data>
+<data name="ValidationRule_Info_SpillSuppressionWithCustom" xml:space="preserve"><value>إزالة الانسكاب أكثر فعالية عندما يكون لون المفتاح الرئيسي أخضر أو أزرق أو أحمر.</value></data>
+<data name="ValidationRule_Info_ReplaceIntensityZero" xml:space="preserve"><value>شدة الاستبدال هي 0%، لذا "لون الاستبدال" و"الحفاظ على النصوع" لا تأثير لهما.</value></data>
+<data name="ValidationRule_Info_ReplaceColorTransparent" xml:space="preserve"><value>لون الاستبدال شفاف. هذا يقلل من عتامة المنطقة المزالة.</value></data>
+<data name="ValidationRule_Info_ColorSpaceForCustomOnly" xml:space="preserve"><value>يتم تطبيق تغييرات فضاء اللون فقط عندما يكون لون المفتاح الرئيسي مضبوطاً على "مخصص".</value></data>
+<data name="ValidationRule_Info_HueRangeForSpecificSpaces" xml:space="preserve"><value>نطاق الصبغة صالح فقط عندما يكون فضاء اللون "HSV" أو "LCH".</value></data>
+<data name="ValidationRule_Info_SaturationThresholdForHsvOnly" xml:space="preserve"><value>حد التشبع صالح فقط عندما يكون فضاء اللون HSV.</value></data>
+<data name="ValidationRule_Info_LuminanceRangeForSpecificSpaces" xml:space="preserve"><value>نطاق النصوع صالح فقط عندما يكون فضاء اللون RGB أو YUV.</value></data>
+<data name="ValidationRule_Info_CompleteKeyBypassesQuality" xml:space="preserve"><value>في وضع المفتاح الكامل، يتم تعطيل إزالة الانسكاب وإزالة تشبع الحافة والحفاظ على النصوع.</value></data>
+<data name="ValidationRule_Warning_ExceptionColorTransparent" xml:space="preserve"><value>يتم تعيين لون الاستثناء على الشفاف، لذا "إعدادات الاستثناء" لن تعمل.</value></data>
+<data name="ValidationRule_Info_ExceptionGradientStrengthZero" xml:space="preserve"><value>شدة تدرج الاستثناء هي 0%، لذا "الاستثناء لون 2 (النهاية)" و"زاوية التدرج" لا تأثير.</value></data>
+<data name="ValidationRule_Info_ResidualColorCorrectionZero" xml:space="preserve"><value>شدة تصحيح اللون المتبقي هي 0%، لذا "لون البقايا المستهدفة" و"اللون المصحح" لا تأثير لهما.</value></data>
+<data name="ValidationRule_Warning_GradientStrengthHigh" xml:space="preserve"><value>إذا كانت شدة التدرج مرتفعة جداً، قد يتم مفاتح مناطق غير مقصودة. إذا حدثت مشاكل في مناطق عالية الشفافية مثل الدخان، قم بزيادة "جودة الشفافية".</value></data>
+<data name="ValidationRule_Performance_HighQualitySettings" xml:space="preserve"><value>يتم دمج المعالجة الثقيلة في وضع الجودة العالية. قد يؤثر هذا على الأداء.</value></data>
+<data name="UpdateChecker_NewVersionAvailable" xml:space="preserve"><value>الإصدار الجديد v{0} متاح. (الحالي: v{1})</value></data>
+</root>

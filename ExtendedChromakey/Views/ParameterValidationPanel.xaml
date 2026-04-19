@@ -8,6 +8,8 @@
              Name="this" Margin="20,0,20,10">
 
     <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+
         <LinearGradientBrush x:Key="UpdateBrush" StartPoint="0,0" EndPoint="0,1">
             <GradientStop Color="#40D4F8D4" Offset="0.0" />
             <GradientStop Color="#1080E080" Offset="1.0" />
@@ -113,7 +115,10 @@
         </Style>
     </UserControl.Resources>
 
-    <Border x:Name="MainValidationPanel" Style="{StaticResource ValidationContainerStyle}">
+    <Border x:Name="MainValidationPanel"
+            Tag="{Binding DisplayLevel}"
+            ToolTip="{Binding TooltipText}"
+            Style="{StaticResource ValidationContainerStyle}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -124,12 +129,21 @@
             <Path Grid.Column="0" x:Name="ValidationIcon" Style="{StaticResource ValidationIconStyle}"/>
 
             <Canvas Grid.Column="1" x:Name="MessageCanvas" ClipToBounds="True">
-                <TextBlock x:Name="MessageText" Style="{StaticResource ValidationTextStyle}" Canvas.Left="0"/>
+                <TextBlock x:Name="MessageText"
+                           Text="{Binding PrimaryMessage}"
+                           Style="{StaticResource ValidationTextStyle}"
+                           Canvas.Left="0"/>
             </Canvas>
 
-            <Border Grid.Column="2" x:Name="CountBadge" Visibility="Collapsed" Style="{StaticResource CountBadgeStyle}">
-                <TextBlock x:Name="CountText" Style="{StaticResource CountTextStyle}"/>
+            <Border Grid.Column="2" x:Name="CountBadge"
+                    Visibility="{Binding HasAdditional, Converter={StaticResource BoolToVis}}"
+                    Style="{StaticResource CountBadgeStyle}">
+                <TextBlock x:Name="CountText" Style="{StaticResource CountTextStyle}">
+                    <TextBlock.Text>
+                        <Binding Path="AdditionalCount" StringFormat="+{0}"/>
+                    </TextBlock.Text>
+                </TextBlock>
             </Border>
         </Grid>
     </Border>
-</UserControl>
+</UserControl>

@@ -1,14 +1,15 @@
+using ExtendedChromaKey.Localization;
 using System.ComponentModel.DataAnnotations;
 
 namespace ExtendedChromaKey.Models
 {
     public enum QualityPreset
     {
-        [Display(Name = "高速")]
+        [Display(Name = nameof(Texts.QualityPreset_Fast), ResourceType = typeof(Texts))]
         Fast,
-        [Display(Name = "バランス")]
+        [Display(Name = nameof(Texts.QualityPreset_Balanced), ResourceType = typeof(Texts))]
         Balanced,
-        [Display(Name = "高品質")]
+        [Display(Name = nameof(Texts.QualityPreset_HighQuality), ResourceType = typeof(Texts))]
         HighQuality,
     }
-}
+}
