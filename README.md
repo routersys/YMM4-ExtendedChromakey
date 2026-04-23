@@ -9,6 +9,8 @@
 YukkuriMovieMaker4（YMM4）上で動作する、**高精度なクロマキー合成を実現する映像エフェクトプラグイン**です。
 7 種類の色空間による色距離計算、グラデーションキーカラー、スピル除去、例外色設定、残存色補正、前景色補正、リアルタイムパラメータ検証パネル、8 言語対応 UI を搭載しています。
 
+![Image](https://github.com/routersys/YMM4-ExtendedChromakey/blob/main/docs/ExtendedChromakey.png)
+
 ---
 
 ## 目次
