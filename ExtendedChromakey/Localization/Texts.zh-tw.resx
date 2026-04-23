@@ -203,4 +203,8 @@
 <data name="ValidationRule_Warning_GradientStrengthHigh" xml:space="preserve"><value>如果漸層強度過高，可能會對意外的範圍進行去背處理。如果煙霧等高透明度部分出現問題，請提高「透明度品質」。</value></data>
 <data name="ValidationRule_Performance_HighQualitySettings" xml:space="preserve"><value>在高品質模式下結合了重型處理。這可能會影響效能。</value></data>
 <data name="UpdateChecker_NewVersionAvailable" xml:space="preserve"><value>新版本 v{0} 可用。(目前: v{1})</value></data>
+<data name="IsExceptionSettingsEnabled_Name" xml:space="preserve"><value>有效</value></data>
+<data name="IsExceptionSettingsEnabled_Desc" xml:space="preserve"><value>啟用例外設定。</value></data>
+<data name="IsColorCorrectionEnabled_Name" xml:space="preserve"><value>有效</value></data>
+<data name="IsColorCorrectionEnabled_Desc" xml:space="preserve"><value>啟用色補。</value></data>
 </root>

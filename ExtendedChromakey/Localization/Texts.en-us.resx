@@ -203,4 +203,8 @@
 <data name="ValidationRule_Warning_GradientStrengthHigh" xml:space="preserve"><value>If Gradient Strength is too high, unintended areas may be keyed. If issues occur with high-transparency areas like smoke, increase "Transparency Quality".</value></data>
 <data name="ValidationRule_Performance_HighQualitySettings" xml:space="preserve"><value>Heavy processing is combined in High Quality mode. This may impact performance.</value></data>
 <data name="UpdateChecker_NewVersionAvailable" xml:space="preserve"><value>New version v{0} is available. (Current: v{1})</value></data>
+<data name="IsExceptionSettingsEnabled_Name" xml:space="preserve"><value>Enable</value></data>
+<data name="IsExceptionSettingsEnabled_Desc" xml:space="preserve"><value>Enable exception settings.</value></data>
+<data name="IsColorCorrectionEnabled_Name" xml:space="preserve"><value>Enable</value></data>
+<data name="IsColorCorrectionEnabled_Desc" xml:space="preserve"><value>Enable color correction.</value></data>
 </root>

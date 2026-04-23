@@ -203,4 +203,8 @@
 <data name="ValidationRule_Warning_GradientStrengthHigh" xml:space="preserve"><value>グラデーション強度が高すぎると、意図しない範囲まで透過される可能性があります。煙などの透明度が高い部分で問題が発生する場合は、「透明度品質」を上げてください。</value></data>
 <data name="ValidationRule_Performance_HighQualitySettings" xml:space="preserve"><value>高品質モードで重い処理が組み合わさっています。パフォーマンスに影響する可能性があります。</value></data>
 <data name="UpdateChecker_NewVersionAvailable" xml:space="preserve"><value>新しいバージョン v{0} が利用可能です。(現在: v{1})</value></data>
+<data name="IsExceptionSettingsEnabled_Name" xml:space="preserve"><value>有効</value></data>
+<data name="IsExceptionSettingsEnabled_Desc" xml:space="preserve"><value>例外設定を有効にします。</value></data>
+<data name="IsColorCorrectionEnabled_Name" xml:space="preserve"><value>有効</value></data>
+<data name="IsColorCorrectionEnabled_Desc" xml:space="preserve"><value>色補正を有効にします。</value></data>
 </root>

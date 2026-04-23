@@ -203,4 +203,8 @@
 <data name="ValidationRule_Warning_GradientStrengthHigh" xml:space="preserve"><value>Si la intensidad del degradado es demasiado alta, pueden recortarse áreas no deseadas. Si hay problemas con áreas de alta transparencia como humo, aumente "Calidad de Transparencia".</value></data>
 <data name="ValidationRule_Performance_HighQualitySettings" xml:space="preserve"><value>El procesamiento pesado se combina en modo de alta calidad. Esto puede afectar el rendimiento.</value></data>
 <data name="UpdateChecker_NewVersionAvailable" xml:space="preserve"><value>Nueva versión v{0} disponible. (Actual: v{1})</value></data>
+<data name="IsExceptionSettingsEnabled_Name" xml:space="preserve"><value>Activar</value></data>
+<data name="IsExceptionSettingsEnabled_Desc" xml:space="preserve"><value>Habilitar excepciones.</value></data>
+<data name="IsColorCorrectionEnabled_Name" xml:space="preserve"><value>Activar</value></data>
+<data name="IsColorCorrectionEnabled_Desc" xml:space="preserve"><value>Habilitar corrección color.</value></data>
 </root>

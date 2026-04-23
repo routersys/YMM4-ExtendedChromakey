@@ -1,3 +1,4 @@
+using ExtendedChromaKey.Models;
 using ExtendedChromaKey.Services;
 using System.Numerics;
 using Vortice.Direct2D1;
@@ -36,7 +37,9 @@ namespace ExtendedChromaKey.Effect
 
             _effect.ScreenSize = renderSize;
 
-            _effect.BaseColor = ColorConverter.ToVector4(_item.BaseColor);
+            _effect.BaseColor = _item.MainKeyColor == KeyColorType.Custom && _item.BaseColor.A == 0
+                ? Vector4.Zero
+                : ColorConverter.ToVector4(_item.BaseColor);
             _effect.EndColor = ColorConverter.ToVector3(_item.EndColor);
             _effect.ExceptionColor1 = ColorConverter.ToVector4(_item.ExceptionColor1);
             _effect.ExceptionColor2 = ColorConverter.ToVector3(_item.ExceptionColor2);

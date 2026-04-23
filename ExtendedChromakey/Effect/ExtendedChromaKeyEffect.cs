@@ -12,7 +12,7 @@ using YukkuriMovieMaker.Plugin.Effects;
 
 namespace ExtendedChromaKey.Effect
 {
-    [VideoEffect(nameof(Texts.ExtendedChromaKey_Label), ["拡張"], ["extended chroma key", "拡張クロマキー", "chromakey"], IsAviUtlSupported = false, ResourceType = typeof(Texts))]
+    [VideoEffect(nameof(Texts.ExtendedChromaKey_Label), [VideoEffectCategories.Filtering], ["extended chroma key", "拡張クロマキー", "chromakey"], IsAviUtlSupported = false, ResourceType = typeof(Texts))]
     public sealed class ExtendedChromaKeyEffect : VideoEffectBase
     {
         public override string Label => Texts.ExtendedChromaKey_Label;
@@ -23,6 +23,7 @@ namespace ExtendedChromaKey.Effect
 
         [Display(GroupName = nameof(Texts.GroupName_BasicSettings), Name = nameof(Texts.BaseColor_Name), Description = nameof(Texts.BaseColor_Desc), Order = 1, ResourceType = typeof(Texts))]
         [ColorPicker]
+        [ConditionVisible(nameof(IsCustomKeyVisible))]
         public Color BaseColor
         {
             get => baseColor;
@@ -36,12 +37,27 @@ namespace ExtendedChromaKey.Effect
 
         [Display(GroupName = nameof(Texts.GroupName_BasicSettings), Name = nameof(Texts.EndColor_Name), Description = nameof(Texts.EndColor_Desc), Order = 2, ResourceType = typeof(Texts))]
         [ColorPicker]
+        [ConditionVisible(nameof(IsCustomKeyVisible))]
         public Color EndColor { get => endColor; set => Set(ref endColor, value); }
         private Color endColor = Colors.Transparent;
 
         [Display(GroupName = nameof(Texts.GroupName_KeyingMode), Name = nameof(Texts.MainKeyColor_Name), Description = nameof(Texts.MainKeyColor_Desc), Order = 3, ResourceType = typeof(Texts))]
         [EnumComboBox]
-        public KeyColorType MainKeyColor { get => mainKeyColor; set => Set(ref mainKeyColor, value); }
+        public KeyColorType MainKeyColor
+        {
+            get => mainKeyColor;
+            set
+            {
+                if (Set(ref mainKeyColor, value))
+                {
+                    OnPropertyChanged(nameof(IsCustomKeyVisible));
+                    OnPropertyChanged(nameof(IsHueRangeVisible));
+                    OnPropertyChanged(nameof(IsSaturationThresholdVisible));
+                    OnPropertyChanged(nameof(IsLuminanceRangeVisible));
+                    OnPropertyChanged(nameof(IsLuminanceMixVisible));
+                }
+            }
+        }
         private KeyColorType mainKeyColor = KeyColorType.Custom;
 
         [Display(GroupName = nameof(Texts.GroupName_KeyingAdjustment), Name = nameof(Texts.Tolerance_Name), Description = nameof(Texts.Tolerance_Desc), Order = 4, ResourceType = typeof(Texts))]
@@ -50,6 +66,7 @@ namespace ExtendedChromaKey.Effect
 
         [Display(GroupName = nameof(Texts.GroupName_KeyingAdjustment), Name = nameof(Texts.LuminanceMix_Name), Description = nameof(Texts.LuminanceMix_Desc), Order = 5, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
+        [ConditionVisible(nameof(IsLuminanceMixVisible))]
         public Animation LuminanceMix { get; } = new(50, 0, 100);
 
         [Display(GroupName = nameof(Texts.GroupName_KeyingAdjustment), Name = nameof(Texts.EdgeSoftness_Name), Description = nameof(Texts.EdgeSoftness_Desc), Order = 6, ResourceType = typeof(Texts))]
@@ -66,64 +83,97 @@ namespace ExtendedChromaKey.Effect
 
         [Display(GroupName = nameof(Texts.GroupName_KeyingAdjustment), Name = nameof(Texts.EdgeBlur_Name), Description = nameof(Texts.EdgeBlur_Desc), Order = 9, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "px", 0, 50)]
+        [ConditionVisible(nameof(IsNotCompleteKeyVisible))]
         public Animation EdgeBlur { get; } = new(0, 0, 50);
 
         [Display(GroupName = nameof(Texts.GroupName_Gradient), Name = nameof(Texts.GradientStrength_Name), Description = nameof(Texts.GradientStrength_Desc), Order = 10, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
+        [ConditionVisible(nameof(IsCustomKeyVisible))]
         public Animation GradientStrength { get; } = new(0, 0, 100);
 
         [Display(GroupName = nameof(Texts.GroupName_Gradient), Name = nameof(Texts.GradientAngle_Name), Description = nameof(Texts.GradientAngle_Desc), Order = 11, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "°", -360, 360)]
+        [ConditionVisible(nameof(IsCustomKeyVisible))]
         public Animation GradientAngle { get; } = new(90, -360, 360);
 
         [Display(GroupName = nameof(Texts.GroupName_ColorReplacement), Name = nameof(Texts.ReplaceColor_Name), Description = nameof(Texts.ReplaceColor_Desc), Order = 12, ResourceType = typeof(Texts))]
         [ColorPicker]
+        [ConditionVisible(nameof(IsNotCompleteKeyVisible))]
         public Color ReplaceColor { get => replaceColor; set => Set(ref replaceColor, value); }
         private Color replaceColor = Colors.Transparent;
 
         [Display(GroupName = nameof(Texts.GroupName_ColorReplacement), Name = nameof(Texts.ReplaceIntensity_Name), Description = nameof(Texts.ReplaceIntensity_Desc), Order = 13, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
+        [ConditionVisible(nameof(IsNotCompleteKeyVisible))]
         public Animation ReplaceIntensity { get; } = new(0, 0, 100);
 
         [Display(GroupName = nameof(Texts.GroupName_ColorReplacement), Name = nameof(Texts.PreserveLuminance_Name), Description = nameof(Texts.PreserveLuminance_Desc), Order = 14, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
+        [ConditionVisible(nameof(IsNotCompleteKeyVisible))]
         public Animation PreserveLuminance { get; } = new(75, 0, 100);
 
         [Display(GroupName = nameof(Texts.GroupName_KeyingMode), Name = nameof(Texts.ColorSpace_Name), Description = nameof(Texts.ColorSpace_Desc), Order = 15, ResourceType = typeof(Texts))]
         [EnumComboBox]
-        public AdvancedColorSpace ColorSpace { get => colorSpace; set => Set(ref colorSpace, value); }
+        [ConditionVisible(nameof(IsCustomKeyVisible))]
+        public AdvancedColorSpace ColorSpace
+        {
+            get => colorSpace;
+            set
+            {
+                if (Set(ref colorSpace, value))
+                {
+                    OnPropertyChanged(nameof(IsHueRangeVisible));
+                    OnPropertyChanged(nameof(IsSaturationThresholdVisible));
+                    OnPropertyChanged(nameof(IsLuminanceRangeVisible));
+                    OnPropertyChanged(nameof(IsLuminanceMixVisible));
+                }
+            }
+        }
         private AdvancedColorSpace colorSpace = AdvancedColorSpace.Lab;
 
         [Display(GroupName = nameof(Texts.GroupName_KeyingMode), Name = nameof(Texts.HueRange_Name), Description = nameof(Texts.HueRange_Desc), Order = 16, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 50)]
+        [ConditionVisible(nameof(IsHueRangeVisible))]
         public Animation HueRange { get; } = new(10, 0, 50);
 
         [Display(GroupName = nameof(Texts.GroupName_KeyingMode), Name = nameof(Texts.SaturationThreshold_Name), Description = nameof(Texts.SaturationThreshold_Desc), Order = 17, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
+        [ConditionVisible(nameof(IsSaturationThresholdVisible))]
         public Animation SaturationThreshold { get; } = new(10, 0, 100);
 
         [Display(GroupName = nameof(Texts.GroupName_KeyingMode), Name = nameof(Texts.LuminanceRange_Name), Description = nameof(Texts.LuminanceRange_Desc), Order = 18, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
+        [ConditionVisible(nameof(IsLuminanceRangeVisible))]
         public Animation LuminanceRange { get; } = new(40, 0, 100);
 
         [Display(GroupName = nameof(Texts.GroupName_QualityOptimization), Name = nameof(Texts.SpillSuppression_Name), Description = nameof(Texts.SpillSuppression_Desc), Order = 19, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
+        [ConditionVisible(nameof(IsNotCompleteKeyVisible))]
         public Animation SpillSuppression { get; } = new(15, 0, 100);
 
         [Display(GroupName = nameof(Texts.GroupName_QualityOptimization), Name = nameof(Texts.EdgeBalance_Name), Description = nameof(Texts.EdgeBalance_Desc), Order = 20, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", -100, 100)]
+        [ConditionVisible(nameof(IsNotCompleteKeyVisible))]
         public Animation EdgeBalance { get; } = new(0, -100, 100);
 
         [Display(GroupName = nameof(Texts.GroupName_QualityOptimization), Name = nameof(Texts.Despot_Name), Description = nameof(Texts.Despot_Desc), Order = 21, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "px", 0, 10)]
+        [ConditionVisible(nameof(IsNotCompleteKeyVisible))]
         public Animation Despot { get; } = new(0, 0, 10);
 
         [Display(GroupName = nameof(Texts.GroupName_QualityOptimization), Name = nameof(Texts.Erode_Name), Description = nameof(Texts.Erode_Desc), Order = 22, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "px", -10, 10)]
+        [ConditionVisible(nameof(IsNotCompleteKeyVisible))]
         public Animation Erode { get; } = new(0, -10, 10);
+
+        [Display(GroupName = nameof(Texts.GroupName_ExceptionSettings), Name = nameof(Texts.IsExceptionSettingsEnabled_Name), Description = nameof(Texts.IsExceptionSettingsEnabled_Desc), Order = 22, ResourceType = typeof(Texts))]
+        [ToggleSlider(PropertyEditorSize = PropertyEditorSize.FullWidth)]
+        public bool IsExceptionSettingsEnabled { get => isExceptionSettingsEnabled; set => Set(ref isExceptionSettingsEnabled, value); }
+        private bool isExceptionSettingsEnabled = false;
 
         [Display(GroupName = nameof(Texts.GroupName_ExceptionSettings), Name = nameof(Texts.ExceptionColor1_Name), Description = nameof(Texts.ExceptionColor1_Desc), Order = 23, ResourceType = typeof(Texts))]
         [ColorPicker]
+        [ConditionVisible(nameof(IsExceptionSettingsEnabled))]
         public Color ExceptionColor1
         {
             get => exceptionColor1;
@@ -137,31 +187,38 @@ namespace ExtendedChromaKey.Effect
 
         [Display(GroupName = nameof(Texts.GroupName_ExceptionSettings), Name = nameof(Texts.ExceptionColor2_Name), Description = nameof(Texts.ExceptionColor2_Desc), Order = 24, ResourceType = typeof(Texts))]
         [ColorPicker]
+        [ConditionVisible(nameof(IsExceptionSettingsEnabled))]
         public Color ExceptionColor2 { get => exceptionColor2; set => Set(ref exceptionColor2, value); }
         private Color exceptionColor2 = Colors.Transparent;
 
         [Display(GroupName = nameof(Texts.GroupName_ExceptionSettings), Name = nameof(Texts.ExceptionTolerance_Name), Description = nameof(Texts.ExceptionTolerance_Desc), Order = 25, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
+        [ConditionVisible(nameof(IsExceptionSettingsEnabled))]
         public Animation ExceptionTolerance { get; } = new(10, 0, 100);
 
         [Display(GroupName = nameof(Texts.GroupName_ExceptionSettings), Name = nameof(Texts.ExceptionGradientStrength_Name), Description = nameof(Texts.ExceptionGradientStrength_Desc), Order = 26, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
+        [ConditionVisible(nameof(IsExceptionSettingsEnabled))]
         public Animation ExceptionGradientStrength { get; } = new(0, 0, 100);
 
         [Display(GroupName = nameof(Texts.GroupName_ExceptionSettings), Name = nameof(Texts.ExceptionGradientAngle_Name), Description = nameof(Texts.ExceptionGradientAngle_Desc), Order = 27, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "°", -360, 360)]
+        [ConditionVisible(nameof(IsExceptionSettingsEnabled))]
         public Animation ExceptionGradientAngle { get; } = new(90, -360, 360);
 
         [Display(GroupName = nameof(Texts.GroupName_QualityOptimization), Name = nameof(Texts.EdgeDesaturation_Name), Description = nameof(Texts.EdgeDesaturation_Desc), Order = 28, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
+        [ConditionVisible(nameof(IsNotCompleteKeyVisible))]
         public Animation EdgeDesaturation { get; } = new(20, 0, 100);
 
         [Display(GroupName = nameof(Texts.GroupName_QualityOptimization), Name = nameof(Texts.KeyCleanup_Name), Description = nameof(Texts.KeyCleanup_Desc), Order = 29, ResourceType = typeof(Texts))]
         [AnimationSlider("F2", "px", -50, 50)]
+        [ConditionVisible(nameof(IsNotCompleteKeyVisible))]
         public Animation KeyCleanup { get; } = new(0, -50, 50);
 
         [Display(GroupName = nameof(Texts.GroupName_QualityOptimization), Name = nameof(Texts.EdgeDetection_Name), Description = nameof(Texts.EdgeDetection_Desc), Order = 30, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
+        [ConditionVisible(nameof(IsNotCompleteKeyVisible))]
         public Animation EdgeDetection { get; } = new(0, 0, 100);
 
         [Display(GroupName = nameof(Texts.GroupName_QualityOptimization), Name = nameof(Texts.Denoise_Name), Description = nameof(Texts.Denoise_Desc), Order = 31, ResourceType = typeof(Texts))]
@@ -174,6 +231,7 @@ namespace ExtendedChromaKey.Effect
 
         [Display(GroupName = nameof(Texts.GroupName_QualityOptimization), Name = nameof(Texts.TranslucentDespill_Name), Description = nameof(Texts.TranslucentDespill_Desc), Order = 33, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
+        [ConditionVisible(nameof(IsNotCompleteKeyVisible))]
         public Animation TranslucentDespill { get; } = new(0, 0, 100);
 
         [Display(GroupName = nameof(Texts.GroupName_QualityOptimization), Name = nameof(Texts.TransparencyQuality_Name), Description = nameof(Texts.TransparencyQuality_Desc), Order = 34, ResourceType = typeof(Texts))]
@@ -184,39 +242,61 @@ namespace ExtendedChromaKey.Effect
         [AnimationSlider("F1", "%", 0, 100)]
         public Animation AlphaBlendAdjustment { get; } = new(0, 0, 100);
 
+        [Display(GroupName = nameof(Texts.GroupName_ColorCorrection), Name = nameof(Texts.IsColorCorrectionEnabled_Name), Description = nameof(Texts.IsColorCorrectionEnabled_Desc), Order = 35, ResourceType = typeof(Texts))]
+        [ToggleSlider(PropertyEditorSize = PropertyEditorSize.FullWidth)]
+        public bool IsColorCorrectionEnabled { get => isColorCorrectionEnabled; set => Set(ref isColorCorrectionEnabled, value); }
+        private bool isColorCorrectionEnabled = false;
+
         [Display(GroupName = nameof(Texts.GroupName_ColorCorrection), Name = nameof(Texts.TargetResidualColor_Name), Description = nameof(Texts.TargetResidualColor_Desc), Order = 36, ResourceType = typeof(Texts))]
         [ColorPicker]
+        [ConditionVisible(nameof(IsColorCorrectionEnabled))]
         public Color TargetResidualColor { get => targetResidualColor; set => Set(ref targetResidualColor, value); }
         private Color targetResidualColor = Colors.Transparent;
 
         [Display(GroupName = nameof(Texts.GroupName_ColorCorrection), Name = nameof(Texts.CorrectedColor_Name), Description = nameof(Texts.CorrectedColor_Desc), Order = 37, ResourceType = typeof(Texts))]
         [ColorPicker]
+        [ConditionVisible(nameof(IsColorCorrectionEnabled))]
         public Color CorrectedColor { get => correctedColor; set => Set(ref correctedColor, value); }
         private Color correctedColor = Colors.Transparent;
 
         [Display(GroupName = nameof(Texts.GroupName_ColorCorrection), Name = nameof(Texts.ResidualColorCorrection_Name), Description = nameof(Texts.ResidualColorCorrection_Desc), Order = 38, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
+        [ConditionVisible(nameof(IsColorCorrectionEnabled))]
         public Animation ResidualColorCorrection { get; } = new(0, 0, 100);
 
         [Display(GroupName = nameof(Texts.GroupName_ColorCorrection), Name = nameof(Texts.CorrectionTolerance_Name), Description = nameof(Texts.CorrectionTolerance_Desc), Order = 39, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", 0, 100)]
-        public Animation CorrectionTolerance { get; } = new(20, 0, 100);
+        [ConditionVisible(nameof(IsColorCorrectionEnabled))]
+        public Animation CorrectionTolerance { get; } = new(50, 0, 100);
 
         [Display(GroupName = nameof(Texts.GroupName_ColorCorrection), Name = nameof(Texts.ForegroundBrightness_Name), Description = nameof(Texts.ForegroundBrightness_Desc), Order = 40, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", -100, 100)]
+        [ConditionVisible(nameof(IsColorCorrectionEnabled))]
         public Animation ForegroundBrightness { get; } = new(0, -100, 100);
 
         [Display(GroupName = nameof(Texts.GroupName_ColorCorrection), Name = nameof(Texts.ForegroundContrast_Name), Description = nameof(Texts.ForegroundContrast_Desc), Order = 41, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", -100, 100)]
+        [ConditionVisible(nameof(IsColorCorrectionEnabled))]
         public Animation ForegroundContrast { get; } = new(0, -100, 100);
 
         [Display(GroupName = nameof(Texts.GroupName_ColorCorrection), Name = nameof(Texts.ForegroundSaturation_Name), Description = nameof(Texts.ForegroundSaturation_Desc), Order = 42, ResourceType = typeof(Texts))]
         [AnimationSlider("F1", "%", -100, 100)]
+        [ConditionVisible(nameof(IsColorCorrectionEnabled))]
         public Animation ForegroundSaturation { get; } = new(0, -100, 100);
 
         [Display(GroupName = nameof(Texts.GroupName_Other), Name = nameof(Texts.IsCompleteKey_Name), Description = nameof(Texts.IsCompleteKey_Desc), Order = 43, ResourceType = typeof(Texts))]
         [ToggleSlider]
-        public bool IsCompleteKey { get => isCompleteKey; set => Set(ref isCompleteKey, value); }
+        public bool IsCompleteKey
+        {
+            get => isCompleteKey;
+            set
+            {
+                if (Set(ref isCompleteKey, value))
+                {
+                    OnPropertyChanged(nameof(IsNotCompleteKeyVisible));
+                }
+            }
+        }
         private bool isCompleteKey;
 
         [Display(GroupName = nameof(Texts.GroupName_Other), Name = nameof(Texts.IsInverted_Name), Description = nameof(Texts.IsInverted_Desc), Order = 44, ResourceType = typeof(Texts))]
@@ -233,6 +313,30 @@ namespace ExtendedChromaKey.Effect
         [EnumComboBox]
         public DebugViewMode DebugMode { get => debugMode; set => Set(ref debugMode, value); }
         private DebugViewMode debugMode = DebugViewMode.Result;
+
+        [Display(GroupName = nameof(Texts.GroupName_Other), Name = nameof(Texts.Empty), ResourceType = typeof(Texts))]
+        [System.ComponentModel.Browsable(false)]
+        public bool IsCustomKeyVisible => MainKeyColor == KeyColorType.Custom;
+
+        [Display(GroupName = nameof(Texts.GroupName_Other), Name = nameof(Texts.Empty), ResourceType = typeof(Texts))]
+        [System.ComponentModel.Browsable(false)]
+        public bool IsNotCompleteKeyVisible => !IsCompleteKey;
+
+        [Display(GroupName = nameof(Texts.GroupName_Other), Name = nameof(Texts.Empty), ResourceType = typeof(Texts))]
+        [System.ComponentModel.Browsable(false)]
+        public bool IsHueRangeVisible => MainKeyColor == KeyColorType.Custom && (ColorSpace == AdvancedColorSpace.HSV || ColorSpace == AdvancedColorSpace.LCH);
+
+        [Display(GroupName = nameof(Texts.GroupName_Other), Name = nameof(Texts.Empty), ResourceType = typeof(Texts))]
+        [System.ComponentModel.Browsable(false)]
+        public bool IsSaturationThresholdVisible => MainKeyColor == KeyColorType.Custom && ColorSpace == AdvancedColorSpace.HSV;
+
+        [Display(GroupName = nameof(Texts.GroupName_Other), Name = nameof(Texts.Empty), ResourceType = typeof(Texts))]
+        [System.ComponentModel.Browsable(false)]
+        public bool IsLuminanceRangeVisible => MainKeyColor == KeyColorType.Custom && (ColorSpace == AdvancedColorSpace.RGB || ColorSpace == AdvancedColorSpace.HSV || ColorSpace == AdvancedColorSpace.YUV);
+
+        [Display(GroupName = nameof(Texts.GroupName_Other), Name = nameof(Texts.Empty), ResourceType = typeof(Texts))]
+        [System.ComponentModel.Browsable(false)]
+        public bool IsLuminanceMixVisible => MainKeyColor != KeyColorType.Custom || ColorSpace == AdvancedColorSpace.RGB;
 
         public override IEnumerable<string> CreateExoVideoFilters(int keyFrameIndex, ExoOutputDescription exoOutputDescription) => [];
 

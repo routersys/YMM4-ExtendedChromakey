@@ -203,4 +203,8 @@
 <data name="ValidationRule_Warning_GradientStrengthHigh" xml:space="preserve"><value>그라데이션 강도가 너무 높으면 의도하지 않은 영역이 키잉될 수 있습니다. 연기 등 높은 투명도 영역에서 문제가 발생하면 "투명도 품질"을 높이세요.</value></data>
 <data name="ValidationRule_Performance_HighQualitySettings" xml:space="preserve"><value>고품질 모드에서 무거운 처리가 결합되어 있습니다. 이는 성능에 영향을 미칠 수 있습니다.</value></data>
 <data name="UpdateChecker_NewVersionAvailable" xml:space="preserve"><value>새로운 버전 v{0}을(를) 사용할 수 있습니다. (현재: v{1})</value></data>
+<data name="IsExceptionSettingsEnabled_Name" xml:space="preserve"><value>유효</value></data>
+<data name="IsExceptionSettingsEnabled_Desc" xml:space="preserve"><value>예외 설정을 활성화합니다.</value></data>
+<data name="IsColorCorrectionEnabled_Name" xml:space="preserve"><value>유효</value></data>
+<data name="IsColorCorrectionEnabled_Desc" xml:space="preserve"><value>색상 보정을 활성화합니다.</value></data>
 </root>

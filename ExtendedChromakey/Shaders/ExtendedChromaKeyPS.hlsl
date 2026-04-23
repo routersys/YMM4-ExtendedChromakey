@@ -343,7 +343,9 @@ float ComputeDistanceFromColor(float3 color, float2 uv)
 
 float SampleDistanceAtUV(float2 uv)
 {
-    float4 samp = InputTexture.Sample(InputSampler, saturate(uv));
+    if (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0)
+        return 1.0;
+    float4 samp = InputTexture.SampleLevel(InputSampler, uv, 0);
     if (samp.a < MIN_VALID_ALPHA)
         return 1.0;
     float3 color = saturate(samp.rgb / max(samp.a, MIN_VALID_ALPHA));
@@ -606,6 +608,9 @@ float3 ApplyForegroundCorrection(float3 color)
 
 float4 main(float4 pos : SV_POSITION, float4 posScene : SCENE_POSITION, float2 uv : TEXCOORD0) : SV_TARGET
 {
+    if (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0)
+        return float4(0, 0, 0, 0);
+
     float4 src = InputTexture.Sample(InputSampler, uv);
 
     if (src.a < MIN_VALID_ALPHA)
